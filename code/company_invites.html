@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Invites | Campus Placement Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="company_invites.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation Bar -->
+    <nav class="navbar">
+        <div class="brand">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+            </svg>
+            <span class="brand-name">Core Unleashed</span>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="nav-item">Dashboard</a>
+            <a href="#" class="nav-item">Jobs</a>
+            <a href="#" class="nav-item">Profile</a>
+            <a href="#" class="nav-item active">Invites <span class="badge">3</span></a>
+            <div class="avatar">JS</div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Page Header -->
+        <header class="page-header">
+            <h1>Your Invitations</h1>
+            <p>Review and act on interview and assessment requests from top recruiters.</p>
+        </header>
+
+        <!-- Dynamic Tabs -->
+        <div class="tabs-container">
+            <div class="tab active">Pending Invites <span class="badge">3</span></div>
+            <div class="tab">Accepted (2)</div>
+            <div class="tab">Declined (0)</div>
+        </div>
+
+        <!-- Invites Grid -->
+        <section class="invites-grid" id="pending-invites">
+
+            <!-- Invite Card 1 -->
+            <div class="invite-card">
+                <div class="company-info">
+                    <div class="company-logo" style="color: #2563eb; background-color: #eff6ff; border-color: #bfdbfe;">
+                        IN
+                    </div>
+                    <div class="company-details">
+                        <h3>InnovateTech Solutions</h3>
+                        <div class="invited-role">Software Engineering Intern</div>
+                        <div class="invite-meta">
+                            <span>Sent: Oct 24, 2024</span>
+                            <span>•</span>
+                            <span>San Francisco (Remote)</span>
+                            <span>•</span>
+                            <span class="urgency">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                                Expires in 2 days
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="invite-actions">
+                    <button class="btn-decline" onclick="handleAction(this, 'Declined')">Decline</button>
+                    <button class="btn-accept" onclick="handleAction(this, 'Accepted')">Accept Invite</button>
+                </div>
+            </div>
+
+            <!-- Invite Card 2 -->
+            <div class="invite-card">
+                <div class="company-info">
+                    <div class="company-logo" style="color: #ea580c; background-color: #fff7ed; border-color: #fed7aa;">
+                        DB
+                    </div>
+                    <div class="company-details">
+                        <h3>DataBridge Analytics</h3>
+                        <div class="invited-role">Data Analyst Intern</div>
+                        <div class="invite-meta">
+                            <span>Sent: Oct 23, 2024</span>
+                            <span>•</span>
+                            <span>New York, NY (Hybrid)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="invite-actions">
+                    <button class="btn-decline" onclick="handleAction(this, 'Declined')">Decline</button>
+                    <button class="btn-accept" onclick="handleAction(this, 'Accepted')">Accept Invite</button>
+                </div>
+            </div>
+
+            <!-- Invite Card 3 -->
+            <div class="invite-card">
+                <div class="company-info">
+                    <div class="company-logo" style="color: #16a34a; background-color: #f0fdf4; border-color: #bbf7d0;">
+                        GL
+                    </div>
+                    <div class="company-details">
+                        <h3>GreenLeaf Systems</h3>
+                        <div class="invited-role">Frontend Developer (Full-Time)</div>
+                        <div class="invite-meta">
+                            <span>Sent: Oct 20, 2024</span>
+                            <span>•</span>
+                            <span>Austin, TX (On-site)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="invite-actions">
+                    <button class="btn-decline" onclick="handleAction(this, 'Declined')">Decline</button>
+                    <button class="btn-accept" onclick="handleAction(this, 'Accepted')">Accept Invite</button>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Hidden Empty State (For JS Logic) -->
+        <div class="empty-state" id="empty-state" style="display: none;">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            <h3>You're all caught up!</h3>
+            <p>You have no pending company invitations. Keep enhancing your profile and applying to jobs to get noticed.
+            </p>
+        </div>
+    </main>
+
+    <!-- Simple JS to handle card removal for demo -->
+    <script>
+        function handleAction(btnElement, actionType) {
+            const card = btnElement.closest('.invite-card');
+
+            // Visual fade out
+            card.style.transition = "opacity 0.3s ease, transform 0.3s ease";
+            card.style.opacity = "0";
+            card.style.transform = "scale(0.95)";
+
+            setTimeout(() => {
+                card.remove();
+
+                // Update badge numbers natively for demo
+                const badges = document.querySelectorAll('.badge');
+                badges.forEach(badge => {
+                    let count = parseInt(badge.innerText);
+                    if (count > 0) {
+                        badge.innerText = count - 1;
+                        // Hide badge if 0
+                        if (count - 1 === 0) badge.style.display = 'none';
+                    }
+                });
+
+                // Check if empty
+                const grid = document.getElementById('pending-invites');
+                if (grid.children.length === 0) {
+                    document.getElementById('empty-state').style.display = 'block';
+                }
+
+                // Temporary alert
+                alert(`You have ${actionType} this invitation.`);
+
+            }, 300);
+        }
+    </script>
+</body>
+
+</html>
