@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan QR for Attendance | Campus Placement Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="student_qr_scanner.css">
+    <!-- html5-qrcode library for camera access and QR scanning -->
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+</head>
+
+<body>
+
+    <!-- Top Navigation Bar -->
+    <nav class="navbar">
+        <div class="brand">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+            </svg>
+            <span class="brand-name">Core Unleashed</span>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="nav-item">Dashboard</a>
+            <a href="#" class="nav-item">Jobs</a>
+            <a href="#" class="nav-item active">Events</a>
+            <a href="#" class="nav-item">Profile</a>
+            <div class="avatar">JS</div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Page Header -->
+        <header class="page-header">
+            <h1>Mark Your Attendance</h1>
+            <p>Scan the QR code displayed at the venue to register your presence for Pre-Placement Talks and Events.</p>
+        </header>
+
+        <section class="scanner-section">
+            <div class="scanner-container">
+                <!-- Status Bar -->
+                <div class="status-bar" id="status-bar">
+                    <div class="pulse" id="status-pulse"></div>
+                    <span id="status-text">Camera ready to scan</span>
+                </div>
+
+                <!-- Camera Viewport -->
+                <div class="viewport-wrapper">
+                    <div id="reader" width="600px"></div>
+                    <!-- Overlay for scanning animation -->
+                    <div class="scan-overlay" id="scan-overlay" style="display: none;">
+                        <div class="scan-line"></div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-panel">
+                    <button class="btn-primary" id="btn-start" onclick="startScanner()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z">
+                            </path>
+                            <circle cx="12" cy="13" r="4"></circle>
+                        </svg>
+                        Start Camera
+                    </button>
+                    <button class="btn-secondary" id="btn-stop" onclick="stopScanner()" style="display: none;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <rect x="9" y="9" width="6" height="6"></rect>
+                        </svg>
+                        Stop Camera
+                    </button>
+                </div>
+            </div>
+
+            <!-- Result Card -->
+            <div class="result-card" id="result-card" style="display: none;">
+                <div class="success-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                </div>
+                <h2>Attendance Marked!</h2>
+
+                <div class="event-details">
+                    <div class="detail-row">
+                        <span class="label">Event / Company:</span>
+                        <span class="value" id="res-company">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">Event ID:</span>
+                        <span class="value" id="res-event-id">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">Time Logged:</span>
+                        <span class="value" id="res-time">-</span>
+                    </div>
+                </div>
+
+                <button class="btn-secondary" onclick="resetScanner()" style="margin-top: 1.5rem; width: 100%;">
+                    Scan Another Code
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        let html5QrcodeScanner = null;
+        let isScanning = false;
+
+        // Custom config for the scanner
+        const config = {
+            fps: 10,
+            qrbox: { width: 250, height: 250 },
+            aspectRatio: 1.0,
+            disableFlip: false
+        };
+
+        function initScanner() {
+            if (!html5QrcodeScanner) {
+                html5QrcodeScanner = new Html5Qrcode("reader");
+            }
+        }
+
+        async function startScanner() {
+            try {
+                initScanner();
+
+                // Update UI Start
+                setUIStatus('scanning');
+
+                // Request camera (prefer back camera for phones)
+                await html5QrcodeScanner.start(
+                    { facingMode: "environment" },
+                    config,
+                    onScanSuccess,
+                    onScanFailure
+                );
+
+                isScanning = true;
+
+            } catch (err) {
+                console.error("Error starting scanner:", err);
+                setUIStatus('error', "Camera access denied or unavailable.");
+            }
+        }
+
+        async function stopScanner() {
+            if (html5QrcodeScanner && isScanning) {
+                try {
+                    await html5QrcodeScanner.stop();
+                    html5QrcodeScanner.clear();
+                    isScanning = false;
+                    setUIStatus('idle');
+                } catch (err) {
+                    console.error("Error stopping scanner:", err);
+                }
+            }
+        }
+
+        function onScanSuccess(decodedText, decodedResult) {
+            // Stop scanning immediately on success to prevent multiple reads
+            stopScanner();
+            setUIStatus('success', "QR Code detected!");
+
+            try {
+                // We expect a JSON payload like the one generated in preplacement_talks.html
+                // Example: {"eventId":"PPT-123456","company":"Google","type":"attendance"}
+                const payload = JSON.parse(decodedText);
+
+                if (payload.type === 'attendance' && payload.eventId) {
+                    showResult(payload);
+                } else {
+                    throw new Error("Invalid QR code format for attendance.");
+                }
+            } catch (e) {
+                // Fallback if not JSON or parsing fails (maybe scanning a random QR code)
+                console.warn("QR Format mismatch:", e);
+                showResult({
+                    company: "Unknown Event / External Link",
+                    eventId: "Raw Data: " + decodedText.substring(0, 20) + "..."
+                });
+            }
+        }
+
+        function onScanFailure(error) {
+            // handle scan failure, usually better to ignore and keep scanning
+            // console.warn(`Code scan error = ${error}`);
+        }
+
+        function showResult(data) {
+            // Hide scanner controls somewhat
+            document.querySelector('.scanner-container').style.display = 'none';
+            const resCard = document.getElementById('result-card');
+
+            // Populate Data
+            document.getElementById('res-company').textContent = data.company || "N/A";
+            document.getElementById('res-event-id').textContent = data.eventId || "N/A";
+
+            const now = new Date();
+            document.getElementById('res-time').textContent = now.toLocaleTimeString() + " " + now.toLocaleDateString();
+
+            resCard.style.display = 'block';
+
+            // Play a success sound (optional enhancement)
+            // const audio = new Audio('path/to/beep.mp3'); audio.play();
+        }
+
+        function resetScanner() {
+            document.getElementById('result-card').style.display = 'none';
+            document.querySelector('.scanner-container').style.display = 'flex';
+            startScanner();
+        }
+
+        function setUIStatus(state, message = "") {
+            const statusBar = document.getElementById('status-bar');
+            const statusText = document.getElementById('status-text');
+            const pulse = document.getElementById('status-pulse');
+            const btnStart = document.getElementById('btn-start');
+            const btnStop = document.getElementById('btn-stop');
+            const overlay = document.getElementById('scan-overlay');
+
+            // Reset classes
+            statusBar.className = 'status-bar';
+            pulse.style.display = 'block';
+
+            switch (state) {
+                case 'idle':
+                    statusText.textContent = "Camera ready to scan";
+                    pulse.style.backgroundColor = "var(--text-muted)";
+                    btnStart.style.display = 'inline-flex';
+                    btnStop.style.display = 'none';
+                    overlay.style.display = 'none';
+                    break;
+                case 'scanning':
+                    statusText.textContent = "Looking for QR code...";
+                    statusBar.classList.add('status-active');
+                    pulse.style.backgroundColor = "var(--primary)";
+                    btnStart.style.display = 'none';
+                    btnStop.style.display = 'inline-flex';
+                    overlay.style.display = 'block';
+                    break;
+                case 'success':
+                    statusText.textContent = message || "Success!";
+                    statusBar.classList.add('status-success');
+                    pulse.style.display = 'none';
+                    btnStart.style.display = 'inline-flex';
+                    btnStop.style.display = 'none';
+                    overlay.style.display = 'none';
+                    break;
+                case 'error':
+                    statusText.textContent = message || "An error occurred";
+                    statusBar.classList.add('status-error');
+                    pulse.style.backgroundColor = "var(--danger)";
+                    btnStart.style.display = 'inline-flex';
+                    btnStop.style.display = 'none';
+                    overlay.style.display = 'none';
+                    break;
+            }
+        }
+    </script>
+</body>
+
+</html>
