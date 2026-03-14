@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Project & Generate Certificate | Campus Placement Portal</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="project_upload.css">
+    <!-- html2pdf for downloading the certificate -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+
+<body>
+    <!-- Top Navigation Bar -->
+    <nav class="navbar">
+        <div class="brand">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+            </svg>
+            <span class="brand-name">Core Unleashed</span>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="nav-item">Dashboard</a>
+            <a href="#" class="nav-item active">Projects</a>
+            <a href="#" class="nav-item">Profile</a>
+            <div class="avatar">JS</div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Page Header -->
+        <header class="page-header">
+            <h1>Upload Your Project</h1>
+            <p>Showcase your work and instantly generate a verified project completion certificate.</p>
+        </header>
+
+        <div class="split-layout">
+            <!-- Upload Form Section -->
+            <section class="upload-section">
+                <form id="project-form" class="project-form">
+                    <div class="form-group">
+                        <label for="student-name">Student Name</label>
+                        <input type="text" id="student-name" placeholder="e.g., Jane Smith" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="project-title">Project Title</label>
+                        <input type="text" id="project-title" placeholder="e.g., E-Commerce Web App" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="project-desc">Project Description</label>
+                        <textarea id="project-desc" rows="4"
+                            placeholder="Briefly describe the technologies used and what the project does..."
+                            required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="project-link">GitHub or Live Link</label>
+                        <input type="url" id="project-link" placeholder="https://github.com/..." required>
+                    </div>
+
+                    <div class="form-group file-upload-group">
+                        <label class="file-upload-label" for="project-file">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            <span>Upload Project Files (.zip, .pdf)</span>
+                        </label>
+                        <input type="file" id="project-file" hidden
+                            accept=".zip,.pdf,.rar,.tar.gz,application/pdf,application/zip">
+                        <div id="file-name" class="file-name"></div>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Upload & Generate Certificate</button>
+                </form>
+            </section>
+
+            <!-- Certificate Preview Section -->
+            <section class="certificate-section" id="certificate-section" style="display: none;">
+                <div class="certificate-header">
+                    <h2>Your Certificate</h2>
+                    <button class="btn-secondary" onclick="downloadCertificate()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Download PDF
+                    </button>
+                </div>
+
+                <div class="certificate-wrapper-outer">
+                    <div class="certificate-wrapper" id="certificate-wrapper">
+                        <div class="certificate">
+                            <div class="cert-border-inner">
+                                <div class="cert-logo">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        style="color: #2563eb;">
+                                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                                    </svg>
+                                    <span>Core Unleashed</span>
+                                </div>
+                                <h1 class="cert-title">Certificate of Completion</h1>
+                                <p class="cert-subtitle">This proudly certifies that</p>
+                                <h2 class="cert-name" id="cert-name">Jane Smith</h2>
+                                <p class="cert-text">has successfully completed and submitted the project titled</p>
+                                <h3 class="cert-project" id="cert-project">E-Commerce Web App</h3>
+                                <p class="cert-text">demonstrating exceptional skills, dedication, and technical
+                                    proficiency.</p>
+
+                                <div class="cert-footer">
+                                    <div class="cert-date-wrap">
+                                        <span class="cert-date" id="cert-date">Oct 26, 2024</span>
+                                        <span class="cert-line">Date</span>
+                                    </div>
+                                    <div class="cert-signature">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Signature_of_John_Hancock.svg"
+                                            alt="Signature" class="signature-img">
+                                        <span class="cert-line">Authorised Signatory</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('project-file').addEventListener('change', function (e) {
+            const fileName = e.target.files[0] ? e.target.files[0].name : '';
+            if (fileName) {
+                document.getElementById('file-name').textContent = fileName;
+                document.querySelector('.file-upload-label span').textContent = 'File selected';
+            } else {
+                document.getElementById('file-name').textContent = '';
+                document.querySelector('.file-upload-label span').textContent = 'Upload Project Files (.zip, .pdf)';
+            }
+        });
+
+        document.getElementById('project-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Get form values
+            const name = document.getElementById('student-name').value;
+            const project = document.getElementById('project-title').value;
+
+            // Set certificate values
+            document.getElementById('cert-name').textContent = name;
+            document.getElementById('cert-project').textContent = project;
+
+            // Set current date
+            const today = new Date();
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            document.getElementById('cert-date').textContent = today.toLocaleDateString('en-US', options);
+
+            // Show certificate section
+            const certSection = document.getElementById('certificate-section');
+            certSection.style.display = 'flex';
+
+            // Smooth scroll to certificate on mobile or adjust view
+            certSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        function downloadCertificate() {
+            const element = document.getElementById('certificate-wrapper');
+            const opt = {
+                margin: 0,
+                filename: 'project-certificate.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, logging: true },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
+            };
+
+            // Make sure wait for rendering
+            const btn = document.querySelector('.btn-secondary');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = 'Generating...';
+            btn.disabled = true;
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }).catch(err => {
+                console.error(err);
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                alert('Error generating certificate PDF');
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Pre-Placement Talks | Campus Placement Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="preplacement_talks.css">
+    <!-- QRCode.js for generating QR codes -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+
+<body>
+
+    <!-- Top Navigation Bar -->
+    <nav class="navbar">
+        <div class="brand">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+            </svg>
+            <span class="brand-name">Core Unleashed Admin</span>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="nav-item">Dashboard</a>
+            <a href="#" class="nav-item">Companies</a>
+            <a href="#" class="nav-item">Students</a>
+            <a href="#" class="nav-item active">PPT Slots</a>
+            <div class="avatar admin-avatar">AD</div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Page Header -->
+        <header class="page-header">
+            <h1>Pre-Placement Talks (PPT) Management</h1>
+            <p>Schedule new talks and generate attendance QR codes for upcoming events.</p>
+        </header>
+
+        <div class="split-layout">
+            <!-- Schedule Form Section -->
+            <section class="form-section">
+                <div class="section-title">
+                    <h2>Schedule New Talk</h2>
+                </div>
+                <form id="ppt-form" class="ppt-form">
+                    <div class="form-group">
+                        <label for="company-name">Company Name</label>
+                        <input type="text" id="company-name" placeholder="e.g., Google, Microsoft" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="talk-date">Event Date</label>
+                            <input type="date" id="talk-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="talk-time">Event Time</label>
+                            <input type="time" id="talk-time" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="talk-venue">Venue / Location</label>
+                        <input type="text" id="talk-venue" placeholder="e.g., Main Auditorium" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="target-audience">Target Audience</label>
+                        <input type="text" id="target-audience" placeholder="e.g., B.Tech CSE 4th Year" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="instructions">Special Instructions (Optional)</label>
+                        <textarea id="instructions" rows="2"
+                            placeholder="e.g., Bring your updated resumes..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-primary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        Create Slot & Generate QR
+                    </button>
+                </form>
+            </section>
+
+            <!-- Right Column: QR Display & Recent Talks -->
+            <section class="info-section">
+                <!-- QR Code Display Area (Hidden initially) -->
+                <div class="qr-card" id="qr-card" style="display: none;">
+                    <div class="qr-header">
+                        <div class="pulse-indicator"></div>
+                        <span>Active Session</span>
+                    </div>
+
+                    <div class="company-badge" id="qr-company-name">Company Name</div>
+                    <div class="session-details">
+                        <div class="detail-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                            <span id="qr-date-time">Date & Time</span>
+                        </div>
+                        <div class="detail-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                            <span id="qr-venue">Venue</span>
+                        </div>
+                    </div>
+
+                    <div class="qr-code-wrapper" id="qrcode"></div>
+
+                    <p class="qr-instruction">Scan this code using the portal app to mark your attendance.</p>
+
+                    <div class="qr-actions">
+                        <button class="btn-secondary" onclick="printQR()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2">
+                                </path>
+                                <rect x="6" y="14" width="12" height="8"></rect>
+                            </svg>
+                            Print QR
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Upcoming Talks List -->
+                <div class="upcoming-talks">
+                    <div class="section-title">
+                        <h2>Scheduled Talks</h2>
+                    </div>
+
+                    <div class="talk-list" id="talk-list">
+                        <!-- Initial Dummy Data -->
+                        <div class="talk-item">
+                            <div class="talk-info">
+                                <h3>Amazon AppStream</h3>
+                                <p>Oct 30, 2024 • 10:00 AM • Main Aud.</p>
+                            </div>
+                            <button class="btn-icon" title="View QR"
+                                onclick="showDummyQR('Amazon AppStream', 'Oct 30, 2024', '10:00 AM', 'Main Auditorium', 'amazon-oct30-1234')">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                    <rect x="7" y="7" width="3" height="3"></rect>
+                                    <rect x="14" y="7" width="3" height="3"></rect>
+                                    <rect x="7" y="14" width="3" height="3"></rect>
+                                    <rect x="14" y="14" width="3" height="3"></rect>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div class="talk-item">
+                            <div class="talk-info">
+                                <h3>Deloitte USI</h3>
+                                <p>Nov 02, 2024 • 02:00 PM • Seminar Hall C</p>
+                            </div>
+                            <button class="btn-icon" title="View QR"
+                                onclick="showDummyQR('Deloitte USI', 'Nov 02, 2024', '02:00 PM', 'Seminar Hall C', 'deloitte-nov02-5678')">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                    <rect x="7" y="7" width="3" height="3"></rect>
+                                    <rect x="14" y="7" width="3" height="3"></rect>
+                                    <rect x="7" y="14" width="3" height="3"></rect>
+                                    <rect x="14" y="14" width="3" height="3"></rect>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        let qrCodeInstance = null;
+
+        function generateUniqueId() {
+            return Math.random().toString(36).substring(2, 15);
+        }
+
+        // Handle Form Submission
+        document.getElementById('ppt-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Get Field Values
+            const company = document.getElementById('company-name').value;
+            const date = document.getElementById('talk-date').value;
+            const time = document.getElementById('talk-time').value;
+            const venue = document.getElementById('talk-venue').value;
+
+            // Format Date & Time for display
+            const dateObj = new Date(date + 'T' + time);
+            const formattedDate = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            const formattedTime = dateObj.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+
+            // Generate unique event ID for QR code payload
+            const eventId = "PPT-" + generateUniqueId();
+            const qrPayload = JSON.stringify({
+                eventId: eventId,
+                company: company,
+                type: "attendance"
+            });
+
+            // Display in QR Card
+            displayQR(company, formattedDate, formattedTime, venue, qrPayload);
+
+            // Add to scheduled list
+            addToScheduledList(company, formattedDate, formattedTime, venue, qrPayload);
+
+            // Optional: reset form
+            // this.reset();
+        });
+
+        function displayQR(company, dateText, timeText, venue, payload) {
+            const qrCard = document.getElementById('qr-card');
+            qrCard.style.display = 'flex';
+
+            // Set text details
+            document.getElementById('qr-company-name').textContent = company;
+            document.getElementById('qr-date-time').textContent = `${dateText} • ${timeText}`;
+            document.getElementById('qr-venue').textContent = venue;
+
+            // Generate QR Code
+            const qrContainer = document.getElementById('qrcode');
+            qrContainer.innerHTML = ''; // Clear previous
+
+            qrCodeInstance = new QRCode(qrContainer, {
+                text: payload,
+                width: 200,
+                height: 200,
+                colorDark: "#0f172a",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+
+            // Scroll to it on mobile
+            qrCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function addToScheduledList(company, date, time, venue, payload) {
+            const list = document.getElementById('talk-list');
+
+            const item = document.createElement('div');
+            item.className = 'talk-item newly-added';
+
+            item.innerHTML = `
+                <div class="talk-info">
+                    <h3>${company}</h3>
+                    <p>${date} • ${time} • ${venue}</p>
+                </div>
+                <button class="btn-icon" title="View QR">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><rect x="7" y="7" width="3" height="3"></rect><rect x="14" y="7" width="3" height="3"></rect><rect x="7" y="14" width="3" height="3"></rect><rect x="14" y="14" width="3" height="3"></rect></svg>
+                </button>
+            `;
+
+            // Add listener to the new button
+            const btn = item.querySelector('.btn-icon');
+            btn.addEventListener('click', () => {
+                displayQR(company, date, time, venue, payload);
+            });
+
+            // Insert at the top
+            list.insertBefore(item, list.firstChild);
+
+            // Remove highlight class after animation
+            setTimeout(() => {
+                item.classList.remove('newly-added');
+            }, 1000);
+        }
+
+        function showDummyQR(company, date, time, venue, id) {
+            const payload = JSON.stringify({ eventId: id, company: company, type: "attendance" });
+            displayQR(company, date, time, venue, payload);
+        }
+
+        function printQR() {
+            window.print();
+        }
+    </script>
+</body>
+
+</html>
