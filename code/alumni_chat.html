@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Insider Chat | Campus Placement Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="alumni_chat.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation Bar -->
+    <nav class="navbar">
+        <div class="brand">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+            </svg>
+            <span class="brand-name">Core Unleashed</span>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="nav-item">Dashboard</a>
+            <a href="#" class="nav-item">Jobs</a>
+            <a href="#" class="nav-item active">Alumni Network</a>
+            <a href="#" class="nav-item">Profile</a>
+            <div class="avatar">JS</div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Page Header -->
+        <header class="page-header">
+            <h1>Alumni Insider Chat</h1>
+            <p>Connect peer-to-peer with recently placed alumni to uncover real interview questions and company
+                insights.</p>
+        </header>
+
+        <section class="chat-layout">
+            <!-- Sidebar: Alumni List -->
+            <aside class="chat-sidebar">
+                <div class="sidebar-header">
+                    <div class="search-bar">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <input type="text" placeholder="Search company or alumni...">
+                    </div>
+                </div>
+
+                <div class="contacts-list">
+                    <!-- Contact 1 -->
+                    <div class="contact-item active"
+                        onclick="switchChat('Rahul Verma', 'Software Engineer @ Google', 'RV', '#fde047', 'google')">
+                        <div class="contact-avatar" style="background-color: #fef08a; color: #a16207;">RV</div>
+                        <div class="contact-info">
+                            <h4>Rahul Verma</h4>
+                            <span class="company-tag">Google</span>
+                            <p class="last-message">They focused heavily on DP and Trees in my rounds.</p>
+                        </div>
+                        <div class="contact-meta">
+                            <span class="time">10:42 AM</span>
+                            <span class="unread-badge">2</span>
+                        </div>
+                    </div>
+
+                    <!-- Contact 2 -->
+                    <div class="contact-item"
+                        onclick="switchChat('Sneha Patel', 'Data Scientist @ Microsoft', 'SP', '#93c5fd', 'microsoft')">
+                        <div class="contact-avatar" style="background-color: #bfdbfe; color: #1e40af;">SP</div>
+                        <div class="contact-info">
+                            <h4>Sneha Patel</h4>
+                            <span class="company-tag">Microsoft</span>
+                            <p class="last-message">Hey! Let me know if you need help with SQL.</p>
+                        </div>
+                        <div class="contact-meta">
+                            <span class="time">Yesterday</span>
+                        </div>
+                    </div>
+
+                    <!-- Contact 3 -->
+                    <div class="contact-item"
+                        onclick="switchChat('Aman Singh', 'SDE-1 @ Amazon', 'AS', '#fdba74', 'amazon')">
+                        <div class="contact-avatar" style="background-color: #fed7aa; color: #9a3412;">AS</div>
+                        <div class="contact-info">
+                            <h4>Aman Singh</h4>
+                            <span class="company-tag">Amazon</span>
+                            <p class="last-message">Focus on Leadership Principles during the behavioral round.</p>
+                        </div>
+                        <div class="contact-meta">
+                            <span class="time">Monday</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Chat Area -->
+            <section class="chat-area">
+                <!-- Chat Header -->
+                <header class="chat-header">
+                    <div class="chat-header-profile">
+                        <div class="header-avatar" id="header-avatar"
+                            style="background-color: #fef08a; color: #a16207;">RV</div>
+                        <div class="header-info">
+                            <h3 id="header-name">Rahul Verma</h3>
+                            <p id="header-role">Software Engineer @ Google <span class="status-dot"></span> Online</p>
+                        </div>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn-icon" title="View Profile">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                        </button>
+                        <button class="btn-icon" title="More Options">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="1"></circle>
+                                <circle cx="19" cy="12" r="1"></circle>
+                                <circle cx="5" cy="12" r="1"></circle>
+                            </svg>
+                        </button>
+                    </div>
+                </header>
+
+                <!-- Chat Messages (Scrollable) -->
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message-date-divider">Today</div>
+
+                    <div class="message received">
+                        <div class="msg-avatar" style="background-color: #fef08a; color: #a16207;">RV</div>
+                        <div class="msg-content">
+                            <div class="msg-bubble">
+                                Hey there! I saw you have a Google interview coming up next week. How's the prep going?
+                                Let me know if you want to know what they asked me.
+                            </div>
+                            <span class="msg-time">10:30 AM</span>
+                        </div>
+                    </div>
+
+                    <div class="message sent">
+                        <div class="msg-content">
+                            <div class="msg-bubble">
+                                Hi Rahul! Yes, I'm quite nervous. What were your technical rounds like? Did they ask
+                                graph algorithms?
+                            </div>
+                            <span class="msg-time">10:35 AM</span>
+                        </div>
+                    </div>
+
+                    <div class="message received">
+                        <div class="msg-avatar" style="background-color: #fef08a; color: #a16207;">RV</div>
+                        <div class="msg-content">
+                            <div class="msg-bubble">
+                                Don't worry, you'll do great! In my experience, they didn't ask advanced graph theory.
+                                They focused heavily on DP and Trees in my rounds.
+                            </div>
+                            <div class="msg-bubble">
+                                Specifically, there was a question about finding the longest path in a binary tree, and
+                                then a follow-up on DP. I'd highly recommend brushing up on Tree traversals.
+                            </div>
+                            <span class="msg-time">10:42 AM</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Input Area -->
+                <footer class="chat-input-area">
+                    <button class="btn-attach" title="Attach File">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48">
+                            </path>
+                        </svg>
+                    </button>
+                    <input type="text" id="chat-input" placeholder="Type your message..."
+                        onkeypress="handleEnter(event)">
+                    <button class="btn-send" onclick="sendMessage()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </footer>
+            </section>
+        </section>
+    </main>
+
+    <script>
+        function switchChat(name, role, initials, color, companyBgClass) {
+            // Update active state in sidebar
+            document.querySelectorAll('.contact-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+
+            // Update Header
+            document.getElementById('header-name').textContent = name;
+            document.getElementById('header-role').innerHTML = `${role} <span class="status-dot"></span> Online`;
+
+            const avatar = document.getElementById('header-avatar');
+            avatar.textContent = initials;
+            avatar.style.backgroundColor = color;
+            // simplistic text color selection based on background
+            avatar.style.color = '#1e293b';
+
+            // Clear chat and add dummy loading state or history
+            const messagesContainer = document.getElementById('chat-messages');
+            messagesContainer.innerHTML = '';
+
+            const divider = document.createElement('div');
+            divider.className = 'message-date-divider';
+            divider.textContent = 'Conversation Started';
+            messagesContainer.appendChild(divider);
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const messageText = input.value.trim();
+
+            if (messageText === '') return;
+
+            const messagesContainer = document.getElementById('chat-messages');
+
+            // Create sent message HTML
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'message sent';
+
+            const timeStr = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+            msgDiv.innerHTML = `
+                <div class="msg-content">
+                    <div class="msg-bubble">${escapeHTML(messageText)}</div>
+                    <span class="msg-time">${timeStr}</span>
+                </div>
+            `;
+
+            messagesContainer.appendChild(msgDiv);
+            input.value = '';
+
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            // Simulate Alumni Reply
+            simulateReply();
+        }
+
+        function handleEnter(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Simple HTML Escape to prevent XSS in mock
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g,
+                tag => ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    "'": '&#39;',
+                    '"': '&quot;'
+                }[tag])
+            );
+        }
+
+        function simulateReply() {
+            setTimeout(() => {
+                const messagesContainer = document.getElementById('chat-messages');
+                const avatar = document.getElementById('header-avatar'); // get current active peer
+
+                const timeStr = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+                const replyDiv = document.createElement('div');
+                replyDiv.className = 'message received';
+                replyDiv.innerHTML = `
+                    <div class="msg-avatar" style="background-color: ${avatar.style.backgroundColor}; color: ${avatar.style.color};">${avatar.textContent}</div>
+                    <div class="msg-content">
+                        <div class="msg-bubble typing-indicator">
+                            <span></span><span></span><span></span>
+                        </div>
+                    </div>
+                `;
+
+                messagesContainer.appendChild(replyDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+                // Replace typing indicator with actual text
+                setTimeout(() => {
+                    replyDiv.querySelector('.msg-content').innerHTML = `
+                        <div class="msg-bubble">That's a great question! For my interview, I was also asked about system design basics. I recommend checking out Grokking the System Design Interview. Let me know if you need any specific resources!</div>
+                        <span class="msg-time">${timeStr}</span>
+                    `;
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }, 1500);
+
+            }, 1000);
+        }
+    </script>
+</body>
+
+</html>
