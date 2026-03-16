@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create an account on the Campus Placement Management System">
+    <title>Sign Up | Campus Placement Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="login.css">
+    <style>
+        .login-wrapper {
+            min-height: 650px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+            /* slightly smaller padding to fit more fields */
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-wrapper">
+        <!-- Left Branding side -->
+        <div class="login-info-section">
+            <div class="brand-logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
+                <span class="brand-name">Core Unleashed</span>
+            </div>
+            <h2>Join our community.</h2>
+            <p>Create an account to discover top opportunities, track applications, and connect seamlessly.</p>
+
+            <ul class="features-list">
+                <li>Discover Top Opportunities</li>
+                <li>Track Applications in Real-Time</li>
+                <li>Connect with Verified Recruiters</li>
+            </ul>
+        </div>
+
+        <!-- Right Form side -->
+        <div class="login-form-section">
+            <div class="login-header">
+                <h1>Create Account</h1>
+                <p>Please enter your details to sign up</p>
+            </div>
+
+            <form action="/register" method="POST">
+                <div class="role-selector">
+                    <label class="role-option">
+                        <input type="radio" name="role" value="student" checked>
+                        <span class="role-btn">Student</span>
+                    </label>
+                    <label class="role-option">
+                        <input type="radio" name="role" value="recruiter">
+                        <span class="role-btn">Recruiter</span>
+                    </label>
+                    <label class="role-option">
+                        <input type="radio" name="role" value="admin">
+                        <span class="role-btn">Admin</span>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label for="usn">USN</label>
+                    <input type="text" id="usn" name="usn" class="form-control" placeholder="Enter your USN" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" class="form-control"
+                        placeholder="Create a password" required>
+                </div>
+
+                <button type="submit" class="btn-submit">Sign Up</button>
+            </form>
+
+            <div class="sign-up-link">
+                Already have an account? <a href="login.html">Sign In</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -16,11 +16,7 @@
         <!-- Left Branding side -->
         <div class="login-info-section">
             <div class="brand-logo">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                </svg>
-                <span class="brand-name">Core Unleashed</span>
+                <img src="logo.png" alt="Placement Logo" style="width: 40px; height: 40px; border-radius: 4px;">
             </div>
             <h2>Start your career journey with us.</h2>
             <p>Welcome to the unified Campus Placement Management System where students, recruiters, and placement
@@ -43,15 +39,15 @@
             <form action="#" method="POST">
                 <div class="role-selector">
                     <label class="role-option">
-                        <input type="radio" name="role" value="student" checked>
+                        <input type="radio" name="role" value="student" checked onchange="updateLoginFields('student')">
                         <span class="role-btn">Student</span>
                     </label>
                     <label class="role-option">
-                        <input type="radio" name="role" value="recruiter">
+                        <input type="radio" name="role" value="recruiter" onchange="updateLoginFields('recruiter')">
                         <span class="role-btn">Recruiter</span>
                     </label>
                     <label class="role-option">
-                        <input type="radio" name="role" value="admin">
+                        <input type="radio" name="role" value="admin" onchange="updateLoginFields('admin')">
                         <span class="role-btn">Admin</span>
                     </label>
                 </div>
@@ -61,7 +57,6 @@
                     <input type="text" id="email" name="email" class="form-control" placeholder="Enter your ID or email"
                         required>
                 </div>
-
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" class="form-control"
@@ -73,18 +68,49 @@
                         <input type="checkbox" name="remember">
                         <span>Remember me</span>
                     </label>
-                    <a href="#" class="forgot-password">Forgot Password?</a>
+                    <a href="forgot_password.html" class="forgot-password">Forgot Password?</a>
                 </div>
 
                 <button type="submit" class="btn-submit">Sign In</button>
             </form>
 
             <div class="sign-up-link">
-                Don't have an account? <a href="#">Create Account</a>
+                Don't have an account? <a href="signup.html">Create Account</a>
             </div>
         </div>
     </div>
 
+    <script>
+        function updateLoginFields(role) {
+            const emailLabel = document.getElementById('email-label');
+            const emailInput = document.getElementById('email');
+            
+            if (role === 'student') {
+                emailLabel.textContent = 'University ID / Email';
+                emailInput.placeholder = 'Enter your ID or email';
+            } else if (role === 'recruiter') {
+                emailLabel.textContent = 'Work Email';
+                emailInput.placeholder = 'name@company.com';
+            } else if (role === 'admin') {
+                emailLabel.textContent = 'Staff Email';
+                emailInput.placeholder = 'staff@university.edu';
+            }
+        }
+
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const selectedRole = document.querySelector('input[name="role"]:checked').value;
+            
+            if (selectedRole === 'student') {
+                window.location.href = 'student_profile.html';
+            } else if (selectedRole === 'recruiter') {
+                window.location.href = 'recruiter_dashboard.html';
+            } else if (selectedRole === 'admin') {
+                window.location.href = 'qr_attendance_dashboard.html';
+            }
+        });
+    </script>
 </body>
 
 </html>

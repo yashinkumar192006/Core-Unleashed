@@ -20,12 +20,32 @@
 
 body {
     background-color: var(--bg-color);
+    background-image: url('login_bg.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
     color: var(--text-main);
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
+    z-index: 1;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Super light neon blue tint with strong blur */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(186, 230, 253, 0.6) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: -1;
 }
 
 .login-wrapper {

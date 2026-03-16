@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Attendance Dashboard | Campus Placement Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="qr_attendance_dashboard.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation Bar -->
+    <nav class="navbar">
+        <div class="brand">
+            <img src="logo.png" alt="Placement Logo" style="width: 32px; height: 32px; border-radius: 4px;">
+        </div>
+        <div class="nav-links">
+            <a href="#" class="nav-item">Dashboard</a>
+            <a href="#" class="nav-item">Companies</a>
+            <a href="#" class="nav-item">Students</a>
+            <a href="preplacement_talks.html" class="nav-item">PPT Slots</a>
+            <a href="#" class="nav-item active">Attendance</a>
+            <div class="avatar admin-avatar">AD</div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Page Header -->
+        <header class="page-header">
+            <div class="header-content">
+                <div>
+                    <h1>Live Session Attendance</h1>
+                    <p>Monitor real-time student presence for placement talks and related sessions via QR scans.</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-secondary" onclick="exportCSV()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Export CSV
+                    </button>
+                    <a href="preplacement_talks.html" class="btn-primary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        New Session
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <div class="split-layout">
+            <!-- Left Panel: Session List -->
+            <aside class="session-sidebar">
+                <div class="section-header">
+                    <h2>Active & Recent Sessions</h2>
+                    <div class="filter-group">
+                        <input type="text" placeholder="Search sessions..." class="search-input">
+                    </div>
+                </div>
+
+                <div class="session-list">
+                    <!-- Session Item (Active) -->
+                    <div class="session-card active"
+                        onclick="selectSession('Google', 'PPT-8849', 'Today, 10:00 AM', 120, 85)">
+                        <div class="session-card-header">
+                            <h3>Google</h3>
+                            <span class="badge badge-live"><span class="pulse-dot"></span>Live</span>
+                        </div>
+                        <p class="session-meta">Pre-Placement Talk • PPT-8849</p>
+                        <p class="session-time">Today, 10:00 AM • Main Auditorium</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 70%;"></div>
+                        </div>
+                        <div class="session-stats-mini">
+                            <span>85 / 120 Present</span>
+                            <span>70%</span>
+                        </div>
+                    </div>
+
+                    <!-- Session Item (Completed) -->
+                    <div class="session-card"
+                        onclick="selectSession('Microsoft', 'PPT-1023', 'Yesterday, 02:00 PM', 150, 142)">
+                        <div class="session-card-header">
+                            <h3>Microsoft</h3>
+                            <span class="badge badge-completed">Completed</span>
+                        </div>
+                        <p class="session-meta">Technical Session • PPT-1023</p>
+                        <p class="session-time">Yesterday, 02:00 PM • Seminar Hall A</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill completed-fill" style="width: 95%;"></div>
+                        </div>
+                        <div class="session-stats-mini">
+                            <span>142 / 150 Present</span>
+                            <span>95%</span>
+                        </div>
+                    </div>
+
+                    <!-- Session Item (Completed) -->
+                    <div class="session-card"
+                        onclick="selectSession('Amazon AppStream', 'PPT-4412', 'Oct 30, 2024, 11:00 AM', 200, 150)">
+                        <div class="session-card-header">
+                            <h3>Amazon AppStream</h3>
+                            <span class="badge badge-completed">Completed</span>
+                        </div>
+                        <p class="session-meta">Pre-Placement Talk • PPT-4412</p>
+                        <p class="session-time">Oct 30, 2024, 11:00 AM • Virtual</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill completed-fill" style="width: 75%;"></div>
+                        </div>
+                        <div class="session-stats-mini">
+                            <span>150 / 200 Present</span>
+                            <span>75%</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Right Panel: Dashboard View -->
+            <section class="dashboard-panel">
+                <div class="dashboard-header">
+                    <div>
+                        <h2 id="dash-company">Google</h2>
+                        <p class="dash-meta" id="dash-meta">PPT-8849 • Today, 10:00 AM • Main Auditorium</p>
+                    </div>
+                    <div class="live-indicator" id="dash-status">
+                        <span class="pulse-dot"></span> Live Scanning Active
+                    </div>
+                </div>
+
+                <!-- Stats Overview -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon bg-blue-100 text-blue-600">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Registered</h3>
+                            <p class="stat-value" id="stat-registered">120</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon bg-green-100 text-green-600">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Present</h3>
+                            <p class="stat-value text-green-600" id="stat-present">85</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon bg-red-100 text-red-600">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Absent</h3>
+                            <p class="stat-value text-red-600" id="stat-absent">35</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Stream Table -->
+                <div class="attendance-table-card">
+                    <div class="table-header">
+                        <h3>Attendance Log</h3>
+                        <div class="table-actions">
+                            <span class="auto-refresh-text">Auto-refreshing...</span>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table class="attendance-table">
+                            <thead>
+                                <tr>
+                                    <th>Student ID</th>
+                                    <th>Name</th>
+                                    <th>Branch</th>
+                                    <th>Scan Time</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="attendance-tbody">
+                                <!-- Populated via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        // Dummy data for students
+        const firstNames = ["Rahul", "Priya", "Amit", "Neha", "Rohit", "Sneha", "Vikram", "Anjali", "Karan", "Pooja"];
+        const lastNames = ["Sharma", "Verma", "Singh", "Patel", "Gupta", "Deshmukh", "Joshi", "Kumar", "Yadav", "Iyer"];
+        const branches = ["CSE", "ECE", "EEE", "Mech", "Civil", "IT"];
+
+        function generateDummyLog(count) {
+            const logs = [];
+            const now = new Date();
+            for (let i = 0; i < count; i++) {
+                const scanTime = new Date(now.getTime() - Math.floor(Math.random() * 3600000)); // Random time in last hour
+                const name = firstNames[Math.floor(Math.random() * firstNames.length)] + " " + lastNames[Math.floor(Math.random() * lastNames.length)];
+
+                logs.push({
+                    id: "21" + branches[Math.floor(Math.random() * branches.length)] + Math.floor(100 + Math.random() * 899),
+                    name: name,
+                    branch: branches[Math.floor(Math.random() * branches.length)],
+                    time: scanTime,
+                });
+            }
+            // Sort by latest time
+            logs.sort((a, b) => b.time - a.time);
+            return logs;
+        }
+
+        let currentInterval = null;
+
+        function populateTable(logs) {
+            const tbody = document.getElementById('attendance-tbody');
+            tbody.innerHTML = '';
+
+            logs.forEach(log => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="stu-id">${log.id}</td>
+                    <td class="stu-name">${log.name}</td>
+                    <td><span class="branch-tag">${log.branch}</span></td>
+                    <td>${log.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</td>
+                    <td><span class="status-badge success">Verified</span></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function selectSession(company, eventId, timeStr, registered, present) {
+            // Update UI styling
+            document.querySelectorAll('.session-card').forEach(card => card.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            // Update Header
+            document.getElementById('dash-company').textContent = company;
+            document.getElementById('dash-meta').textContent = `${eventId} • ${timeStr}`;
+
+            // Check if Live
+            const statusIndicator = document.getElementById('dash-status');
+            const isLive = event.currentTarget.querySelector('.badge-live') !== null;
+
+            if (isLive) {
+                statusIndicator.innerHTML = '<span class="pulse-dot"></span> Live Scanning Active';
+                statusIndicator.className = 'live-indicator';
+                document.querySelector('.auto-refresh-text').style.display = 'block';
+            } else {
+                statusIndicator.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Session Completed';
+                statusIndicator.className = 'completed-indicator';
+                document.querySelector('.auto-refresh-text').style.display = 'none';
+            }
+
+            // Update Stats
+            document.getElementById('stat-registered').textContent = registered;
+            document.getElementById('stat-present').textContent = present;
+            document.getElementById('stat-absent').textContent = registered - present;
+
+            // Stop any existing simulation
+            if (currentInterval) clearInterval(currentInterval);
+
+            // Generate Logs
+            const logs = generateDummyLog(Math.min(present, 50)); // cap at 50 for display
+            populateTable(logs);
+
+            // If live, simulate incoming scans
+            if (isLive) {
+                currentInterval = setInterval(() => {
+                    if (Math.random() > 0.6) {
+                        const newLog = generateDummyLog(1)[0];
+                        newLog.time = new Date(); // Right now
+
+                        // Update UI
+                        present++;
+                        document.getElementById('stat-present').textContent = present;
+                        document.getElementById('stat-absent').textContent = registered - present;
+
+                        // Add to table with animation
+                        const tbody = document.getElementById('attendance-tbody');
+                        const tr = document.createElement('tr');
+                        tr.className = 'new-row-anim';
+                        tr.innerHTML = `
+                            <td class="stu-id">${newLog.id}</td>
+                            <td class="stu-name">${newLog.name}</td>
+                            <td><span class="branch-tag">${newLog.branch}</span></td>
+                            <td><span class="just-scanned">Just now</span></td>
+                            <td><span class="status-badge success">Verified</span></td>
+                        `;
+                        tbody.insertBefore(tr, tbody.firstChild);
+
+                        // Keep table rows manageable
+                        if (tbody.children.length > 50) {
+                            tbody.removeChild(tbody.lastChild);
+                        }
+
+                        // Update the progress bar in the list
+                        const activeCard = document.querySelector('.session-card.active');
+                        if (activeCard) {
+                            const newPct = Math.min(100, Math.round((present / registered) * 100));
+                            activeCard.querySelector('.progress-fill').style.width = newPct + '%';
+                            activeCard.querySelector('.session-stats-mini span:first-child').textContent = `${present} / ${registered} Present`;
+                            activeCard.querySelector('.session-stats-mini span:last-child').textContent = `${newPct}%`;
+                        }
+                    }
+                }, 3000);
+            }
+        }
+
+        function exportCSV() {
+            alert("Attendance report is being generated and will download shortly.");
+        }
+
+        // Initialize with first session
+        document.addEventListener('DOMContentLoaded', () => {
+            const firstCard = document.querySelector('.session-card');
+            firstCard.click();
+        });
+    </script>
+</body>
+
+</html>

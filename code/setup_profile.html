@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Complete your profile on the Campus Placement Management System">
+    <title>Complete Profile | Campus Placement Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="login.css">
+    <style>
+        .profile-form { display: none; }
+        .profile-form.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .setup-header { margin-bottom: 24px; text-align: center; }
+        .setup-header h1 { font-size: 1.75rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px; }
+        .setup-header p { color: var(--text-muted); font-size: 0.95rem; }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-wrapper">
+        <!-- Left Branding side -->
+        <div class="login-info-section">
+            <div class="brand-logo">
+                <img src="logo.png" alt="Placement Logo" style="width: 40px; height: 40px; border-radius: 4px;">
+            </div>
+            <h2>Almost there!</h2>
+            <p>We just need a few more details to set up your workspace and personalize your experience.</p>
+
+            <ul class="features-list" id="role-features">
+                <li>Complete your profile</li>
+                <li>Unlock full features</li>
+                <li>Start connecting</li>
+            </ul>
+        </div>
+
+        <!-- Right Form side -->
+        <div class="login-form-section" style="overflow-y: auto;">
+            <div class="setup-header">
+                <h1>Complete Your Profile</h1>
+                <p id="role-subtitle">Let's get everything ready for you.</p>
+            </div>
+
+            <form action="#" method="POST" id="profile-setup-form">
+
+                <!-- Student Setup Fields -->
+                <div id="student-setup" class="profile-form">
+                    <div class="form-group">
+                        <label for="degree">Degree Level</label>
+                        <select id="degree" class="form-control" required>
+                            <option value="">Select Degree...</option>
+                            <option value="btech">B.Tech</option>
+                            <option value="mtech">M.Tech</option>
+                            <option value="bca">BCA</option>
+                            <option value="mca">MCA</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="branch">Branch / Specialization</label>
+                        <select id="branch" class="form-control" required>
+                            <option value="">Select Branch...</option>
+                            <option value="cse">Computer Science & Engineering</option>
+                            <option value="ece">Electronics & Communication</option>
+                            <option value="me">Mechanical Engineering</option>
+                            <option value="ce">Civil Engineering</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="grad-year">Graduation Year</label>
+                        <input type="number" id="grad-year" class="form-control" placeholder="e.g. 2025" min="2020" max="2030" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="linkedin">LinkedIn Profile (Optional)</label>
+                        <input type="url" id="linkedin" class="form-control" placeholder="https://linkedin.com/in/username">
+                    </div>
+                </div>
+
+                <!-- Recruiter Setup Fields -->
+                <div id="recruiter-setup" class="profile-form">
+                    <div class="form-group">
+                        <label for="company-site">Company Website</label>
+                        <input type="url" id="company-site" class="form-control" placeholder="https://company.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="industry">Industry</label>
+                        <select id="industry" class="form-control" required>
+                            <option value="">Select Industry...</option>
+                            <option value="it">Information Technology / Software</option>
+                            <option value="finance">Finance / FinTech</option>
+                            <option value="healthcare">Healthcare / HealthTech</option>
+                            <option value="manufacturing">Manufacturing / Core</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="designation">Your Designation</label>
+                        <input type="text" id="designation" class="form-control" placeholder="e.g. HR Manager, Tech Lead" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="company-size">Company Size</label>
+                        <select id="company-size" class="form-control" required>
+                            <option value="">Select Size...</option>
+                            <option value="startup">1 - 50 Employees (Startup)</option>
+                            <option value="mid">51 - 500 Employees (Mid-size)</option>
+                            <option value="enterprise">500+ Employees (Enterprise)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Admin Setup Fields -->
+                <div id="admin-setup" class="profile-form">
+                    <div class="form-group">
+                        <label for="admin-title">Admin Role</label>
+                        <select id="admin-title" class="form-control" required>
+                            <option value="">Select Role...</option>
+                            <option value="placement-officer">Chief Placement Officer</option>
+                            <option value="coordinator">Faculty Coordinator</option>
+                            <option value="system-admin">System Administrator</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="office">Office Location / Cabin No.</label>
+                        <input type="text" id="office" class="form-control" placeholder="e.g. Placement Cell, Block A" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-number">Contact Phone (Internal)</label>
+                        <input type="tel" id="contact-number" class="form-control" placeholder="e.g. Ext 402" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit" style="margin-top: 10px;">Finish Setup & Go to Dashboard</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get role from URL query string
+            const urlParams = new URLSearchParams(window.location.search);
+            const role = urlParams.get('role') || 'student'; // default to student if none provided
+
+            // Show appropriate form
+            const activeForm = document.getElementById(`${role}-setup`);
+            if (activeForm) {
+                activeForm.classList.add('active');
+                
+                // Add required to active form inputs
+                const visibleInputs = activeForm.querySelectorAll('input, select');
+                visibleInputs.forEach(input => input.setAttribute('required', 'true'));
+            }
+
+            // Update text based on role
+            const subtitle = document.getElementById('role-subtitle');
+            const features = document.getElementById('role-features');
+            
+            if (role === 'student') {
+                subtitle.textContent = "Tell us about your academic background.";
+                features.innerHTML = `
+                    <li>Highlight your skills</li>
+                    <li>Get matching job alerts</li>
+                    <li>Connect with alumni</li>
+                `;
+            } else if (role === 'recruiter') {
+                subtitle.textContent = "Tell us about your company and hiring goals.";
+                features.innerHTML = `
+                    <li>Post job openings fast</li>
+                    <li>Filter top candidates</li>
+                    <li>Schedule interviews easily</li>
+                `;
+            } else if (role === 'admin') {
+                subtitle.textContent = "Configure your administrative capabilities.";
+                features.innerHTML = `
+                    <li>Manage student data</li>
+                    <li>Organize placement drives</li>
+                    <li>Track live attendance</li>
+                `;
+            }
+
+            // Handle submission redirection
+            document.getElementById('profile-setup-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (role === 'student') {
+                    window.location.href = 'student_profile.html';
+                } else if (role === 'recruiter') {
+                    window.location.href = 'recruiter_dashboard.html';
+                } else if (role === 'admin') {
+                    window.location.href = 'qr_attendance_dashboard.html';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
