@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Campus Placement Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="recruiter_dashboard.css">
+    <style>
+        /* Admin specific color adjustments just in case */
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --secondary: #f1f5f9;
+            --secondary-hover: #e2e8f0;
+            --bg-main: #f8fafc;
+        }
+
+        .avatar {
+            background: #8b5cf6;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header Navigation -->
+    <nav class="navbar">
+        <div class="brand">
+            <img src="logo.png" alt="Placement Logo" style="width: 32px; height: 32px; border-radius: 4px;">
+        </div>
+        <div class="nav-links">
+            <a href="#" class="nav-item active">Dashboard</a>
+            <a href="#" class="nav-item">Students</a>
+            <a href="#" class="nav-item">Companies</a>
+            <a href="#" class="nav-item">Placement Drives</a>
+            <div class="avatar">A</div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Container -->
+    <div class="container">
+
+        <!-- Welcome Header -->
+        <header class="dashboard-header">
+            <div>
+                <h1>Admin Overview</h1>
+                <p>Monitor placement activities and key metrics across the university.</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn-secondary">Download Reports</button>
+                <button class="btn-primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Create Event
+                </button>
+            </div>
+        </header>
+
+        <!-- Key Metrics Cards (Admin Context) -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-title">
+                    <span>Total Students Registered</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                </div>
+                <div class="stat-value">1,248</div>
+                <div class="stat-trend trend-up">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="19" x2="12" y2="5"></line>
+                        <polyline points="5 12 12 5 19 12"></polyline>
+                    </svg>
+                    98% of eligible batch
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-title">
+                    <span>Active Companies</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                </div>
+                <div class="stat-value">42</div>
+                <div class="stat-trend trend-up">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="19" x2="12" y2="5"></line>
+                        <polyline points="5 12 12 5 19 12"></polyline>
+                    </svg>
+                    +5 from last week
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-title">
+                    <span>Upcoming Drives</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                </div>
+                <div class="stat-value">8</div>
+                <div class="stat-trend trend-neutral">
+                    <span>Next 14 Days</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-title">
+                    <span>Students Placed</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                </div>
+                <div class="stat-value">415</div>
+                <div class="stat-trend trend-up">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="19" x2="12" y2="5"></line>
+                        <polyline points="5 12 12 5 19 12"></polyline>
+                    </svg>
+                    33% of registered
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Area -->
+        <main class="content-grid">
+
+            <!-- Left Column: Ongoing Drives -->
+            <section class="section-card">
+                <div class="section-header">
+                    <h2>Live & Upcoming Drives</h2>
+                    <a href="#" class="view-all">View Full Calendar</a>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Company</th>
+                                <th>Target Branches</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="student-info">
+                                        <div class="student-avatar" style="background:#f97316;">T</div>
+                                        <div class="student-details-text">
+                                            <span class="student-name">TechCorp Inc.</span>
+                                            <span class="student-degree">Software Eng</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>CSE, IT</td>
+                                <td><span class="status-badge" style="background:var(--success-bg); color:var(--success-text);">Ongoing</span></td>
+                                <td>Today</td>
+                                <td>
+                                    <button class="action-btn" title="View Drive">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                            <circle cx="12" cy="12" r="3"></circle>
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="student-info">
+                                        <div class="student-avatar" style="background:#0ea5e9;">C</div>
+                                        <div class="student-details-text">
+                                            <span class="student-name">CloudSys Data</span>
+                                            <span class="student-degree">Data Science</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>CSE, IT, ECE</td>
+                                <td><span class="status-badge status-shortlisted">Scheduled</span></td>
+                                <td>Oct 28</td>
+                                <td>
+                                    <button class="action-btn" title="View Drive">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                            <circle cx="12" cy="12" r="3"></circle>
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="student-info">
+                                        <div class="student-avatar" style="background:#10b981;">G</div>
+                                        <div class="student-details-text">
+                                            <span class="student-name">Global Finance</span>
+                                            <span class="student-degree">Analyst</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>All Branches</td>
+                                <td><span class="status-badge status-pending">Reg. Open</span></td>
+                                <td>Nov 02</td>
+                                <td>
+                                    <button class="action-btn" title="View Drive">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                            <circle cx="12" cy="12" r="3"></circle>
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Right Column: Quick Admin Actions -->
+            <section class="section-card">
+                <div class="section-header">
+                    <h2>Admin Actions</h2>
+                </div>
+                <div class="job-list">
+                    <div class="job-item" style="cursor:pointer;" onclick="location.href='#'">
+                        <div class="job-details">
+                            <h3>Verify Student Profiles</h3>
+                            <div class="job-meta">
+                                <span>34 profiles pending approval</span>
+                            </div>
+                        </div>
+                        <div class="job-stats">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted)">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="job-item" style="cursor:pointer;" onclick="location.href='qr_attendance_dashboard.html'">
+                        <div class="job-details">
+                            <h3>QR Attendance Dashboard</h3>
+                            <div class="job-meta">
+                                <span>Manage live talk attendances</span>
+                            </div>
+                        </div>
+                        <div class="job-stats">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted)">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="job-item" style="cursor:pointer;" onclick="location.href='#'">
+                        <div class="job-details">
+                            <h3>Approve Employer Requests</h3>
+                            <div class="job-meta">
+                                <span>2 new companies requested access</span>
+                            </div>
+                        </div>
+                        <div class="job-stats">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted)">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+</body>
+
+</html>
