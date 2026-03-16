@@ -52,7 +52,7 @@ body::before {
     display: flex;
     background-color: var(--card-bg);
     border-radius: 16px;
-    box-shadow: var(--shadow);
+    box-shadow: 0 10px 40px -10px rgba(37, 99, 235, 0.4);
     overflow: hidden;
     width: 100%;
     max-width: 900px;
@@ -78,6 +78,10 @@ body::before {
     position: absolute;
     top: 40px;
     left: 40px;
+}
+
+.brand-logo img {
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
 }
 
 .brand-name {
