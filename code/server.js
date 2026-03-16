@@ -52,6 +52,35 @@ app.post('/register', async (req, res) => {
     }
 });
 
+// --- ADMIN ROW: ADD STUDENT ROUTE ---
+app.post('/admin/add-student', async (req, res) => {
+    const { usn, full_name, class_name, branch, email, password } = req.body;
+
+    // Check if the current user is logged in as an admin (Optional but useful if auth is used)
+    // if (!req.session.user || req.session.user.role.toLowerCase() !== 'admin') {
+    //     return res.status(403).send("Unauthorized: Admin access required.");
+    // }
+
+    try {
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        // Insert new student into the database with 'Student' role
+        const [result] = await db.query(
+            'INSERT INTO users (full_name, university_id, email, password, role, class, branch) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            [full_name, usn || null, email, hashedPassword, 'student', class_name || null, branch || null]
+        );
+
+        res.status(201).send("Student added successfully!");
+    } catch (err) {
+        console.error(err);
+        if (err.code === 'ER_DUP_ENTRY') {
+            return res.status(400).send("A student with this Email or USN already exists.");
+        }
+        res.status(500).send("Server error while adding student.");
+    }
+});
+
 // --- 2. LOGIN ROUTE (Retrieves and verifies data) ---
 app.post('/login', async (req, res) => {
     const { usn, email, password, role } = req.body;
