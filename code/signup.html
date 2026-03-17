@@ -48,11 +48,7 @@
             <form id="signup-form">
                 <div class="role-selector">
                     <label class="role-option">
-                        <input type="radio" name="role" value="student" checked onchange="updateSignupFields('student')">
-                        <span class="role-btn">Student</span>
-                    </label>
-                    <label class="role-option">
-                        <input type="radio" name="role" value="recruiter" onchange="updateSignupFields('recruiter')">
+                        <input type="radio" name="role" value="recruiter" checked onchange="updateSignupFields('recruiter')">
                         <span class="role-btn">Recruiter</span>
                     </label>
                     <label class="role-option">
@@ -62,20 +58,19 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="identifier" id="identifier-label">USN</label>
-                    <input type="text" id="identifier" name="identifier" class="form-control" placeholder="Enter your USN" required>
+                    <label for="identifier" id="identifier-label">Company Name</label>
+                    <input type="text" id="identifier" name="identifier" class="form-control" placeholder="Enter your company name" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="email" id="email-label">Email</label>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email"
-                        required>
+                    <label for="email" id="email-label">Work Email</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="name@company.com" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="password">Password</label>
+                    <label for="password" id="password-label">Password</label>
                     <input type="password" id="password" name="password" class="form-control"
-                        placeholder="Create a password" required>
+                        placeholder="Create a new password" required>
                 </div>
 
                 <button type="submit" class="btn-submit">Sign Up</button>
@@ -94,12 +89,7 @@
             const emailLabel = document.getElementById('email-label');
             const emailInput = document.getElementById('email');
             
-            if (role === 'student') {
-                identifierLabel.textContent = 'USN';
-                identifierInput.placeholder = 'Enter your USN';
-                emailLabel.textContent = 'Email';
-                emailInput.placeholder = 'Enter your email';
-            } else if (role === 'recruiter') {
+            if (role === 'recruiter') {
                 identifierLabel.textContent = 'Company Name';
                 identifierInput.placeholder = 'Enter your company name';
                 emailLabel.textContent = 'Work Email';

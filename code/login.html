@@ -123,7 +123,13 @@
 
                 if (response.ok) {
                     // Assuming successful login
-                    window.location.href = 'home.html';
+                    if (role === 'student') {
+                        window.location.href = 'student_profile.html';
+                    } else if (role === 'recruiter') {
+                        window.location.href = 'recruiter_dashboard.html';
+                    } else if (role === 'admin') {
+                        window.location.href = 'admin_dashboard.html';
+                    }
                 } else {
                     const errorText = await response.text();
                     alert("Login failed: " + errorText);
