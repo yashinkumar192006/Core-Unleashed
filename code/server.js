@@ -6,10 +6,13 @@ require('dotenv').config();
 
 const app = express();
 
+const recruiterRouter = require('./recruiter_server');
+
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); // Support for JSON-encoded bodies
 app.use(express.static(__dirname)); // Serve static files like HTML, CSS
+app.use('/', recruiterRouter); // Add recruiter routing
 app.use(session({
     secret: process.env.SESSION_SECRET || 'fallback-secret-key',
     resave: false,
