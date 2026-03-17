@@ -1,24 +1,26 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const { Pool } = require('pg');
+const mysql = require('mysql2');
+require('dotenv').config();
 
-// Database connection
-const pool = new Pool({
-  user: 'your_db_user',
-  host: 'localhost',
-  database: 'your_database',
-  password: 'your_password',
-  port: 5432,
-});
+// MySQL Connection Pool
+const db = mysql.createPool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  waitForConnections: true,
+  connectionLimit: 10
+}).promise();
 
 router.post('/signup/recruiter', async (req, res) => {
   const { company_name, work_email, password, role } = req.body;
 
   try {
     // 1. Check if email already exists
-    const userCheck = await pool.query('SELECT * FROM recruiters WHERE work_email = $1', [work_email]);
-    if (userCheck.rows.length > 0) {
+    const [userCheck] = await db.query('SELECT * FROM recruiters WHERE work_email = ?', [work_email]);
+    if (userCheck.length > 0) {
       return res.status(400).json({ message: "Email already registered." });
     }
 
@@ -26,14 +28,17 @@ router.post('/signup/recruiter', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // 3. Insert into the recruiters table
-    const newUser = await pool.query(
-      'INSERT INTO recruiters (company_name, work_email, password_hash, role) VALUES ($1, $2, $3, $4) RETURNING id, work_email',
+    const [newUser] = await db.query(
+      'INSERT INTO recruiters (company_name, work_email, password_hash, role) VALUES (?, ?, ?, ?)',
       [company_name, work_email, hashedPassword, role || 'Recruiter']
     );
 
     res.status(201).json({
       message: "Recruiter account created successfully",
-      user: newUser.rows[0]
+      user: {
+        id: newUser.insertId,
+        work_email: work_email
+      }
     });
 
   } catch (err) {
