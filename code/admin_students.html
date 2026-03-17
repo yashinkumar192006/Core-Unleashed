@@ -310,6 +310,7 @@
         function submitStudent() {
             const usn = document.getElementById('new-usn').value;
             const name = document.getElementById('new-name').value || 'Unknown Name';
+            const email = document.getElementById('new-email').value;
             const branch = document.getElementById('new-branch').value;
             const password = document.getElementById('new-password').value;
             
@@ -317,6 +318,11 @@
                 alert('Please enter a USN and Password.');
                 return;
             }
+
+            // Save to localStorage so student can login
+            const addedStudents = JSON.parse(localStorage.getItem('addedStudents') || '[]');
+            addedStudents.push({ usn: usn, email: email, password: password, name: name });
+            localStorage.setItem('addedStudents', JSON.stringify(addedStudents));
 
             // In a real app, this sends to the backend. Here we just add to the UI table.
             const tbody = document.getElementById('student-table-body');
