@@ -102,6 +102,18 @@
             const role = document.querySelector('input[name="role"]:checked').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            
+            // Check localStorage for simulated student accounts created by admin
+            if (role === 'student') {
+                const addedStudents = JSON.parse(localStorage.getItem('addedStudents') || '[]');
+                const foundStudent = addedStudents.find(s => (s.usn === email || s.email === email) && s.password === password);
+                if (foundStudent) {
+                    // Successful simulated login
+                    window.location.href = 'student_profile.html';
+                    return;
+                }
+            }
+
             // The password field exists, and email acts as both email/USN based on the backend logic
             // The role is also passed to the backend. The backend expects 'usn' or 'email'. 
             // In login.html, the input is 'email', but it can be a USN or Email. 
