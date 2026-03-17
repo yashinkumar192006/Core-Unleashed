@@ -20,6 +20,34 @@
         .avatar {
             background: #8b5cf6;
         }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-overlay.active { display: flex; animation: fadeIn 0.2s; }
+        .modal-box {
+            background: white;
+            padding: 32px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .modal-header { margin-bottom: 20px; }
+        .modal-header h2 { font-size: 1.25rem; color: var(--text-main); margin-bottom: 8px; }
+        .modal-header p { font-size: 0.9rem; color: var(--text-muted); }
+        .form-group-modal { margin-bottom: 16px; }
+        .form-group-modal label { display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 500; color: var(--text-main); }
+        .form-group-modal input, .form-group-modal select { width: 100%; padding: 10px 14px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.95rem; }
+        .modal-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 
@@ -49,8 +77,8 @@
                 <p>Monitor placement activities and key metrics across the university.</p>
             </div>
             <div class="header-actions">
-                <button class="btn-secondary">Download Reports</button>
-                <button class="btn-primary">
+                <button class="btn-secondary" onclick="downloadReports()">Download Reports</button>
+                <button class="btn-primary" onclick="openCreateEventModal()">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                         stroke-linecap="round" stroke-linejoin="round">
                         <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -247,7 +275,7 @@
                     <h2>Admin Actions</h2>
                 </div>
                 <div class="job-list">
-                    <div class="job-item" style="cursor:pointer;" onclick="location.href='#'">
+                    <div class="job-item" style="cursor:pointer;" onclick="location.href='admin_verify_students.html'">
                         <div class="job-details">
                             <h3>Verify Student Profiles</h3>
                             <div class="job-meta">
@@ -277,7 +305,7 @@
                         </div>
                     </div>
 
-                    <div class="job-item" style="cursor:pointer;" onclick="location.href='#'">
+                    <div class="job-item" style="cursor:pointer;" onclick="location.href='admin_approve_recruiters.html'">
                         <div class="job-details">
                             <h3>Approve Employer Requests</h3>
                             <div class="job-meta">
@@ -296,6 +324,85 @@
         </main>
     </div>
 
+    <!-- Create Event Modal -->
+    <div class="modal-overlay" id="createEventModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2>Create New Event</h2>
+                <p>Schedule a new placement drive, pre-placement talk, or training session.</p>
+            </div>
+            
+            <div class="form-group-modal">
+                <label for="event-title">Event Title</label>
+                <input type="text" id="event-title" placeholder="e.g. Google Campus Drive" required>
+            </div>
+
+            <div class="form-group-modal">
+                <label for="event-type">Event Type</label>
+                <select id="event-type">
+                    <option value="drive">Placement Drive</option>
+                    <option value="talk">Pre-Placement Talk</option>
+                    <option value="training">Training Session</option>
+                </select>
+            </div>
+
+            <div class="form-group-modal">
+                <label for="event-date">Date & Time</label>
+                <input type="datetime-local" id="event-date" required>
+            </div>
+
+            <div class="form-group-modal">
+                <label for="event-branches">Target Branches</label>
+                <input type="text" id="event-branches" placeholder="e.g. CSE, ISE, ECE" required>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="closeCreateEventModal()" style="width: auto;">Cancel</button>
+                <button class="btn-primary" onclick="submitEvent()" style="width: auto;">Create Event</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function downloadReports() {
+            const csvData = "Report Type,Count,Trend\nTotal Students,1248,+98%\nActive Companies,42,+5\nUpcoming Drives,8,Neutral\nStudents Placed,415,+33%";
+            const blob = new Blob([csvData], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'admin_platform_reports.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            alert("Reports downloaded successfully!");
+        }
+
+        function openCreateEventModal() {
+            document.getElementById('createEventModal').classList.add('active');
+        }
+
+        function closeCreateEventModal() {
+            document.getElementById('createEventModal').classList.remove('active');
+            document.getElementById('event-title').value = '';
+            document.getElementById('event-type').value = 'drive';
+            document.getElementById('event-date').value = '';
+            document.getElementById('event-branches').value = '';
+        }
+
+        function submitEvent() {
+            const title = document.getElementById('event-title').value;
+            const date = document.getElementById('event-date').value;
+            
+            if (!title || !date) {
+                alert("Please fill in the event title and date.");
+                return;
+            }
+
+            alert(`Event "${title}" has been successfully created!`);
+            closeCreateEventModal();
+        }
+    </script>
 </body>
 
 </html>

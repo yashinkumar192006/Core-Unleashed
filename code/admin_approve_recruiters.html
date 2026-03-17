@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Approve Employer Requests | Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="recruiter_dashboard.css">
+    <style>
+        /* Admin specific color adjustments */
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --secondary: #f1f5f9;
+            --secondary-hover: #e2e8f0;
+            --bg-main: #f8fafc;
+        }
+
+        .avatar {
+            background: #8b5cf6;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            margin-left: 8px;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .action-cell {
+            display: flex;
+            align-items: center;
+        }
+        
+        .company-logo-placeholder {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header Navigation -->
+    <nav class="navbar">
+        <div class="brand">
+            <img src="logo.png" alt="Placement Logo" style="width: 32px; height: 32px; border-radius: 4px;">
+        </div>
+        <div class="nav-links">
+            <a href="admin_dashboard.html" class="nav-item">Dashboard</a>
+            <a href="admin_students.html" class="nav-item">Students</a>
+            <a href="#" class="nav-item">Companies</a>
+            <a href="#" class="nav-item">Placement Drives</a>
+            <div class="avatar">A</div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Container -->
+    <div class="container">
+
+        <!-- Welcome Header -->
+        <header class="dashboard-header">
+            <div>
+                <h1>Approve Employer Requests</h1>
+                <p>Review and approve new companies requesting access to the campus portal.</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn-secondary" onclick="location.href='admin_dashboard.html'">Back to Dashboard</button>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="content-grid" style="grid-template-columns: 1fr;">
+
+            <section class="section-card">
+                <div class="section-header">
+                    <h2>Pending Approvals (2)</h2>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="text" placeholder="Search companies..." style="padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.9rem;">
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Company</th>
+                                <th>Contact Person</th>
+                                <th>Email/Phone</th>
+                                <th>Industry</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="row-1">
+                                <td>
+                                    <div class="student-info">
+                                        <div class="company-logo-placeholder" style="background:#e11d48;">A</div>
+                                        <div class="student-details-text">
+                                            <span class="student-name">Apex Innovations</span>
+                                            <span class="student-degree">Startup</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>John Anderson</td>
+                                <td>j.anderson@apex.io<br><span style="color:var(--text-muted); font-size: 0.8rem;">+1 (555) 123-4567</span></td>
+                                <td>Software/IT</td>
+                                <td class="action-cell">
+                                    <button class="btn-success" onclick="approveRow('row-1', 'Apex Innovations')">Approve</button>
+                                    <button class="btn-danger" onclick="rejectRow('row-1', 'Apex Innovations')">Reject</button>
+                                </td>
+                            </tr>
+                            <tr id="row-2">
+                                <td>
+                                    <div class="student-info">
+                                        <div class="company-logo-placeholder" style="background:#0284c7;">N</div>
+                                        <div class="student-details-text">
+                                            <span class="student-name">Nexus Global Services</span>
+                                            <span class="student-degree">MNC</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Sarah Williams</td>
+                                <td>hr@nexusglobal.com<br><span style="color:var(--text-muted); font-size: 0.8rem;">+1 (555) 987-6543</span></td>
+                                <td>Consulting</td>
+                                <td class="action-cell">
+                                    <button class="btn-success" onclick="approveRow('row-2', 'Nexus Global Services')">Approve</button>
+                                    <button class="btn-danger" onclick="rejectRow('row-2', 'Nexus Global Services')">Reject</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function approveRow(rowId, companyName) {
+            if (confirm(`Are you sure you want to approve the request for ${companyName}?`)) {
+                const row = document.getElementById(rowId);
+                row.remove();
+                alert(`${companyName} has been approved and granted access.`);
+            }
+        }
+
+        function rejectRow(rowId, companyName) {
+            if (confirm(`Are you sure you want to reject the request for ${companyName}?`)) {
+                const row = document.getElementById(rowId);
+                row.remove();
+                alert(`Request for ${companyName} has been rejected.`);
+            }
+        }
+    </script>
+</body>
+
+</html>

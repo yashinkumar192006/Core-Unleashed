@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Student Profiles | Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="recruiter_dashboard.css">
+    <style>
+        /* Admin specific color adjustments */
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --secondary: #f1f5f9;
+            --secondary-hover: #e2e8f0;
+            --bg-main: #f8fafc;
+        }
+
+        .avatar {
+            background: #8b5cf6;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            margin-left: 8px;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .action-cell {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header Navigation -->
+    <nav class="navbar">
+        <div class="brand">
+            <img src="logo.png" alt="Placement Logo" style="width: 32px; height: 32px; border-radius: 4px;">
+        </div>
+        <div class="nav-links">
+            <a href="admin_dashboard.html" class="nav-item">Dashboard</a>
+            <a href="admin_students.html" class="nav-item">Students</a>
+            <a href="#" class="nav-item">Companies</a>
+            <a href="#" class="nav-item">Placement Drives</a>
+            <div class="avatar">A</div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Container -->
+    <div class="container">
+
+        <!-- Welcome Header -->
+        <header class="dashboard-header">
+            <div>
+                <h1>Verify Student Profiles</h1>
+                <p>Review and approve pending student profiles to grant them access to the portal.</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn-secondary" onclick="location.href='admin_dashboard.html'">Back to Dashboard</button>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="content-grid" style="grid-template-columns: 1fr;">
+
+            <section class="section-card">
+                <div class="section-header">
+                    <h2>Pending Verification (34)</h2>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="text" placeholder="Search by name or USN..." style="padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.9rem;">
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>USN</th>
+                                <th>Student Name</th>
+                                <th>Branch</th>
+                                <th>Email</th>
+                                <th>Date Requested</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="row-1">
+                                <td><strong style="color:var(--text-main);">1RD21CS001</strong></td>
+                                <td>
+                                    <div class="student-info">
+                                        <div class="student-avatar" style="background:#3b82f6;">JD</div>
+                                        <div class="student-details-text">
+                                            <span class="student-name">Jane Doe</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>CSE</td>
+                                <td>jane.doe@university.edu</td>
+                                <td>Today, 10:30 AM</td>
+                                <td class="action-cell">
+                                    <button class="btn-success" onclick="verifyRow('row-1')">Verify</button>
+                                    <button class="btn-danger" onclick="rejectRow('row-1')">Reject</button>
+                                </td>
+                            </tr>
+                            <tr id="row-2">
+                                <td><strong style="color:var(--text-main);">1RD21EC042</strong></td>
+                                <td>
+                                    <div class="student-info">
+                                        <div class="student-avatar" style="background:#f59e0b;">MS</div>
+                                        <div class="student-details-text">
+                                            <span class="student-name">Mark Smith</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>ECE</td>
+                                <td>mark.smith@university.edu</td>
+                                <td>Yesterday, 2:15 PM</td>
+                                <td class="action-cell">
+                                    <button class="btn-success" onclick="verifyRow('row-2')">Verify</button>
+                                    <button class="btn-danger" onclick="rejectRow('row-2')">Reject</button>
+                                </td>
+                            </tr>
+                            <tr id="row-3">
+                                <td><strong style="color:var(--text-main);">1RD21IS010</strong></td>
+                                <td>
+                                    <div class="student-info">
+                                        <div class="student-avatar" style="background:#10b981;">AR</div>
+                                        <div class="student-details-text">
+                                            <span class="student-name">Anita Rao</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>ISE</td>
+                                <td>anita.rao@university.edu</td>
+                                <td>Oct 20, 9:00 AM</td>
+                                <td class="action-cell">
+                                    <button class="btn-success" onclick="verifyRow('row-3')">Verify</button>
+                                    <button class="btn-danger" onclick="rejectRow('row-3')">Reject</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function verifyRow(rowId) {
+            if (confirm("Are you sure you want to verify this student profile?")) {
+                const row = document.getElementById(rowId);
+                row.remove();
+                alert("Student profile verified successfully.");
+            }
+        }
+
+        function rejectRow(rowId) {
+            if (confirm("Are you sure you want to reject this student profile?")) {
+                const row = document.getElementById(rowId);
+                row.remove();
+                alert("Student profile request rejected.");
+            }
+        }
+    </script>
+</body>
+
+</html>
