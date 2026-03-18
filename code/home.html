@@ -5,281 +5,424 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home | Campus Placement Portal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="home.css">
 </head>
 
 <body>
 
-    <div class="app-layout">
-        <!-- Sidebar Navigation -->
-        <aside><a href="home.html" class="brand" title="Placement Portal">
-                <img src="logo.png" alt="Logo" class="brand-img">
-            </a>
+    <!-- Popup Overlay -->
+    <div class="popup-overlay" id="popupOverlay" onclick="closeAllPopups()"></div>
 
-            <nav class="nav-menu">
-                <a href="home.html" class="nav-item active" title="Home">
-                    <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                    </svg>
-                </a>
-
-                <a href="job_explorer.html" class="nav-item" title="Explore / Jobs">
-                    <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <!-- ============================
+         Notification Popup Panel
+         ============================ -->
+    <div class="popup-panel" id="notifPopup">
+        <div class="popup-header">
+            <h3>🔔 Notifications</h3>
+            <button class="popup-close" onclick="closeAllPopups()">×</button>
+        </div>
+        <div class="notification-list">
+            <div class="popup-notif-item unread">
+                <div class="noti-icon bg-blue-light">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10"></circle>
-                        <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+                        <polyline points="12 6 12 12 16 14"></polyline>
                     </svg>
-                </a>
-                <a href="alumni_chat.html" class="nav-item" title="Messages">
-                    <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                </div>
+                <div class="noti-content">
+                    <h4>Google Test Date Announced</h4>
+                    <p>Coding round on Oct 15th at 10:00 AM.</p>
+                    <span class="noti-time">2 hours ago</span>
+                </div>
+                <div class="noti-status"></div>
+            </div>
+            <div class="popup-notif-item unread">
+                <div class="noti-icon bg-purple-light">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="22" y1="2" x2="11" y2="13"></line>
-                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
                     </svg>
-                </a>
-                <a href="notification.html" class="nav-item" title="Notifications">
-                    <div class="nav-icon-wrapper">
-                        <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-                        </svg>
-                        <span class="badge"></span>
-                    </div>
-                </a>
-                <a href="#" class="nav-item" title="Create">
-                    <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                </div>
+                <div class="noti-content">
+                    <h4>Resume Shortlisted by Microsoft</h4>
+                    <p>Your resume is shortlisted for SWE role.</p>
+                    <span class="noti-time">5 hours ago</span>
+                </div>
+                <div class="noti-status"></div>
+            </div>
+            <div class="popup-notif-item">
+                <div class="noti-icon bg-orange-light">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                        <line x1="12" y1="8" x2="12" y2="16"></line>
-                        <line x1="8" y1="12" x2="16" y2="12"></line>
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                     </svg>
-                </a>
-                <a href="student_profile.html" class="nav-item" title="Profile">
-                    <div class="avatar-small">JS</div>
-                </a>
-            </nav>
+                </div>
+                <div class="noti-content">
+                    <h4>Alumni Message — Rahul Verma</h4>
+                    <p>"Focus on DP and Trees..."</p>
+                    <span class="noti-time">Yesterday</span>
+                </div>
+            </div>
+            <div class="popup-notif-item">
+                <div class="noti-icon bg-green-light">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                </div>
+                <div class="noti-content">
+                    <h4>Profile Approved ✓</h4>
+                    <p>Your profile was verified by the placement cell.</p>
+                    <span class="noti-time">2 days ago</span>
+                </div>
+            </div>
+        </div>
+        <a href="notification.html" class="popup-view-all">View All Notifications →</a>
     </div>
 
-    <div class="sidebar-bottom">
-        <a href="#" class="nav-item" title="More">
-            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-        </a>
+    <!-- ============================
+         Create Popup Panel
+         ============================ -->
+    <div class="popup-panel" id="quickPopup" style="width: 300px;">
+        <div class="popup-header">
+            <h3>✨ What to Create?</h3>
+            <button class="popup-close" onclick="closeAllPopups()">×</button>
+        </div>
+        <div style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+            <!-- AI Resume Builder Card -->
+            <a href="ai_resume_builder.html" class="create-card">
+                <div class="create-card-icon" style="background: linear-gradient(135deg,#1a73e8,#60a5fa);">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                    </svg>
+                </div>
+                <div class="create-card-text">
+                    <strong>AI Resume Builder</strong>
+                    <span>Build a smart resume with AI</span>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted); flex-shrink:0;">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </a>
+            <!-- Project Showcase Card -->
+            <a href="project_upload.html" class="create-card">
+                <div class="create-card-icon" style="background: linear-gradient(135deg,#8b5cf6,#a78bfa);">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                    </svg>
+                </div>
+                <div class="create-card-text">
+                    <strong>Project Showcase</strong>
+                    <span>Upload and share your projects</span>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted); flex-shrink:0;">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </a>
+        </div>
     </div>
-    </aside>
 
-    <!-- Main Content area -->
-    <main class="main-content">
-        <div class="container">
+    <div class="app-layout">
+        <!-- ============================
+             Left Sidebar
+             ============================ -->
+        <aside class="sidebar">
+            <div class="sidebar-top">
+                <a href="home.html" class="brand" title="Placement Portal">
+                    <img src="logo.png" alt="Logo" class="brand-img">
+                </a>
 
-            <!-- Page Header -->
-            <div class="page-header">
-                <div>
-                    <h1>
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <nav class="nav-menu">
+                    <!-- Home -->
+                    <a href="home.html" class="nav-item active" title="Home">
+                        <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                             <polyline points="9 22 9 12 15 12 15 22"></polyline>
                         </svg>
-                        Welcome Home
-                    </h1>
-                    <p>Stay updated with the latest placement activities and notifications.</p>
-                </div>
-                <a href="home.html" class="btn-primary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </a>
+
+                    <!-- Explore / Jobs -->
+                    <a href="job_explorer.html" class="nav-item" title="Explore / Jobs">
+                        <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+                        </svg>
+                    </a>
+
+                    <!-- Create — popup trigger -->
+                    <button class="nav-item" title="Create" onclick="togglePopup('quickPopup', event)">
+                        <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="12" y1="8" x2="12" y2="16"></line>
+                            <line x1="8" y1="12" x2="16" y2="12"></line>
+                        </svg>
+                    </button>
+
+                    <!-- Notifications — popup trigger -->
+                    <button class="nav-item" title="Notifications" onclick="togglePopup('notifPopup', event)">
+                        <div class="nav-icon-wrapper">
+                            <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                            </svg>
+                            <span class="badge" id="notifBadge"></span>
+                        </div>
+                    </button>
+
+                    <!-- Alumni Chat -->
+                    <a href="alumni_chat.html" class="nav-item" title="Alumni Chat">
+                        <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                    </a>
+                </nav>
+            </div>
+
+            <div class="sidebar-bottom">
+                <a href="#" class="nav-item" title="Settings">
+                    <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                     </svg>
-                    Home
                 </a>
             </div>
+        </aside>
 
-            <!-- Main Content Grid -->
-            <div class="dashboard-grid">
-                <!-- Left Column: Notifications & Activity -->
-                <div class="col-main">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>Recent Notifications</h2>
-                            <a href="#" class="view-all">Mark all as read</a>
+
+        <main class="main-content">
+            <!-- Top Bar — same height(72px) and color as sidebar -->
+            <header class="top-bar">
+                <div class="top-bar-left">
+                    <h2>Dashboard</h2>
+                </div>
+                <div class="top-bar-right">
+                    <span style="font-size: 0.88rem; color: var(--text-muted);">Welcome back,</span>
+                    <span style="font-weight: 700; color: var(--text-main); font-size: 0.9rem;">John Smith</span>
+                    <div class="avatar-small">JS</div>
+                </div>
+            </header>
+
+            <div class="container">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div>
+                        <h1>Welcome back, John! 👋</h1>
+                        <p>Here's what's happening with your placements today.</p>
+                    </div>
+                </div>
+
+                <!-- Statistics Overview Grid -->
+                <div class="overview-grid">
+                    <!-- Card 1: Dark Navy -->
+                    <div class="stat-card card-navy">
+                        <div class="stat-card-top">
+                            <div class="stat-info">
+                                <p>TOTAL APPLICATIONS</p>
+                                <h3>12</h3>
+                            </div>
                         </div>
-                        <div class="notification-list">
-                            <!-- Notification Item -->
-                            <div class="notification-item unread">
-                                <div class="noti-icon bg-blue-light">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <circle cx="12" cy="12" r="10"></circle>
-                                        <polyline points="12 6 12 12 16 14"></polyline>
-                                    </svg>
-                                </div>
-                                <div class="noti-content">
-                                    <h4>Google Preliminary Test Date Announced</h4>
-                                    <p>The coding round is scheduled for Oct 15th at 10:00 AM.</p>
-                                    <span class="noti-time">2 hours ago</span>
-                                </div>
-                                <div class="noti-status"></div>
+                    </div>
+                    <!-- Card 2: Medium Blue -->
+                    <div class="stat-card card-blue">
+                        <div class="stat-card-top">
+                            <div class="stat-info">
+                                <p>SHORTLISTED</p>
+                                <h3>5</h3>
                             </div>
-
-                            <!-- Notification Item -->
-                            <div class="notification-item unread">
-                                <div class="noti-icon bg-purple-light">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                        <polyline points="14 2 14 8 20 8"></polyline>
-                                        <line x1="16" y1="13" x2="8" y2="13"></line>
-                                        <line x1="16" y1="17" x2="8" y2="17"></line>
-                                        <polyline points="10 9 9 9 8 9"></polyline>
-                                    </svg>
-                                </div>
-                                <div class="noti-content">
-                                    <h4>Resume Shortlisted by Microsoft</h4>
-                                    <p>Congratulations! Your resume has been shortlisted for the SWE role.</p>
-                                    <span class="noti-time">5 hours ago</span>
-                                </div>
-                                <div class="noti-status"></div>
+                            <div class="stat-icon">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                </svg>
                             </div>
-
-                            <!-- Notification Item -->
-                            <div class="notification-item">
-                                <div class="noti-icon bg-orange-light">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                                    </svg>
-                                </div>
-                                <div class="noti-content">
-                                    <h4>New message from Alumni (Rahul Verma)</h4>
-                                    <p>"Focus heavily on DP and Trees in your rounds..."</p>
-                                    <span class="noti-time">Yesterday</span>
-                                </div>
+                        </div>
+                    </div>
+                    <!-- Card 3: Sky Blue -->
+                    <div class="stat-card card-sky">
+                        <div class="stat-card-top">
+                            <div class="stat-info">
+                                <p>UPCOMING DRIVES</p>
+                                <h3>8</h3>
                             </div>
-
-                            <!-- Notification Item -->
-                            <div class="notification-item">
-                                <div class="noti-icon bg-green-light">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                                    </svg>
-                                </div>
-                                <div class="noti-content">
-                                    <h4>Profile Approved</h4>
-                                    <p>Your student profile has been verified by the placement cell.</p>
-                                    <span class="noti-time">2 days ago</span>
-                                </div>
+                            <div class="stat-icon">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="9" cy="7" r="4"></circle>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card 4: Pale Blue -->
+                    <div class="stat-card card-pale">
+                        <div class="stat-card-top">
+                            <div class="stat-info">
+                                <p>PROFILE STRENGTH</p>
+                                <h3>85%</h3>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Right Column: Sidebar content -->
-                <div class="col-sidebar">
-                    <!-- Upcoming Drives -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>Upcoming Drives</h2>
-                            <a href="#" class="view-all">View All</a>
-                        </div>
-                        <div class="drives-list">
-                            <div class="drive-item">
-                                <div class="drive-date">
-                                    <span>OCT</span>
-                                    <strong>12</strong>
+                <!-- Main Content Grid -->
+                <div class="dashboard-grid">
+                    <!-- Left: Notifications -->
+                    <div class="col-main">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>Recent Notifications</h2>
+                                <a href="notification.html" class="view-all">Mark all as read</a>
+                            </div>
+                            <div class="notification-list">
+                                <div class="notification-item unread">
+                                    <div class="noti-icon bg-blue-light">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polyline points="12 6 12 12 16 14"></polyline>
+                                        </svg>
+                                    </div>
+                                    <div class="noti-content">
+                                        <h4>Google Preliminary Test Date Announced</h4>
+                                        <p>The coding round is scheduled for Oct 15th at 10:00 AM.</p>
+                                        <span class="noti-time">2 hours ago</span>
+                                    </div>
+                                    <div class="noti-status"></div>
                                 </div>
-                                <div class="drive-info">
-                                    <h4>Amazon Pre-Placement Talk</h4>
-                                    <p>10:00 AM • Main Auditorium</p>
+                                <div class="notification-item unread">
+                                    <div class="noti-icon bg-purple-light">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                            <polyline points="14 2 14 8 20 8"></polyline>
+                                        </svg>
+                                    </div>
+                                    <div class="noti-content">
+                                        <h4>Resume Shortlisted by Microsoft</h4>
+                                        <p>Congratulations! Your resume has been shortlisted for the SWE role.</p>
+                                        <span class="noti-time">5 hours ago</span>
+                                    </div>
+                                    <div class="noti-status"></div>
+                                </div>
+                                <div class="notification-item">
+                                    <div class="noti-icon bg-orange-light">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="noti-content">
+                                        <h4>New message from Alumni (Rahul Verma)</h4>
+                                        <p>"Focus heavily on DP and Trees in your rounds..."</p>
+                                        <span class="noti-time">Yesterday</span>
+                                    </div>
+                                </div>
+                                <div class="notification-item">
+                                    <div class="noti-icon bg-green-light">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                        </svg>
+                                    </div>
+                                    <div class="noti-content">
+                                        <h4>Profile Approved</h4>
+                                        <p>Your student profile has been verified by the placement cell.</p>
+                                        <span class="noti-time">2 days ago</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="drive-item">
-                                <div class="drive-date highlight">
-                                    <span>OCT</span>
-                                    <strong>15</strong>
-                                </div>
-                                <div class="drive-info">
-                                    <h4>Google Online Assessment</h4>
-                                    <p>10:00 AM • Online Platform</p>
-                                </div>
-                            </div>
                         </div>
-                        <button class="btn-outline mt-4" style="width: 100%;">View Full Calendar</button>
                     </div>
 
-                    <!-- Quick Actions -->
-                    <div class="card mt-4">
-                        <div class="card-header">
-                            <h2>Quick Links</h2>
-                        </div>
-                        <ul class="quick-links">
-                            <li>
-                                <a href="#">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                        <polyline points="14 2 14 8 20 8"></polyline>
-                                        <line x1="16" y1="13" x2="8" y2="13"></line>
-                                        <line x1="16" y1="17" x2="8" y2="17"></line>
-                                        <polyline points="10 9 9 9 8 9"></polyline>
-                                    </svg>
-                                    AI Resume Builder
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path
-                                            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
-                                        </path>
-                                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                                    </svg>
-                                    Project Showcase
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                        <circle cx="9" cy="7" r="4"></circle>
-                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                                    </svg>
-                                    Connect with Alumni
-                                </a>
-                            </li>
-                        </ul>
+                    <!-- Right: Drives + Quick Links -->
+                    <div class="col-sidebar">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2>Upcoming Drives</h2>
+                                <a href="#" class="view-all">View All</a>
+                            </div>
+                            <div class="drives-list">
+                                <div class="drive-item">
+                                    <div class="drive-date">
+                                        <span>OCT</span>
+                                        <strong>12</strong>
+                                    </div>
+                                    <div class="drive-info">
+                                        <h4>Amazon Pre-Placement Talk</h4>
+                                        <p>10:00 AM • Main Auditorium</p>
+                                    </div>
+                                </div>
+                                <div class="drive-item">
+                                    <div class="drive-date highlight">
+                                        <span>OCT</span>
+                                        <strong>15</strong>
+                                    </div>
+                                    <div class="drive-info">
+                                        <h4>Google Online Assessment</h4>
+                                        <p>10:00 AM • Online Platform</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="padding: 1rem 1.5rem;">
+                                <button class="btn-outline" style="width: 100%;">View Full Calendar</button>
+                            </div>
                     </div>
                 </div>
-            </div>
-    </main>
-    </div>
+            </div> <!-- end .container -->
+        </main>
+    </div> <!-- end .app-layout -->
 
     <script>
-        // Simple script to toggle notification unread status
-        document.querySelectorAll('.notification-item').forEach(item => {
+        function togglePopup(id, event) {
+            event.stopPropagation();
+            const panel = document.getElementById(id);
+            const overlay = document.getElementById('popupOverlay');
+            const isActive = panel.classList.contains('active');
+
+            // Close all first
+            closeAllPopups();
+
+            if (!isActive) {
+                panel.classList.add('active');
+                overlay.classList.add('active');
+            }
+        }
+
+        function closeAllPopups() {
+            document.querySelectorAll('.popup-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('popupOverlay').classList.remove('active');
+        }
+
+        // Mark notifications as read on click
+        document.querySelectorAll('.notification-item, .popup-notif-item').forEach(item => {
             item.addEventListener('click', function () {
-                if (this.classList.contains('unread')) {
-                    this.classList.remove('unread');
-                    // Hide dot if there are no more unread items
-                    if (document.querySelectorAll('.notification-item.unread').length === 0) {
-                        const badge = document.querySelector('.badge');
-                        if (badge) badge.style.display = 'none';
-                    }
-                }
+                this.classList.remove('unread');
+                const unreadCount = document.querySelectorAll('.popup-notif-item.unread, .notification-item.unread').length;
+                const badge = document.getElementById('notifBadge');
+                if (badge) badge.style.display = unreadCount === 0 ? 'none' : '';
             });
         });
     </script>

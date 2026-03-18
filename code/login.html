@@ -121,17 +121,26 @@
             // We can send the same value for both or rely on the backend checking both.
 
             try {
-                const response = await fetch('/login', {
+                let endpoint = '';
+                let requestBody = {};
+
+                if (role === 'student') {
+                    endpoint = '/login/student';
+                    requestBody = { identifier: email, password: password };
+                } else if (role === 'recruiter') {
+                    endpoint = '/login/recruiter';
+                    requestBody = { work_email: email, password: password };
+                } else if (role === 'admin') {
+                    endpoint = '/login/admin';
+                    requestBody = { identifier: email, password: password };
+                }
+
+                const response = await fetch(endpoint, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({
-                        role: role,
-                        email: email,
-                        usn: email, // Backend checks WHERE email = ? AND university_id = ? (actually, in server.js it expects both to match. Let's fix server.js later if needed, but we'll send it)
-                        password: password
-                    })
+                    body: JSON.stringify(requestBody)
                 });
 
                 if (response.ok) {

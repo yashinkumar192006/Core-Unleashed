@@ -121,4 +121,44 @@ router.post('/login/recruiter', async (req, res) => {
   }
 });
 
+router.post('/login/student', async (req, res) => {
+  const { identifier, password } = req.body; // 'identifier' is the ID or Email from UI
+
+  try {
+    // 1. Query the student_login table
+    // We check both the email and university_id columns
+    const [rows] = await db.query(
+      'SELECT * FROM student_login WHERE email = ? OR university_id = ?',
+      [identifier, identifier]
+    );
+
+    if (rows.length === 0) {
+      return res.status(401).json({ message: "Student record not found" });
+    }
+
+    const student = rows[0];
+
+    // 2. Compare the password provided with the hash created by the Admin
+    const isMatch = await bcrypt.compare(password, student.password_hash);
+
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid password" });
+    }
+
+    // 3. Success
+    res.status(200).json({
+      message: "Login successful",
+      student: {
+        id: student.id,
+        university_id: student.university_id,
+        email: student.email
+      }
+    });
+
+  } catch (error) {
+    console.error("Student Login Error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 module.exports = router;
