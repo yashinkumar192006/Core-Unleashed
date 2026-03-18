@@ -7,7 +7,7 @@
     --primary-hover: #1d4ed8;
     --border-color: #e2e8f0;
     --input-bg: #f8fafc;
-    --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+    --shadow: 0 12px 30px rgba(37, 99, 235, 0.2);
     --focus-ring: rgba(37, 99, 235, 0.2);
 }
 
@@ -19,44 +19,30 @@
 }
 
 body {
-    background-color: var(--bg-color);
-    background-image: url('login_bg.png');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    position: relative;
+    background-color: #ffffff;
     color: var(--text-main);
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
-    z-index: 1;
-}
-
-body::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* Super light neon blue tint with strong blur */
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(186, 230, 253, 0.6) 100%);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    z-index: -1;
+    padding: 40px 20px;
 }
 
 .login-wrapper {
     display: flex;
     background-color: var(--card-bg);
-    border-radius: 16px;
-    box-shadow: 0 10px 40px -10px rgba(37, 99, 235, 0.4);
+    border-radius: 20px;
+    box-shadow: 0 16px 40px rgba(37, 99, 235, 0.12), 0 8px 16px rgba(37, 99, 235, 0.08); /* Soft blue focal shadow */
     overflow: hidden;
     width: 100%;
     max-width: 900px;
     min-height: 550px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.login-wrapper:hover {
+    box-shadow: 0 24px 60px rgba(37, 99, 235, 0.18), 0 12px 24px rgba(37, 99, 235, 0.12);
+    transform: translateY(-2px);
 }
 
 .login-info-section {
@@ -81,7 +67,7 @@ body::before {
 }
 
 .brand-logo img {
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+    box-shadow: 0 4px 20px rgba(37, 99, 235, 0.25);
 }
 
 .brand-name {
@@ -177,13 +163,14 @@ body::before {
     background-color: var(--input-bg);
     font-size: 1rem;
     color: var(--text-main);
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.08); /* New elevated look */
     transition: all 0.2s ease;
 }
 
 .form-control:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 4px var(--focus-ring);
+    box-shadow: 0 0 0 4px var(--focus-ring), 0 6px 15px rgba(37, 99, 235, 0.15); /* Stronger blue shadow on focus */
     background-color: #ffffff;
 }
 
@@ -212,13 +199,20 @@ body::before {
     cursor: pointer;
     font-size: 0.875rem;
     font-weight: 500;
+    box-shadow: 0 3px 8px rgba(37, 99, 235, 0.08);
     transition: all 0.2s ease;
+}
+
+.role-btn:hover {
+    box-shadow: 0 5px 12px rgba(37, 99, 235, 0.18);
+    transform: translateY(-1px);
 }
 
 .role-option input[type="radio"]:checked+.role-btn {
     background-color: var(--primary);
     color: white;
     border-color: var(--primary);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35); /* Increased active shadow */
 }
 
 .form-options {
@@ -250,22 +244,26 @@ body::before {
 .btn-submit {
     width: 100%;
     padding: 14px;
-    background-color: var(--primary);
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 12px;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-submit:hover {
-    background-color: var(--primary-hover);
+    background: linear-gradient(135deg, #60a5fa, #3b82f6);
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35);
+    transform: translateY(-2px);
 }
 
 .btn-submit:active {
-    transform: scale(0.98);
+    transform: scale(0.96) translateY(0);
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
 }
 
 .sign-up-link {
