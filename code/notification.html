@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications | Campus Placement Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="notification.css">
+</head>
+
+<body>
+
+    <!-- Create Popup Panel -->
+    <div class="popup-panel" id="quickPopup" style="width:300px;">
+        <div class="popup-header">
+            <h3>✨ What to Create?</h3>
+            <button class="popup-close" onclick="closeAllPopups()">×</button>
+        </div>
+        <div style="padding:16px;display:flex;flex-direction:column;gap:12px;">
+            <a href="ai_resume_builder.html" class="create-card">
+                <div class="create-card-icon" style="background:linear-gradient(135deg,#1a73e8,#60a5fa);">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                    </svg>
+                </div>
+                <div class="create-card-text"><strong>AI Resume Builder</strong><span>Build a smart resume with AI</span></div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted);flex-shrink:0;"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+            <a href="project_upload.html" class="create-card">
+                <div class="create-card-icon" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa);">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    </svg>
+                </div>
+                <div class="create-card-text"><strong>Project Showcase</strong><span>Upload and share your projects</span></div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted);flex-shrink:0;"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </a>
+        </div>
+    </div>
+    <div class="popup-overlay" id="popupOverlay" onclick="closeAllPopups()"></div>
+
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-top">
+                <a href="home.html" class="brand" title="Placement Portal">
+                    <img src="logo.png" alt="Logo" class="brand-img">
+                </a>
+                <nav class="nav-menu">
+                    <!-- Home -->
+                    <a href="home.html" class="nav-item" title="Home">
+                        <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                    </a>
+                    <!-- Explore / Jobs -->
+                    <a href="job_explorer.html" class="nav-item" title="Explore / Jobs">
+                        <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+                        </svg>
+                    </a>
+                    <!-- Create — popup trigger -->
+                    <button class="nav-item" title="Create" onclick="togglePopup('quickPopup', event)">
+                        <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="12" y1="8" x2="12" y2="16"></line>
+                            <line x1="8" y1="12" x2="16" y2="12"></line>
+                        </svg>
+                    </button>
+                    <!-- Notifications — active on this page -->
+                    <a href="notification.html" class="nav-item active" title="Notifications">
+                        <div class="nav-icon-wrapper">
+                            <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                            </svg>
+                        </div>
+                    </a>
+                    <!-- Alumni Chat -->
+                    <a href="alumni_chat.html" class="nav-item" title="Alumni Chat">
+                        <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                    </a>
+                </nav>
+            </div>
+            <div class="sidebar-bottom">
+                <a href="#" class="nav-item" title="Settings">
+                    <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content area -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="top-bar-left">
+                    <h2>Notifications</h2>
+                </div>
+                <div class="top-bar-right">
+                    <span style="font-weight:700;color:var(--text-main);font-size:0.9rem;">John Smith</span>
+                    <div class="avatar-small">JS</div>
+                </div>
+            </header>
+            <div class="container">
+
+            <!-- Page Header -->
+            <div class="notif-page-header">
+                <h1>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                    Notifications
+                </h1>
+                <div class="header-actions">
+                    <button class="btn-ghost" id="markAllRead" title="Mark all as read">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        Mark all read
+                    </button>
+                    <button class="btn-ghost" id="toggleOnlyUnread" title="Show only unread">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                        </svg>
+                        Unread Only
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="notif-filters">
+                <button class="filter-tab active" data-filter="all">All <span class="count-badge" id="countAll">12</span></button>
+                <button class="filter-tab" data-filter="placement">Placement <span class="count-badge" id="countPlacement">4</span></button>
+                <button class="filter-tab" data-filter="resume">Resume <span class="count-badge" id="countResume">2</span></button>
+                <button class="filter-tab" data-filter="event">Events <span class="count-badge" id="countEvent">3</span></button>
+                <button class="filter-tab" data-filter="alumni">Alumni <span class="count-badge" id="countAlumni">2</span></button>
+                <button class="filter-tab" data-filter="profile">Profile <span class="count-badge" id="countProfile">1</span></button>
+            </div>
+
+            <!-- Today's Notifications -->
+            <div class="date-group" data-date="today">
+                <div class="date-label">Today</div>
+                <div class="notif-card">
+
+                    <!-- 1. Unread: Google test date -->
+                    <div class="notif-item unread" data-id="page-notif-1" data-type="placement">
+                        <div class="notif-icon type-info">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </div>
+                        <div class="notif-body">
+                            <div class="notif-title">Google Preliminary Test Date Announced</div>
+                            <div class="notif-desc">The coding round is scheduled for Oct 15th at 10:00 AM. Make sure to complete your registration before the deadline.</div>
+                            <div class="notif-meta">
+                                <span class="notif-time">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    2 hours ago
+                                </span>
+                                <span class="notif-tag tag-placement">Placement</span>
+                            </div>
+                            <a href="#" class="notif-cta">View Details →</a>
+                        </div>
+                        <div class="notif-actions">
+                            <span class="unread-dot"></span>
+                            <button class="notif-action-btn" title="Dismiss">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 2. Unread: Microsoft resume shortlisted -->
+                    <div class="notif-item unread" data-id="page-notif-2" data-type="resume">
+                        <div class="notif-icon type-success">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                            </svg>
+                        </div>
+                        <div class="notif-body">
+                            <div class="notif-title">Resume Shortlisted by Microsoft</div>
+                            <div class="notif-desc">Congratulations! Your resume has been shortlisted for the Software Engineer role. Next round: Technical Interview.</div>
+                            <div class="notif-meta">
+                                <span class="notif-time">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    5 hours ago
+                                </span>
+                                <span class="notif-tag tag-resume">Resume</span>
+                            </div>
+                            <a href="#" class="notif-cta">Prepare Now →</a>
+                        </div>
+                        <div class="notif-actions">
+                            <span class="unread-dot"></span>
+                            <button class="notif-action-btn" title="Dismiss">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 3. Unread: Upcoming PPT Reminder -->
+                    <div class="notif-item unread" data-id="page-notif-3" data-type="event">
+                        <div class="notif-icon type-event">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                        </div>
+                        <div class="notif-body">
+                            <div class="notif-title">Amazon Pre-Placement Talk Tomorrow</div>
+                            <div class="notif-desc">Reminder: Amazon PPT is scheduled for tomorrow at 10:00 AM in the Main Auditorium. Don't forget to attend!</div>
+                            <div class="notif-meta">
+                                <span class="notif-time">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    6 hours ago
+                                </span>
+                                <span class="notif-tag tag-event">Event</span>
+                            </div>
+                        </div>
+                        <div class="notif-actions">
+                            <span class="unread-dot"></span>
+                            <button class="notif-action-btn" title="Dismiss">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 4. Read: New placement opportunity -->
+                    <div class="notif-item" data-id="page-notif-4" data-type="placement">
+                        <div class="notif-icon type-info">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                            </svg>
+                        </div>
+                        <div class="notif-body">
+                            <div class="notif-title">Flipkart Hiring for SDE-1</div>
+                            <div class="notif-desc">Flipkart has opened applications for SDE-1 with a CTC of 24 LPA. Eligible: CSE, IT branches with 7+ CGPA.</div>
+                            <div class="notif-meta">
+                                <span class="notif-time">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    8 hours ago
+                                </span>
+                                <span class="notif-tag tag-placement">Placement</span>
+                            </div>
+                            <a href="#" class="notif-cta">Apply Now →</a>
+                        </div>
+                        <div class="notif-actions">
+                            <button class="notif-action-btn" title="Dismiss">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Yesterday's Notifications -->
+            <div class="date-group" data-date="yesterday">
+                <div class="date-label">Yesterday</div>
+                <div class="notif-card">
+
+                    <!-- 5. Read: Alumni message -->
+                    <div class="notif-item" data-id="page-notif-5" data-type="alumni">
+                        <div class="notif-icon type-message">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                        </div>
+                        <div class="notif-body">
+                            <div class="notif-title">New message from Alumni — Rahul Verma (Google SWE)</div>
+                            <div class="notif-desc">"Focus heavily on Dynamic Programming and Trees for your interview rounds. I'd recommend doing at least 50 problems on each..."</div>
+                            <div class="notif-meta">
+                                <span class="notif-time">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    Yesterday, 4:30 PM
+                                </span>
+                                <span class="notif-tag tag-alumni">Alumni</span>
+                            </div>
+                            <a href="alumni_chat.html" class="notif-cta">Reply →</a>
+                        </div>
+                        <div class="notif-actions">
+                            <button class="notif-action-btn" title="Dismiss">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 6. Read: Deadline reminder -->
+                    <div class="notif-item" data-id="page-notif-6" data-type="placement">
+                        <div class="notif-icon type-alert">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                                <line x1="12" y1="9" x2="12" y2="13"></line>
+                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                            </svg>
+                        </div>
+                        <div class="notif-body">
+                            <div class="notif-title">Application Deadline: Infosys Power Programmer</div>
+                            <div class="notif-desc">Last date to apply is Oct 10th. Only 2 days remaining! Complete your application now.</div>
+                            <div class="notif-meta">
+                                <span class="notif-time">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    Yesterday, 11:00 AM
+                                </span>
+                                <span class="notif-tag tag-deadline">Deadline</span>
+                            </div>
+                            <a href="#" class="notif-cta">Apply Now →</a>
+                        </div>
+                        <div class="notif-actions">
+                            <button class="notif-action-btn" title="Dismiss">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 7. Read: Workshop event -->
+                    <div class="notif-item" data-id="page-notif-7" data-type="event">
+                        <div class="notif-icon type-event">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                        </div>
+                        <div class="notif-body">
+                            <div class="notif-title">Mock Interview Workshop Registrations Open</div>
+                            <div class="notif-desc">Join the placement cell's mock interview workshop to practice with industry professionals. Limited seats available.</div>
+                            <div class="notif-meta">
+                                <span class="notif-time">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    Yesterday, 9:00 AM
+                                </span>
+                                <span class="notif-tag tag-event">Event</span>
+                            </div>
+                            <a href="#" class="notif-cta">Register →</a>
+                        </div>
+                        <div class="notif-actions">
+                            <button class="notif-action-btn" title="Dismiss">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Earlier Notifications -->
+            <div class="date-group" data-date="earlier">
+                <div class="date-label">Earlier This Week</div>
+                <div class="notif-card">
+
+                    <!-- 8. Read: Profile Approved -->
+                    <div class="notif-item" data-id="page-notif-8" data-type="profile">
+                        <div class="notif-icon type-success">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                        </div>
+                        <div class="notif-body">
+                            <div class="notif-title">Profile Approved by Placement Cell</div>
+                            <div class="notif-desc">Your student profile has been verified and approved. You are now eligible for all upcoming placement drives.</div>
+                            <div class="notif-meta">
+                                <span class="notif-time">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    2 days ago
+                                </span>
+                                <span class="notif-tag tag-profile">Profile</span>
+                            </div>
+                        </div>
+                        <div class="notif-actions">
+                            <button class="notif-action-btn" title="Dismiss">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 9. Read: Resume reviewed -->
+                    <div class="notif-item" data-id="page-notif-9" data-type="resume">
+                        <div class="notif-icon type-info">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                            </svg>
+                        </div>
+                        <div class="notif-body">
+                            <div class="notif-title">AI Resume Review Complete</div>
+                            <div class="notif-desc">Your resume scored 82/100. Suggestions: Add more quantifiable achievements to your project section.</div>
+                            <div class="notif-meta">
+                                <span class="notif-time">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    3 days ago
+                                </span>
+                                <span class="notif-tag tag-resume">Resume</span>
+                            </div>
+                            <a href="#" class="notif-cta">View Report →</a>
+                        </div>
+                        <div class="notif-actions">
+                            <button class="notif-action-btn" title="Dismiss">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 10. Read: Alumni connection -->
+                    <div class="notif-item" data-id="page-notif-10" data-type="alumni">
+                        <div class="notif-icon type-message">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="8.5" cy="7" r="4"></circle>
+                                <line x1="20" y1="8" x2="20" y2="14"></line>
+                                <line x1="23" y1="11" x2="17" y2="11"></line>
+                            </svg>
+                        </div>
+                        <div class="notif-body">
+                            <div class="notif-title">Priya Sharma (Amazon SDE-2) accepted your connect request</div>
+                            <div class="notif-desc">You can now message Priya directly for interview tips and career guidance.</div>
+                            <div class="notif-meta">
+                                <span class="notif-time">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    4 days ago
+                                </span>
+                                <span class="notif-tag tag-alumni">Alumni</span>
+                            </div>
+                            <a href="alumni_chat.html" class="notif-cta">Send Message →</a>
+                        </div>
+                        <div class="notif-actions">
+                            <button class="notif-action-btn" title="Dismiss">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 11. Read: New company on portal -->
+                    <div class="notif-item" data-id="page-notif-11" data-type="placement">
+                        <div class="notif-icon type-info">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="12"></line>
+                                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                            </svg>
+                        </div>
+                        <div class="notif-body">
+                            <div class="notif-title">Adobe has been added to the placement calendar</div>
+                            <div class="notif-desc">Adobe will visit campus on Oct 22nd for hiring UX Designers and Software Engineers.</div>
+                            <div class="notif-meta">
+                                <span class="notif-time">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    5 days ago
+                                </span>
+                                <span class="notif-tag tag-placement">Placement</span>
+                            </div>
+                        </div>
+                        <div class="notif-actions">
+                            <button class="notif-action-btn" title="Dismiss">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 12. Read: Event completed -->
+                    <div class="notif-item" data-id="page-notif-12" data-type="event">
+                        <div class="notif-icon type-success">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                        </div>
+                        <div class="notif-body">
+                            <div class="notif-title">QR Attendance Marked: Aptitude Workshop</div>
+                            <div class="notif-desc">Your attendance for the Aptitude Workshop on Oct 5th has been successfully recorded via QR scan.</div>
+                            <div class="notif-meta">
+                                <span class="notif-time">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    5 days ago
+                                </span>
+                                <span class="notif-tag tag-event">Event</span>
+                            </div>
+                        </div>
+                        <div class="notif-actions">
+                            <button class="notif-action-btn" title="Dismiss">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- end .container -->
+        </main>
+    </div> <!-- end .app-layout -->
+
+    <script>
+        // Persistence for Notifications
+        let readNotifs = JSON.parse(localStorage.getItem('readNotifications') || '[]');
+
+        function saveReadStatus(id) {
+            if (!readNotifs.includes(id)) {
+                readNotifs.push(id);
+                localStorage.setItem('readNotifications', JSON.stringify(readNotifs));
+            }
+        }
+
+        function applyReadStatus() {
+            document.querySelectorAll('.notif-item').forEach(item => {
+                const id = item.getAttribute('data-id');
+                if (readNotifs.includes(id)) {
+                    item.classList.remove('unread');
+                    const dot = item.querySelector('.unread-dot');
+                    if (dot) dot.style.display = 'none';
+                }
+            });
+            updateSidebarBadge();
+        }
+
+        function updateSidebarBadge() {
+            const unreadCount = document.querySelectorAll('.notif-item.unread').length;
+            const badge = document.querySelector('.badge');
+            if (badge) {
+                badge.style.display = unreadCount === 0 ? 'none' : 'block';
+                badge.textContent = unreadCount > 0 ? unreadCount : '';
+            }
+        }
+
+        // --- Filter Tabs ---
+        const filterTabs = document.querySelectorAll('.filter-tab');
+        const allNotifItems = document.querySelectorAll('.notif-item');
+        const dateGroups = document.querySelectorAll('.date-group');
+
+        filterTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                filterTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                const filter = tab.dataset.filter;
+
+                allNotifItems.forEach(item => {
+                    if (filter === 'all' || item.dataset.type === filter) {
+                        item.style.display = 'flex';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                // Hide empty date groups
+                dateGroups.forEach(group => {
+                    const visibleItems = group.querySelectorAll('.notif-item[style*="display: flex"], .notif-item:not([style])');
+                    let hasVisible = false;
+                    visibleItems.forEach(item => {
+                        if (item.style.display !== 'none') hasVisible = true;
+                    });
+                    // recheck precisely
+                    const items = group.querySelectorAll('.notif-item');
+                    hasVisible = false;
+                    items.forEach(item => {
+                        if (item.style.display !== 'none') hasVisible = true;
+                    });
+                    group.style.display = hasVisible ? 'block' : 'none';
+                });
+            });
+        });
+
+        // --- Mark All Read ---
+        document.getElementById('markAllRead').addEventListener('click', () => {
+            document.querySelectorAll('.notif-item.unread').forEach(item => {
+                const id = item.getAttribute('data-id');
+                item.classList.remove('unread');
+                saveReadStatus(id);
+            });
+            document.querySelectorAll('.unread-dot').forEach(dot => {
+                dot.style.display = 'none';
+            });
+            applyReadStatus();
+        });
+
+        // --- Click to mark individual as read ---
+        allNotifItems.forEach(item => {
+            item.addEventListener('click', function () {
+                if (this.classList.contains('unread')) {
+                    const id = this.getAttribute('data-id');
+                    this.classList.remove('unread');
+                    const dot = this.querySelector('.unread-dot');
+                    if (dot) dot.style.display = 'none';
+                    saveReadStatus(id);
+                    applyReadStatus();
+                }
+            });
+        });
+
+        // Initialize
+        applyReadStatus();
+
+        // --- Dismiss notification ---
+        document.querySelectorAll('.notif-action-btn').forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                const item = this.closest('.notif-item');
+                item.style.transition = 'opacity 0.3s ease, transform 0.3s ease, max-height 0.3s ease';
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(30px)';
+                setTimeout(() => {
+                    item.style.maxHeight = '0';
+                    item.style.padding = '0';
+                    item.style.overflow = 'hidden';
+                    setTimeout(() => item.remove(), 300);
+                }, 300);
+            });
+        });
+
+        // --- Toggle Unread Only ---
+        let showOnlyUnread = false;
+        document.getElementById('toggleOnlyUnread').addEventListener('click', function () {
+            showOnlyUnread = !showOnlyUnread;
+            this.classList.toggle('active', showOnlyUnread);
+
+            allNotifItems.forEach(item => {
+                if (showOnlyUnread && !item.classList.contains('unread')) {
+                    item.style.display = 'none';
+                } else {
+                    item.style.display = 'flex';
+                }
+            });
+
+            // Hide empty date groups
+            dateGroups.forEach(group => {
+                const items = group.querySelectorAll('.notif-item');
+                let hasVisible = false;
+                items.forEach(item => {
+                    if (item.style.display !== 'none') hasVisible = true;
+                });
+                group.style.display = hasVisible ? 'block' : 'none';
+            });
+        });
+
+        // Popup toggle for Create button
+        function togglePopup(id, event) {
+            event.stopPropagation();
+            const panel = document.getElementById(id);
+            const overlay = document.getElementById('popupOverlay');
+            const isActive = panel.classList.contains('active');
+            closeAllPopups();
+            if (!isActive) {
+                panel.classList.add('active');
+                overlay.classList.add('active');
+            }
+        }
+        function closeAllPopups() {
+            document.querySelectorAll('.popup-panel').forEach(p => p.classList.remove('active'));
+            const overlay = document.getElementById('popupOverlay');
+            if (overlay) overlay.classList.remove('active');
+        }
+        document.addEventListener('click', closeAllPopups);
+    </script>
+</body>
+
+</html>

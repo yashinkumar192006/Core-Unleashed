@@ -85,54 +85,70 @@
         </div>
     </div>
 
-    <script>
-        function updateSignupFields(role) {
+    <script type="module">
+        import { auth, db } from './firebase_setup.js';
+        import { createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
+        import { doc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
+
+        // Keep the toggling behavior globally accessible
+        window.updateSignupFields = function (role) {
             const identifierLabel = document.getElementById('identifier-label');
             const identifierInput = document.getElementById('identifier');
-            const emailLabel = document.getElementById('email-label');
-            const emailInput = document.getElementById('email');
 
-            if (role === 'recruiter') {
-                identifierLabel.textContent = 'Company Name';
-                identifierInput.placeholder = 'Enter your company name';
-                emailLabel.textContent = 'Work Email';
-                emailInput.placeholder = 'name@company.com';
-            } else if (role === 'admin') {
+            if (role === 'admin') {
                 identifierLabel.textContent = 'Staff ID';
-                identifierInput.placeholder = 'Enter your Staff ID';
-                emailLabel.textContent = 'Staff Email';
-                emailInput.placeholder = 'staff@university.edu';
+                identifierInput.placeholder = 'e.g., STF1234';
+            } else if (role === 'recruiter') {
+                identifierLabel.textContent = 'Company Name';
+                identifierInput.placeholder = 'e.g., Google';
             }
-        }
+        };
 
         document.getElementById('signup-form').addEventListener('submit', async function (e) {
             e.preventDefault();
+
+            const submitBtn = document.querySelector('.btn-submit');
+            submitBtn.textContent = 'Creating Account...';
+            submitBtn.disabled = true;
+
             const role = document.querySelector('input[name="role"]:checked').value;
             const identifier = document.getElementById('identifier').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            const data = role === 'admin'
-                ? { role, staff_id: identifier, staff_email: email, password }
-                : { role, company_name: identifier, work_email: email, password };
-
             try {
-                const response = await fetch('/signup', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
+                // 1. Create the user in Firebase Auth
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
 
-                const result = await response.json();
-                if (response.ok) {
-                    alert(result.message || 'Account created successfully!');
-                    window.location.href = `setup_profile.html?role=${role}`;
-                } else {
-                    alert(result.error || result.message || 'Error creating account');
+                // 2. Save role and profile details to Firestore `users` collection
+                const userData = {
+                    uid: user.uid,
+                    role: role,
+                    email: email,
+                    createdAt: serverTimestamp()
+                };
+
+                if (role === 'admin') {
+                    userData.staff_id = identifier;
+                } else if (role === 'recruiter') {
+                    userData.company_name = identifier;
                 }
+
+                await setDoc(doc(db, 'users', user.uid), userData);
+
+                alert('Account successfully created! Please complete your profile.');
+                if (role === 'recruiter') {
+                    window.location.href = 'recruiter_setup_profile.html';
+                } else if (role === 'admin') {
+                    window.location.href = 'admin_setup_profile.html';
+                }
+
             } catch (error) {
-                console.error('Signup error:', error);
-                alert('Network error, please try again.');
+                console.error("Firebase Sign Up Error:", error);
+                alert("Error creating account: " + error.message);
+                submitBtn.textContent = 'Sign Up';
+                submitBtn.disabled = false;
             }
         });
     </script>

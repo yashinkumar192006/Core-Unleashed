@@ -267,10 +267,238 @@
             );
         }
 
+        // Track conversation history to avoid repeating answers
+        const answeredTopics = new Set();
+
+        function getReplyForMessage(userMessage) {
+            const msg = userMessage.toLowerCase().trim();
+
+            // If the message is too short or vague, ask for clarification
+            if (msg.length < 3 || ['ok', 'k', 'hmm', 'oh', 'ya', 'yes', 'no', 'idk'].includes(msg)) {
+                return `🤔 <strong>Could you tell me a bit more?</strong><br><br>I'd love to help! Try asking about:<br>• Interview preparation (technical or HR)<br>• Resume building tips<br>• Coding or aptitude prep<br>• Specific company guidance<br><br>The more specific your question, the better I can assist you! 😊`;
+            }
+
+            // ─── Structured reply database ───
+            const replies = [
+
+                // ━━━ TECHNICAL INTERVIEW ━━━
+                {
+                    keywords: ['tell me about yourself', 'introduce yourself', 'self introduction'],
+                    topic: 'self-intro',
+                    response: `✅ <strong>This is usually the first question — nail it to set the tone!</strong><br><br><strong>Key Points:</strong><br>• Keep it 60–90 seconds<br>• Structure: Present → Past → Future<br>• Mention your name, college, branch, key skills, and 1 strong project<br>• End with why you're excited about this role<br><br><strong>💡 Sample Answer:</strong><br><em>"Hi, I'm [Name], a final-year CSE student at [College]. I've built strong skills in Java and full-stack development through projects like [Project Name], where I built a REST API serving 1000+ users. I'm passionate about solving real-world problems with clean code, and I'm excited about this role because it aligns perfectly with my backend skills."</em><br><br><strong>🎯 Tip:</strong> Practice this until it feels natural, not rehearsed. Make eye contact and smile!`
+                },
+                {
+                    keywords: ['strength', 'strengths', 'what are your strengths'],
+                    topic: 'strengths',
+                    response: `✅ <strong>Pick strengths relevant to the job and back them with evidence.</strong><br><br><strong>Key Points:</strong><br>• Choose 2–3 strengths that match the role<br>• For each strength, give a brief real example<br>• Avoid clichés like "I'm a hard worker" without proof<br><br><strong>💡 Sample Answer:</strong><br><em>"One of my key strengths is problem-solving. During a hackathon, our team's API kept crashing under load. I identified the bottleneck in our database queries and optimized them, reducing response time by 60%. Another strength is adaptability — I picked up React in 2 weeks for a project deadline and delivered on time."</em><br><br><strong>🎯 Tip:</strong> Quantify impact wherever possible — numbers impress interviewers!`
+                },
+                {
+                    keywords: ['weakness', 'weaknesses', 'what are your weaknesses', 'what is your weakness'],
+                    topic: 'weaknesses',
+                    response: `✅ <strong>Be honest, but show you're actively working on it.</strong><br><br><strong>Key Points:</strong><br>• Pick a real but non-critical weakness<br>• Show self-awareness and improvement steps<br>• Never say "I'm a perfectionist" — interviewers see through that<br><br><strong>💡 Sample Answer:</strong><br><em>"I used to struggle with public speaking — presenting in front of large groups made me nervous. To improve, I joined my college's debate club and started presenting in team meetings. Now I'm much more comfortable, and I actually enjoy explaining technical concepts to others."</em><br><br><strong>🎯 Tip:</strong> Frame it as a growth story. Interviewers love candidates who are self-aware and proactive!`
+                },
+                {
+                    keywords: ['why should we hire you', 'why hire', 'why you'],
+                    topic: 'why-hire',
+                    response: `✅ <strong>Connect your skills directly to what the company needs.</strong><br><br><strong>Key Points:</strong><br>• Summarize your top 2–3 relevant skills<br>• Show enthusiasm for the company's mission<br>• Mention how you'll add value from Day 1<br><br><strong>💡 Sample Answer:</strong><br><em>"I bring strong DSA skills (solved 300+ LeetCode problems), hands-on project experience with React and Node.js, and a collaborative mindset. In my last team project, I led the backend development and we won our college hackathon. I'm eager to bring this energy and skill set to your team and contribute to impactful products."</em><br><br><strong>🎯 Tip:</strong> Research the company beforehand and tailor this answer to their specific needs and values.`
+                },
+                {
+                    keywords: ['where do you see yourself', '5 years', 'five years', 'future goals', 'career goal'],
+                    topic: 'five-years',
+                    response: `✅ <strong>Show ambition while aligning with the company's growth path.</strong><br><br><strong>Key Points:</strong><br>• Be realistic — don't say "I want to be CEO"<br>• Show you want to grow within the company<br>• Mention skills you want to develop<br><br><strong>💡 Sample Answer:</strong><br><em>"In 5 years, I see myself as a senior developer who not only writes great code but also mentors junior team members. I want to deepen my expertise in distributed systems and eventually contribute to architectural decisions. I believe this company's projects will give me exactly that growth path."</em><br><br><strong>🎯 Tip:</strong> Align your answer with the company's career ladder — it shows you've done your research!`
+                },
+                {
+                    keywords: ['oops', 'oop', 'object oriented', 'encapsulation', 'polymorphism', 'inheritance', 'abstraction'],
+                    topic: 'oops',
+                    response: `✅ <strong>OOPs is asked in almost every technical round — know the 4 pillars!</strong><br><br><strong>Key Points:</strong><br>• <strong>Encapsulation:</strong> Bundling data + methods, hiding internal state (e.g., private variables with getters/setters)<br>• <strong>Inheritance:</strong> Child class inherits from parent (e.g., Dog extends Animal)<br>• <strong>Polymorphism:</strong> Same method, different behavior (method overloading/overriding)<br>• <strong>Abstraction:</strong> Hiding complexity, showing only essentials (e.g., abstract classes/interfaces)<br><br><strong>💡 Real-world Example:</strong><br><em>Think of a Car class: you call car.start() without knowing the internal engine mechanics — that's abstraction. Different cars (Sedan, SUV) can override the start() method differently — that's polymorphism.</em><br><br><strong>🎯 Tip:</strong> Always explain with simple real-world analogies. Interviewers love clarity over jargon!`
+                },
+                {
+                    keywords: ['dsa', 'data structure', 'algorithm', 'leetcode', 'coding round', 'competitive programming'],
+                    topic: 'dsa',
+                    response: `✅ <strong>DSA is the backbone of technical interviews — here's how to prepare smartly!</strong><br><br><strong>Key Points:</strong><br>• Master these first: Arrays, Strings, Linked Lists, Stacks, Queues, Trees, Graphs<br>• Learn patterns, not just solutions: Sliding Window, Two Pointers, BFS/DFS, DP<br>• Aim for 200–300 LeetCode problems (focus on mediums)<br>• Practice daily — 2 to 3 problems consistently beats cramming<br><br><strong>💡 Recommended Path:</strong><br><em>Week 1–2: Arrays & Strings → Week 3–4: Trees & Graphs → Week 5–6: DP & Backtracking → Week 7–8: Mixed practice + contests</em><br><br><strong>🎯 Tip:</strong> Use Striver's SDE Sheet or NeetCode 150 for a structured approach. Always try the problem for 20 min before looking at solutions!`
+                },
+                {
+                    keywords: ['graph', 'tree', 'dp', 'dynamic programming', 'binary tree', 'bfs', 'dfs', 'traversal'],
+                    topic: 'dsa-advanced',
+                    response: `✅ <strong>Trees, Graphs, and DP are the most-asked topics in product company interviews!</strong><br><br><strong>Key Points:</strong><br>• <strong>Trees:</strong> Master BFS, DFS, Inorder/Preorder/Postorder traversals, BST operations, LCA<br>• <strong>Graphs:</strong> Know BFS, DFS, Dijkstra's, cycle detection, topological sort<br>• <strong>DP:</strong> Start with Fibonacci, then learn Knapsack, LIS, LCS, Matrix Chain, Coin Change<br><br><strong>💡 Real Interview Example:</strong><br><em>A Google interviewer asked: "Find the lowest common ancestor of two nodes in a binary tree." The key was recognizing it as a recursive DFS problem and handling the base cases correctly.</em><br><br><strong>🎯 Tip:</strong> For DP, always start by defining the state and recurrence relation before coding. Draw the recursion tree on paper first!`
+                },
+                {
+                    keywords: ['sql', 'database', 'query', 'join', 'dbms', 'normalization', 'mysql'],
+                    topic: 'sql',
+                    response: `✅ <strong>SQL and DBMS questions are common in both tech rounds and written tests!</strong><br><br><strong>Key Points:</strong><br>• Know JOINs (INNER, LEFT, RIGHT, FULL), GROUP BY, HAVING, subqueries<br>• Understand normalization (1NF, 2NF, 3NF, BCNF) and when to denormalize<br>• Practice window functions (ROW_NUMBER, RANK, DENSE_RANK)<br>• Know the difference between DELETE vs TRUNCATE, WHERE vs HAVING<br><br><strong>💡 Real Interview Example:</strong><br><em>Amazon asked: "Write a query to find the 2nd highest salary from an Employee table." Solution: SELECT MAX(salary) FROM Employee WHERE salary < (SELECT MAX(salary) FROM Employee)</em><br><br><strong>🎯 Tip:</strong> Practice on HackerRank SQL track and LeetCode Database problems. Always think about edge cases like NULL values!`
+                },
+                {
+                    keywords: ['system design', 'hld', 'lld', 'design round', 'architecture', 'scalability'],
+                    topic: 'system-design',
+                    response: `✅ <strong>System design rounds test your ability to think at scale — here's your game plan!</strong><br><br><strong>Key Points:</strong><br>• Start by clarifying requirements (functional + non-functional)<br>• Estimate scale: users, requests/sec, storage<br>• Design top-down: API → Service layer → Database → Caching → Load Balancing<br>• Discuss trade-offs: SQL vs NoSQL, consistency vs availability<br><br><strong>💡 Real Interview Example:</strong><br><em>Google asked: "Design a URL shortener like bit.ly." Key components: hashing function for short URLs, SQL database for mapping, Redis cache for hot URLs, rate limiter for abuse prevention.</em><br><br><strong>🎯 Resources:</strong> Alex Xu's "System Design Interview" book + Grokking the System Design Interview course. Start with: URL shortener, chat system, news feed, parking lot.`
+                },
+
+                // ━━━ HR / BEHAVIORAL INTERVIEW ━━━
+                {
+                    keywords: ['hr question', 'hr round', 'behavioral', 'hr interview', 'hr preparation'],
+                    topic: 'hr-round',
+                    response: `✅ <strong>The HR round tests your communication, attitude, and cultural fit.</strong><br><br><strong>Key Points:</strong><br>• Use the <strong>STAR method</strong> (Situation, Task, Action, Result) for every answer<br>• Prepare 5–6 stories that showcase: leadership, teamwork, failure, conflict, initiative<br>• Research the company's values and weave them into your answers<br>• Be genuine — HR professionals can spot rehearsed/fake answers<br><br><strong>💡 Common HR Questions:</strong><br>1. Tell me about yourself<br>2. Why do you want this role?<br>3. Describe a time you failed<br>4. How do you handle conflict?<br>5. Where do you see yourself in 5 years?<br><br><strong>🎯 Tip:</strong> End every answer on a positive note, showing what you learned or achieved. Smile and maintain eye contact!`
+                },
+                {
+                    keywords: ['why this company', 'why do you want to join', 'why us'],
+                    topic: 'why-company',
+                    response: `✅ <strong>Show genuine interest — don't give a generic answer!</strong><br><br><strong>Key Points:</strong><br>• Research the company's products, mission, and recent news<br>• Connect your skills/interests to their specific work<br>• Mention something unique about the company that excites you<br>• Avoid saying "for the salary" or "it's a big brand"<br><br><strong>💡 Sample Answer:</strong><br><em>"I've been following [Company]'s work on [specific product/technology], and I'm genuinely inspired by how it impacts millions of users. My experience in [relevant skill] aligns well with your team's focus, and I'm excited about the learning opportunities and engineering culture here."</em><br><br><strong>🎯 Tip:</strong> Mention a specific product, blog post, or initiative — it shows you've done your homework!`
+                },
+                {
+                    keywords: ['failure', 'failed', 'mistake', 'time you failed', 'challenge'],
+                    topic: 'failure-story',
+                    response: `✅ <strong>This tests self-awareness and resilience — be honest and growth-focused!</strong><br><br><strong>Key Points:</strong><br>• Pick a real failure (not a humble-brag)<br>• Use STAR format: what happened, what you did, what you learned<br>• Focus 70% on the lesson and recovery, not the failure itself<br><br><strong>💡 Sample Answer:</strong><br><em>"During a group project, I tried to do everything myself instead of delegating. We missed our deadline. I realized leadership isn't about doing everything — it's about trusting your team. In my next project, I divided tasks based on strengths, and we delivered a week early."</em><br><br><strong>🎯 Tip:</strong> Never badmouth teammates. Always end with what you learned and how you improved!`
+                },
+
+                // ━━━ RESUME BUILDING ━━━
+                {
+                    keywords: ['resume', 'cv', 'shortlist', 'profile', 'resume tips', 'build resume', 'make resume'],
+                    topic: 'resume',
+                    response: `✅ <strong>Your resume is your first impression — make every line count!</strong><br><br><strong>Key Points:</strong><br>• Keep it to <strong>1 page</strong> — always<br>• <strong>Structure:</strong> Education → Skills → Projects (2–3) → Experience → Achievements<br>• Quantify impact: "Improved API response time by 40%" beats "Worked on API"<br>• Use action verbs: Built, Designed, Optimized, Led, Implemented<br>• Tailor your resume for each company/role<br><br><strong>💡 Real Example:</strong><br><em>❌ Bad: "Made a website using React"<br>✅ Good: "Built a full-stack e-commerce platform using React + Node.js, serving 500+ users with Stripe payment integration"</em><br><br><strong>🎯 Tools:</strong> Use Overleaf (LaTeX templates) or Jake's Resume template on GitHub. Get it reviewed by at least 2 peers before applying!`
+                },
+                {
+                    keywords: ['project', 'portfolio', 'github', 'open source', 'side project'],
+                    topic: 'projects',
+                    response: `✅ <strong>Projects are what set you apart — quality over quantity!</strong><br><br><strong>Key Points:</strong><br>• Have 2–3 strong projects (at least 1 full-stack, 1 specialized)<br>• Each project should solve a real problem and show technical depth<br>• Write clean READMEs with: problem statement, tech stack, screenshots, demo link<br>• Deploy your projects (Vercel, Netlify, Heroku) — live demos impress recruiters<br><br><strong>💡 Strong Project Ideas:</strong><br>1. Full-stack app (e-commerce, task manager, social platform)<br>2. ML/AI project (sentiment analysis, recommendation system)<br>3. Open-source contribution on GitHub<br>4. CLI tool or VS Code extension<br><br><strong>🎯 Tip:</strong> If asked about a project in an interview, be ready to explain every technical decision — "Why this database? Why this architecture?"`
+                },
+
+                // ━━━ APTITUDE & CODING PREP ━━━
+                {
+                    keywords: ['aptitude', 'quantitative', 'logical', 'reasoning', 'verbal', 'numerical'],
+                    topic: 'aptitude',
+                    response: `✅ <strong>Aptitude tests are the first filter — clear them to reach interviews!</strong><br><br><strong>Key Points:</strong><br>• <strong>Quantitative:</strong> Percentages, Profit/Loss, Time & Work, Probability, Permutations<br>• <strong>Logical:</strong> Puzzles, Pattern Recognition, Seating Arrangement, Blood Relations<br>• <strong>Verbal:</strong> Reading Comprehension, Grammar, Para Jumbles, Synonyms/Antonyms<br><br><strong>💡 Prep Strategy:</strong><br><em>• Practice 30 min daily on IndiaBIX or PrepInsta<br>• Focus on shortcuts and tricks — speed matters in aptitude<br>• Take timed mock tests every weekend<br>• RS Aggarwal is still the gold standard for quant</em><br><br><strong>🎯 Tip:</strong> Don't spend too long on one question. Mark and move — you can revisit if time permits!`
+                },
+                {
+                    keywords: ['coding test', 'online assessment', 'oa', 'hackerrank', 'coding platform', 'test pattern'],
+                    topic: 'coding-test',
+                    response: `✅ <strong>Online assessments (OA) usually have 2–3 coding problems in 60–90 minutes.</strong><br><br><strong>Key Points:</strong><br>• Problems range from Easy to Medium-Hard (LeetCode difficulty)<br>• Common topics: Arrays, Strings, DP, Greedy, Trees, Graphs<br>• Always start with the easiest problem first to secure partial marks<br>• Handle edge cases: empty arrays, single elements, large inputs<br><br><strong>💡 Real Example:</strong><br><em>A typical Amazon OA: Question 1 (Easy — array manipulation), Question 2 (Medium — BFS/DFS on graph), Question 3 (Hard — DP optimization). Most students who solve Q1 + Q2 fully get shortlisted.</em><br><br><strong>🎯 Tip:</strong> Practice on the same platform the company uses (HackerRank, CodeSignal, etc.). Familiarize yourself with the IDE and input format!`
+                },
+
+                // ━━━ COMPANY-SPECIFIC GUIDANCE ━━━
+                {
+                    keywords: ['google', 'google interview', 'google preparation'],
+                    topic: 'google',
+                    response: `✅ <strong>Google interviews focus heavily on DSA and problem-solving ability.</strong><br><br><strong>Key Points:</strong><br>• 4–5 rounds: Phone screen + 4 onsite (DSA, System Design, Googleyness)<br>• DSA is king — especially Trees, Graphs, DP, and Sliding Window<br>• "Googleyness" round tests culture fit: collaboration, humility, handling ambiguity<br>• They care about thought process more than just getting the right answer<br><br><strong>💡 Real Interview Example:</strong><br><em>A Google L3 candidate was asked: "Design an algorithm to find the median of a stream of integers." The interviewer valued the candidate explaining trade-offs between using heaps vs. balanced BST.</em><br><br><strong>🎯 Tip:</strong> Think out loud! Google interviewers score you on how you approach the problem, not just the final code.`
+                },
+                {
+                    keywords: ['amazon', 'amazon interview', 'amazon preparation', 'leadership principles'],
+                    topic: 'amazon',
+                    response: `✅ <strong>Amazon interviews revolve around Leadership Principles (LPs) + strong DSA.</strong><br><br><strong>Key Points:</strong><br>• Online Assessment → 3–4 interview rounds (LP + Technical)<br>• Every behavioral answer should map to an LP (Customer Obsession, Ownership, Dive Deep, etc.)<br>• Technical: Arrays, Trees, Graphs, and BFS/DFS are very common<br>• System design for senior roles: distributed systems, scalability<br><br><strong>💡 Real Interview Example:</strong><br><em>"Tell me about a time you disagreed with a team member." → Map to LP: Have Backbone; Disagree and Commit. Use STAR format to describe the situation clearly.</em><br><br><strong>🎯 Tip:</strong> Memorize all 16 Leadership Principles and prepare 2 stories for each. Practice the "Tell me about a time when..." format!`
+                },
+                {
+                    keywords: ['microsoft', 'microsoft interview', 'microsoft preparation'],
+                    topic: 'microsoft',
+                    response: `✅ <strong>Microsoft interviews are balanced — DSA + System Design + Culture Fit.</strong><br><br><strong>Key Points:</strong><br>• Usually 4–5 rounds: 2 technical (DSA), 1 design, 1 hiring manager<br>• Strong focus on code quality and clean implementation<br>• They love questions on: Arrays, Linked Lists, Trees, Sorting<br>• The "as-appropriate" (AA) round with a senior leader is the final bar raiser<br><br><strong>💡 Real Interview Example:</strong><br><em>A Microsoft SDE-1 candidate was asked: "Implement LRU Cache" and "Design a parking lot system." They valued clean class design and proper use of data structures.</em><br><br><strong>🎯 Tip:</strong> Write production-quality code in interviews — proper variable names, edge case handling, and explain your time/space complexity!`
+                },
+                {
+                    keywords: ['tcs', 'infosys', 'wipro', 'service', 'mass recruit', 'mass hiring'],
+                    topic: 'service-companies',
+                    response: `✅ <strong>Service companies (TCS, Infosys, Wipro) have a standardized hiring process.</strong><br><br><strong>Key Points:</strong><br>• Rounds: Aptitude Test → Coding Test → Technical Interview → HR<br>• Aptitude is the biggest filter — practice quant, logical, and verbal<br>• Coding is usually easy-medium (basic arrays, strings, sorting)<br>• Technical interview: OOPs, DBMS, OS, CN basics are frequently asked<br><br><strong>💡 Real Example:</strong><br><em>TCS NQT pattern: Quant (26 questions), Reasoning (24 questions), Verbal (24 questions), Coding (1–2 problems). Score well in Part 1 to qualify for Part 2 (coding).</em><br><br><strong>🎯 Tip:</strong> For service companies, consistency in aptitude practice matters more than solving hard DSA. Use PrepInsta for company-specific previous year papers!`
+                },
+
+                // ━━━ GENERAL TOPICS ━━━
+                {
+                    keywords: ['salary', 'package', 'ctc', 'pay', 'compensation', 'lpa', 'offer'],
+                    topic: 'salary',
+                    response: `✅ <strong>Don't bring up salary during interviews — let the offer come to you!</strong><br><br><strong>Key Points:</strong><br>• Salary discussion happens AFTER the technical rounds with HR<br>• Research market rates on levels.fyi, Glassdoor, and AmbitionBox<br>• CTC includes base pay + bonuses + stocks + benefits<br>• For freshers, focus on learning opportunities and growth, not just the number<br><br><strong>💡 Negotiation Tips:</strong><br>• If you have multiple offers, mention it politely to create leverage<br>• Ask about growth trajectory: "What does the salary progression look like in 2–3 years?"<br>• Never accept the first offer immediately — ask for 2–3 days to decide<br><br><strong>🎯 Tip:</strong> A higher base salary compounds over your career. Even a 10% difference now can mean lakhs over 5 years!`
+                },
+                {
+                    keywords: ['intern', 'internship', 'summer', 'winter', 'intern convert'],
+                    topic: 'internship',
+                    response: `✅ <strong>Internships are your best path to a full-time offer!</strong><br><br><strong>Key Points:</strong><br>• Apply early — most companies open internship applications 3–6 months ahead<br>• Focus on impact: propose improvements, don't just complete assigned tasks<br>• Document everything you build — it becomes portfolio material<br>• Build relationships with your mentor and team<br><br><strong>💡 Real Example:</strong><br><em>A student interned at Flipkart, built an internal dashboard that reduced manual reporting by 5 hours/week. This measurable impact helped them convert to a full-time SDE-1 offer with a 40% higher package than campus placement.</em><br><br><strong>🎯 Tip:</strong> Even if the company doesn't offer conversion, a strong internship letter + real project experience significantly boosts your campus placement chances!`
+                },
+                {
+                    keywords: ['book', 'resource', 'material', 'study', 'course', 'learn', 'where to study'],
+                    topic: 'resources',
+                    response: `✅ <strong>Here are the best resources organized by topic!</strong><br><br><strong>📚 DSA:</strong><br>• Striver's SDE Sheet / NeetCode 150 (structured problem lists)<br>• "Cracking the Coding Interview" by Gayle McDowell<br>• LeetCode (practice) + YouTube: take U forward, NeetCode<br><br><strong>🏗️ System Design:</strong><br>• "System Design Interview" by Alex Xu (Vol 1 & 2)<br>• Grokking the System Design Interview (Educative)<br><br><strong>📝 Aptitude:</strong><br>• RS Aggarwal — Quantitative Aptitude<br>• IndiaBIX.com / PrepInsta (company-specific)<br><br><strong>💼 Interview Prep:</strong><br>• InterviewBit, Pramp (mock interviews)<br>• GeeksforGeeks (theory + practice)<br><br><strong>🎯 Tip:</strong> Don't try to use all resources — pick ONE per topic, finish it properly, then move on!`
+                },
+                {
+                    keywords: ['nervous', 'anxiety', 'scared', 'stress', 'worried', 'panic', 'confident', 'fear'],
+                    topic: 'motivation',
+                    response: `✅ <strong>It's completely normal to feel nervous — every placed student felt the same way!</strong><br><br><strong>Key Points:</strong><br>• Nervousness = you care about doing well. That's a good thing!<br>• Do mock interviews with friends — nothing beats real practice<br>• Use the "power pose" trick: stand tall for 2 minutes before the interview<br>• Focus on preparation, not prediction. You can't control the questions, but you CAN be ready<br><br><strong>💡 Real Example:</strong><br><em>A student who was terrified of interviews practiced 3 mock rounds with friends every weekend. By the actual interview, the questions felt familiar and their confidence was visibly higher. They got selected at their dream company!</em><br><br><strong>🎯 Remember:</strong> The interviewer wants you to succeed — they're hoping you're the right candidate. Take a breath, smile, and show them what you've got! 💪`
+                },
+                {
+                    keywords: ['hello', 'hi', 'hey', 'good morning', 'good evening', 'sup', 'what\'s up'],
+                    topic: 'greeting',
+                    response: `👋 <strong>Hey there! I'm your Campus Placement Assistant!</strong><br><br>I can help you with:<br>• 📋 Interview preparation (Technical + HR questions with sample answers)<br>• 📄 Resume building tips<br>• 💻 Coding & aptitude preparation strategies<br>• 🏢 Company-specific guidance (Google, Amazon, Microsoft, TCS, etc.)<br><br>Just type your question and I'll give you a clear, structured answer! What would you like to know? 😊`
+                },
+                {
+                    keywords: ['thank', 'thanks', 'appreciate', 'grateful', 'thank you'],
+                    topic: 'thanks',
+                    response: `😊 <strong>You're most welcome!</strong><br><br>Remember: Consistent preparation always beats last-minute cramming. You've got this!<br><br>Feel free to ask me anything else about:<br>• Interview questions & sample answers<br>• Resume or project advice<br>• Company-specific tips<br>• Coding or aptitude strategies<br><br>I'm always here to help. Best of luck — go crush it! 🚀`
+                },
+                {
+                    keywords: ['time management', 'schedule', 'plan', 'how to plan', 'study plan', 'preparation plan', 'how long'],
+                    topic: 'time-management',
+                    response: `✅ <strong>A structured 8-week plan is ideal for campus placement preparation.</strong><br><br><strong>📅 Suggested Plan:</strong><br>• <strong>Week 1–2:</strong> Core DSA (Arrays, Strings, Linked Lists, Stacks)<br>• <strong>Week 3–4:</strong> Advanced DSA (Trees, Graphs, DP, Backtracking)<br>• <strong>Week 5:</strong> CS Fundamentals (OOPs, DBMS, OS, CN)<br>• <strong>Week 6:</strong> System Design basics + Resume finalization<br>• <strong>Week 7:</strong> Mock interviews + Aptitude practice<br>• <strong>Week 8:</strong> Company-specific prep + revision<br><br><strong>Daily Routine:</strong><br><em>• 2 hrs DSA practice<br>• 1 hr theory/fundamentals<br>• 30 min aptitude<br>• 30 min mock interview / behavioral prep</em><br><br><strong>🎯 Tip:</strong> Consistency > intensity. Even 2 focused hours daily for 8 weeks beats 12-hour cramming sessions!`
+                },
+                {
+                    keywords: ['os', 'operating system', 'process', 'thread', 'deadlock', 'memory'],
+                    topic: 'os',
+                    response: `✅ <strong>OS concepts are frequently asked in technical rounds — know the fundamentals!</strong><br><br><strong>Key Topics:</strong><br>• <strong>Process vs Thread:</strong> Process = independent, Thread = lightweight, shares memory<br>• <strong>Deadlock:</strong> 4 conditions (Mutual Exclusion, Hold & Wait, No Preemption, Circular Wait)<br>• <strong>Scheduling:</strong> FCFS, SJF, Round Robin, Priority — know trade-offs<br>• <strong>Memory Management:</strong> Paging, Segmentation, Virtual Memory, Page Replacement (LRU, FIFO)<br>• <strong>Synchronization:</strong> Mutex, Semaphore, Producer-Consumer problem<br><br><strong>💡 Real Interview Example:</strong><br><em>Microsoft asked: "Explain the difference between process and thread. Can two threads of the same process have different priority levels?" Answer: Yes, threads within a process can have different priorities assigned by the OS scheduler.</em><br><br><strong>🎯 Tip:</strong> Use Gate Smashers (YouTube) for quick OS revision. Focus on concepts, not just definitions!`
+                },
+                {
+                    keywords: ['cn', 'networking', 'network', 'tcp', 'udp', 'osi', 'http', 'ip'],
+                    topic: 'networking',
+                    response: `✅ <strong>Computer Networking basics are must-know for tech interviews!</strong><br><br><strong>Key Topics:</strong><br>• <strong>OSI Model:</strong> 7 layers — Physical, Data Link, Network, Transport, Session, Presentation, Application<br>• <strong>TCP vs UDP:</strong> TCP = reliable, ordered, connection-based; UDP = fast, connectionless<br>• <strong>HTTP/HTTPS:</strong> Methods (GET, POST, PUT, DELETE), status codes (200, 404, 500)<br>• <strong>DNS:</strong> How domain names resolve to IP addresses<br>• <strong>Subnetting & IP addressing</strong> basics<br><br><strong>💡 Real Interview Example:</strong><br><em>"What happens when you type google.com in the browser?" → DNS lookup → TCP handshake → HTTP request → Server response → Browser rendering. This single question tests 5+ CN concepts!</em><br><br><strong>🎯 Tip:</strong> This "what happens when you type a URL" question is extremely common — prepare a detailed 2-minute answer for it!`
+                },
+                {
+                    keywords: ['communication', 'soft skill', 'presentation', 'speak', 'english', 'body language'],
+                    topic: 'soft-skills',
+                    response: `✅ <strong>Soft skills can be the deciding factor between two equally skilled candidates!</strong><br><br><strong>Key Points:</strong><br>• <strong>Communication:</strong> Speak clearly, use simple sentences, avoid filler words (um, like, basically)<br>• <strong>Body Language:</strong> Sit upright, maintain eye contact, use hand gestures naturally<br>• <strong>Active Listening:</strong> Don't interrupt. Nod, paraphrase the question, then answer<br>• <strong>Confidence ≠ Arrogance:</strong> Be sure of your answers but open to being wrong<br><br><strong>💡 Practice Tips:</strong><br><em>• Record yourself answering common questions and review<br>• Practice with a friend over video call<br>• Join a speaking club or start a technical blog<br>• Read English articles daily to improve vocabulary naturally</em><br><br><strong>🎯 Tip:</strong> When you don't know an answer, say "I'm not sure about this, but here's how I'd approach it..." — honesty + problem-solving impresses interviewers!`
+                },
+                {
+                    keywords: ['tip', 'advice', 'suggest', 'recommend', 'help', 'how to prepare', 'guidance', 'general tips'],
+                    topic: 'general-tips',
+                    response: `✅ <strong>Here are my top placement preparation tips — from someone who's been through it!</strong><br><br><strong>🎯 Top 7 Tips:</strong><br>1. <strong>Start early:</strong> Begin at least 2–3 months before placement season<br>2. <strong>DSA daily:</strong> Solve 2–3 LeetCode problems every single day<br>3. <strong>Build projects:</strong> Have 2–3 deployed projects with clean GitHub repos<br>4. <strong>Mock interviews:</strong> Practice weekly with peers or on Pramp/InterviewBit<br>5. <strong>Know your resume:</strong> Be ready to explain every single line on your CV<br>6. <strong>Research companies:</strong> Know their products, tech stack, values<br>7. <strong>Stay healthy:</strong> Sleep well, exercise, take breaks — burnout is real<br><br><strong>💡 Real Talk:</strong><br><em>The students who get placed aren't always the smartest — they're the most consistent. It's about showing up every day and putting in focused effort.</em><br><br><strong>Remember:</strong> Every "no" gets you closer to your "yes." Keep going! 🚀`
+                }
+            ];
+
+            // Find the best matching reply based on keyword matches
+            let bestMatch = null;
+            let bestScore = 0;
+            let bestTopic = '';
+
+            for (const entry of replies) {
+                let score = 0;
+                for (const keyword of entry.keywords) {
+                    if (msg.includes(keyword)) {
+                        // Longer keyword matches get higher weight
+                        score += keyword.split(' ').length;
+                    }
+                }
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestMatch = entry.response;
+                    bestTopic = entry.topic;
+                }
+            }
+
+            // If we already answered this exact topic, provide a shorter follow-up
+            if (bestMatch && answeredTopics.has(bestTopic)) {
+                bestMatch = `I've shared detailed advice on this topic above! 👆<br><br>Want me to cover a <strong>different aspect</strong> instead? Try asking about:<br>• A specific company or role<br>• A particular interview question<br>• Resume or project feedback<br>• Coding strategies or resources<br><br>I'm here to help with anything new! 😊`;
+            } else if (bestTopic) {
+                answeredTopics.add(bestTopic);
+            }
+
+            // Fallback: ask for clarification if no match
+            if (!bestMatch) {
+                bestMatch = `🤔 <strong>I'd love to help, but I want to make sure I give you the right advice!</strong><br><br>Could you clarify what you're looking for? For example:<br>• "How do I prepare for Google interviews?"<br>• "What should I put on my resume?"<br>• "Explain OOPs concepts for interviews"<br>• "Give me tips for HR round"<br>• "How to prepare aptitude for TCS?"<br><br>The more specific your question, the better I can assist! 😊`;
+            }
+
+            return bestMatch;
+        }
+
         function simulateReply() {
+            // Get the latest user message
+            const allSentMessages = document.querySelectorAll('.message.sent .msg-bubble');
+            const latestUserMessage = allSentMessages.length > 0
+                ? allSentMessages[allSentMessages.length - 1].textContent.trim()
+                : '';
+
             setTimeout(() => {
                 const messagesContainer = document.getElementById('chat-messages');
-                const avatar = document.getElementById('header-avatar'); // get current active peer
+                const avatar = document.getElementById('header-avatar');
 
                 const timeStr = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
 
@@ -288,10 +516,11 @@
                 messagesContainer.appendChild(replyDiv);
                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
-                // Replace typing indicator with actual text
+                // Replace typing indicator with contextual reply
                 setTimeout(() => {
+                    const replyText = getReplyForMessage(latestUserMessage);
                     replyDiv.querySelector('.msg-content').innerHTML = `
-                        <div class="msg-bubble">That's a great question! For my interview, I was also asked about system design basics. I recommend checking out Grokking the System Design Interview. Let me know if you need any specific resources!</div>
+                        <div class="msg-bubble">${replyText}</div>
                         <span class="msg-time">${timeStr}</span>
                     `;
                     messagesContainer.scrollTop = messagesContainer.scrollHeight;
