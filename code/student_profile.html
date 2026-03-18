@@ -7,6 +7,24 @@
     <title>Student Profile | Campus Placement Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="student_profile.css">
+    <style>
+        .verified-badge {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: #ecfdf5;
+            color: #10b981;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid #bbf7d0;
+        }
+        .verified-icon {
+            width: 14px;
+            height: 14px;
+        }
+    </style>
 </head>
 
 <body>
@@ -63,7 +81,10 @@
             <section class="section-card">
                 <div class="section-header">
                     <h2>Personal Information</h2>
-                    <button class="btn-secondary">Edit Details</button>
+                    <div class="verified-badge">
+                        <svg class="verified-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Verified by Admin
+                    </div>
                 </div>
                 <form>
                     <div class="form-grid">
@@ -96,7 +117,10 @@
             <section class="section-card">
                 <div class="section-header">
                     <h2>Academic Background</h2>
-                    <button class="btn-secondary">+ Add Degree</button>
+                    <div class="verified-badge">
+                        <svg class="verified-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Verified by Admin
+                    </div>
                 </div>
                 <form>
                     <div class="form-grid">

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | Campus Placement Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="home.css">
+    <style>
+        .settings-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .settings-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .settings-section h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-info h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .setting-info p {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        /* Toggle Switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #cbd5e1;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        .btn-save {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            float: right;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Popup Overlay -->
+    <div class="popup-overlay" id="popupOverlay" onclick="closeAllPopups()"></div>
+
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-top">
+                <a href="home.html" class="brand" title="Placement Portal">
+                    <img src="logo.png" alt="Logo" class="brand-img">
+                </a>
+                <nav class="nav-menu">
+                    <a href="home.html" class="nav-item" title="Home">
+                        <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    </a>
+                    <a href="job_explorer.html" class="nav-item" title="Explore / Jobs">
+                        <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+                    </a>
+                    <button class="nav-item" title="Create" onclick="togglePopup('quickPopup', event)">
+                        <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                    </button>
+                    <button class="nav-item" title="Notifications" onclick="togglePopup('notifPopup', event)">
+                        <div class="nav-icon-wrapper">
+                            <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                            <span class="badge" id="notifBadge" style="display: none;"></span>
+                        </div>
+                    </button>
+                    <a href="alumni_chat.html" class="nav-item" title="Alumni Chat">
+                        <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    </a>
+                </nav>
+            </div>
+            <div class="sidebar-bottom">
+                <a href="settings.html" class="nav-item active" title="Settings">
+                    <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <h2>Settings</h2>
+                <div class="top-bar-right">
+                    <a href="student_profile.html" class="avatar-small" style="text-decoration: none;">JS</a>
+                </div>
+            </header>
+
+            <div class="container">
+                <div class="settings-container">
+                    <!-- Placement Privacy -->
+                    <div class="settings-section">
+                        <h3>🔒 Placement Privacy</h3>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Profile Visibility</h4>
+                                <p>Allow verified recruiters to see your complete profile.</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Show Academic Performance</h4>
+                                <p>Display CGPA and backlogs to recruiters in search results.</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Notifications -->
+                    <div class="settings-section">
+                        <h3>🔔 Notifications</h3>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Job Alerts</h4>
+                                <p>Get notified when a new company is added for your branch.</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Email Notifications</h4>
+                                <p>Receive interview schedules and results via email.</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Account Settings -->
+                    <div class="settings-section">
+                        <h3>👤 Account Settings</h3>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Change Password</h4>
+                                <p>Update your portal password for better security.</p>
+                            </div>
+                            <button class="btn-outline">Update</button>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Login Sessions</h4>
+                                <p>Manage active login sessions on other devices.</p>
+                            </div>
+                            <button class="btn-outline">Manage</button>
+                        </div>
+                    </div>
+
+                    <button class="btn-save">Save All Changes</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Popup Code (Needed for sidebar popups) -->
+    <div class="popup-panel" id="notifPopup">
+        <!-- Content from home.html -->
+    </div>
+    <div class="popup-panel" id="quickPopup">
+        <!-- Content from home.html -->
+    </div>
+
+    <script>
+        // Persistence for Notifications
+        let readNotifs = JSON.parse(localStorage.getItem('readNotifications') || '[]');
+
+        function applyReadStatus() {
+            const badge = document.getElementById('notifBadge');
+            const totalNotifs = 2; 
+            const readCount = readNotifs.filter(id => id.startsWith('pop-notif-')).length;
+            const unreadCount = Math.max(0, totalNotifs - readCount);
+            
+            if (badge) {
+                badge.style.display = unreadCount === 0 ? 'none' : 'block';
+                badge.textContent = unreadCount > 0 ? unreadCount : '';
+            }
+        }
+
+        // Initialize
+        applyReadStatus();
+
+        function togglePopup(id, event) {
+            event.stopPropagation();
+            const panel = document.getElementById(id);
+            const overlay = document.getElementById('popupOverlay');
+            const isActive = panel.classList.contains('active');
+            closeAllPopups();
+            if (!isActive) { panel.classList.add('active'); overlay.classList.add('active'); }
+        }
+        function closeAllPopups() {
+            document.querySelectorAll('.popup-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('popupOverlay').classList.remove('active');
+        }
+    </script>
+</body>
+</html>

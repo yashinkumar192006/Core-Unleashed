@@ -164,7 +164,7 @@
                 <div class="notif-card">
 
                     <!-- 1. Unread: Google test date -->
-                    <div class="notif-item unread" data-type="placement">
+                    <div class="notif-item unread" data-id="page-notif-1" data-type="placement">
                         <div class="notif-icon type-info">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -193,7 +193,7 @@
                     </div>
 
                     <!-- 2. Unread: Microsoft resume shortlisted -->
-                    <div class="notif-item unread" data-type="resume">
+                    <div class="notif-item unread" data-id="page-notif-2" data-type="resume">
                         <div class="notif-icon type-success">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -224,7 +224,7 @@
                     </div>
 
                     <!-- 3. Unread: Upcoming PPT Reminder -->
-                    <div class="notif-item unread" data-type="event">
+                    <div class="notif-item unread" data-id="page-notif-3" data-type="event">
                         <div class="notif-icon type-event">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -254,7 +254,7 @@
                     </div>
 
                     <!-- 4. Read: New placement opportunity -->
-                    <div class="notif-item" data-type="placement">
+                    <div class="notif-item" data-id="page-notif-4" data-type="placement">
                         <div class="notif-icon type-info">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -289,7 +289,7 @@
                 <div class="notif-card">
 
                     <!-- 5. Read: Alumni message -->
-                    <div class="notif-item" data-type="alumni">
+                    <div class="notif-item" data-id="page-notif-5" data-type="alumni">
                         <div class="notif-icon type-message">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -316,7 +316,7 @@
                     </div>
 
                     <!-- 6. Read: Deadline reminder -->
-                    <div class="notif-item" data-type="placement">
+                    <div class="notif-item" data-id="page-notif-6" data-type="placement">
                         <div class="notif-icon type-alert">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -345,7 +345,7 @@
                     </div>
 
                     <!-- 7. Read: Workshop event -->
-                    <div class="notif-item" data-type="event">
+                    <div class="notif-item" data-id="page-notif-7" data-type="event">
                         <div class="notif-icon type-event">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -382,7 +382,7 @@
                 <div class="notif-card">
 
                     <!-- 8. Read: Profile Approved -->
-                    <div class="notif-item" data-type="profile">
+                    <div class="notif-item" data-id="page-notif-8" data-type="profile">
                         <div class="notif-icon type-success">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -409,7 +409,7 @@
                     </div>
 
                     <!-- 9. Read: Resume reviewed -->
-                    <div class="notif-item" data-type="resume">
+                    <div class="notif-item" data-id="page-notif-9" data-type="resume">
                         <div class="notif-icon type-info">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -437,7 +437,7 @@
                     </div>
 
                     <!-- 10. Read: Alumni connection -->
-                    <div class="notif-item" data-type="alumni">
+                    <div class="notif-item" data-id="page-notif-10" data-type="alumni">
                         <div class="notif-icon type-message">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -467,7 +467,7 @@
                     </div>
 
                     <!-- 11. Read: New company on portal -->
-                    <div class="notif-item" data-type="placement">
+                    <div class="notif-item" data-id="page-notif-11" data-type="placement">
                         <div class="notif-icon type-info">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -495,7 +495,7 @@
                     </div>
 
                     <!-- 12. Read: Event completed -->
-                    <div class="notif-item" data-type="event">
+                    <div class="notif-item" data-id="page-notif-12" data-type="event">
                         <div class="notif-icon type-success">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -528,6 +528,37 @@
     </div> <!-- end .app-layout -->
 
     <script>
+        // Persistence for Notifications
+        let readNotifs = JSON.parse(localStorage.getItem('readNotifications') || '[]');
+
+        function saveReadStatus(id) {
+            if (!readNotifs.includes(id)) {
+                readNotifs.push(id);
+                localStorage.setItem('readNotifications', JSON.stringify(readNotifs));
+            }
+        }
+
+        function applyReadStatus() {
+            document.querySelectorAll('.notif-item').forEach(item => {
+                const id = item.getAttribute('data-id');
+                if (readNotifs.includes(id)) {
+                    item.classList.remove('unread');
+                    const dot = item.querySelector('.unread-dot');
+                    if (dot) dot.style.display = 'none';
+                }
+            });
+            updateSidebarBadge();
+        }
+
+        function updateSidebarBadge() {
+            const unreadCount = document.querySelectorAll('.notif-item.unread').length;
+            const badge = document.querySelector('.badge');
+            if (badge) {
+                badge.style.display = unreadCount === 0 ? 'none' : 'block';
+                badge.textContent = unreadCount > 0 ? unreadCount : '';
+            }
+        }
+
         // --- Filter Tabs ---
         const filterTabs = document.querySelectorAll('.filter-tab');
         const allNotifItems = document.querySelectorAll('.notif-item');
@@ -568,31 +599,32 @@
         // --- Mark All Read ---
         document.getElementById('markAllRead').addEventListener('click', () => {
             document.querySelectorAll('.notif-item.unread').forEach(item => {
+                const id = item.getAttribute('data-id');
                 item.classList.remove('unread');
+                saveReadStatus(id);
             });
             document.querySelectorAll('.unread-dot').forEach(dot => {
                 dot.style.display = 'none';
             });
-            // Update badge in sidebar
-            const badge = document.querySelector('.badge');
-            if (badge) badge.style.display = 'none';
+            applyReadStatus();
         });
 
         // --- Click to mark individual as read ---
         allNotifItems.forEach(item => {
             item.addEventListener('click', function () {
                 if (this.classList.contains('unread')) {
+                    const id = this.getAttribute('data-id');
                     this.classList.remove('unread');
                     const dot = this.querySelector('.unread-dot');
                     if (dot) dot.style.display = 'none';
-                    // Update badge if no more unread
-                    if (document.querySelectorAll('.notif-item.unread').length === 0) {
-                        const badge = document.querySelector('.badge');
-                        if (badge) badge.style.display = 'none';
-                    }
+                    saveReadStatus(id);
+                    applyReadStatus();
                 }
             });
         });
+
+        // Initialize
+        applyReadStatus();
 
         // --- Dismiss notification ---
         document.querySelectorAll('.notif-action-btn').forEach(btn => {

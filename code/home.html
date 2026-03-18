@@ -23,7 +23,7 @@
             <button class="popup-close" onclick="closeAllPopups()">×</button>
         </div>
         <div class="notification-list">
-            <div class="popup-notif-item unread">
+            <div class="popup-notif-item unread" data-id="pop-notif-1">
                 <div class="noti-icon bg-blue-light">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -38,7 +38,7 @@
                 </div>
                 <div class="noti-status"></div>
             </div>
-            <div class="popup-notif-item unread">
+            <div class="popup-notif-item unread" data-id="pop-notif-2">
                 <div class="noti-icon bg-purple-light">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -53,7 +53,7 @@
                 </div>
                 <div class="noti-status"></div>
             </div>
-            <div class="popup-notif-item">
+            <div class="popup-notif-item" data-id="pop-notif-3">
                 <div class="noti-icon bg-orange-light">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -66,7 +66,7 @@
                     <span class="noti-time">Yesterday</span>
                 </div>
             </div>
-            <div class="popup-notif-item">
+            <div class="popup-notif-item" data-id="pop-notif-4">
                 <div class="noti-icon bg-green-light">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -197,7 +197,7 @@
             </div>
 
             <div class="sidebar-bottom">
-                <a href="#" class="nav-item" title="Settings">
+                <a href="settings.html" class="nav-item" title="Settings">
                     <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="3"></circle>
@@ -211,25 +211,13 @@
         <main class="main-content">
             <!-- Top Bar — same height(72px) and color as sidebar -->
             <header class="top-bar">
-                <div class="top-bar-left">
-                    <h2>Dashboard</h2>
-                </div>
+                    <h2>Student Dashboard (Home Page)</h2>
                 <div class="top-bar-right">
-                    <span style="font-size: 0.88rem; color: var(--text-muted);">Welcome back,</span>
-                    <span style="font-weight: 700; color: var(--text-main); font-size: 0.9rem;">John Smith</span>
-                    <div class="avatar-small">JS</div>
+                    <a href="student_profile.html" class="avatar-small" style="text-decoration: none;">JS</a>
                 </div>
             </header>
 
             <div class="container">
-                <!-- Page Header -->
-                <div class="page-header">
-                    <div>
-                        <h1>Welcome back, John! 👋</h1>
-                        <p>Here's what's happening with your placements today.</p>
-                    </div>
-                </div>
-
                 <!-- Statistics Overview Grid -->
                 <div class="overview-grid">
                     <!-- Card 1: Dark Navy -->
@@ -293,10 +281,10 @@
                         <div class="card">
                             <div class="card-header">
                                 <h2>Recent Notifications</h2>
-                                <a href="notification.html" class="view-all">Mark all as read</a>
+                                <a href="javascript:void(0)" class="view-all" onclick="markAllDashboardRead()">Mark all as read</a>
                             </div>
-                            <div class="notification-list">
-                                <div class="notification-item unread">
+                            <div class="notification-list" id="dashboardNotifList">
+                                <div class="notification-item unread" data-id="dash-notif-1">
                                     <div class="noti-icon bg-blue-light">
                                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -311,7 +299,7 @@
                                     </div>
                                     <div class="noti-status"></div>
                                 </div>
-                                <div class="notification-item unread">
+                                <div class="notification-item unread" data-id="dash-notif-2">
                                     <div class="noti-icon bg-purple-light">
                                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -326,7 +314,7 @@
                                     </div>
                                     <div class="noti-status"></div>
                                 </div>
-                                <div class="notification-item">
+                                <div class="notification-item" data-id="dash-notif-3">
                                     <div class="noti-icon bg-orange-light">
                                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -339,7 +327,7 @@
                                         <span class="noti-time">Yesterday</span>
                                     </div>
                                 </div>
-                                <div class="notification-item">
+                                <div class="notification-item" data-id="dash-notif-4">
                                     <div class="noti-icon bg-green-light">
                                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -362,7 +350,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h2>Upcoming Drives</h2>
-                                <a href="#" class="view-all">View All</a>
+                                <a href="drives_calendar.html" class="view-all">View All</a>
                             </div>
                             <div class="drives-list">
                                 <div class="drive-item">
@@ -387,7 +375,7 @@
                                 </div>
                             </div>
                             <div style="padding: 1rem 1.5rem;">
-                                <button class="btn-outline" style="width: 100%;">View Full Calendar</button>
+                                <a href="drives_calendar.html" class="btn-outline" style="width: 100%; text-align: center; display: block; text-decoration: none;">View Full Calendar</a>
                             </div>
                     </div>
                 </div>
@@ -396,15 +384,65 @@
     </div> <!-- end .app-layout -->
 
     <script>
+        // Persistence for Notifications
+        let readNotifs = JSON.parse(localStorage.getItem('readNotifications') || '[]');
+
+        function saveReadStatus(id) {
+            if (!readNotifs.includes(id)) {
+                readNotifs.push(id);
+                localStorage.setItem('readNotifications', JSON.stringify(readNotifs));
+            }
+        }
+
+        function applyReadStatus() {
+            document.querySelectorAll('.notification-item, .popup-notif-item').forEach(item => {
+                const id = item.getAttribute('data-id');
+                if (readNotifs.includes(id)) {
+                    item.classList.remove('unread');
+                    const dot = item.querySelector('.noti-status, .unread-dot');
+                    if (dot) dot.style.display = 'none';
+                }
+            });
+            updateBadge();
+        }
+
+        function updateBadge() {
+            const unreadCount = document.querySelectorAll('.popup-notif-item.unread').length;
+            const badge = document.getElementById('notifBadge');
+            if (badge) {
+                badge.style.display = unreadCount === 0 ? 'none' : 'block';
+                badge.textContent = unreadCount > 0 ? unreadCount : '';
+            }
+        }
+
+        function markAllDashboardRead() {
+            document.querySelectorAll('#dashboardNotifList .notification-item.unread, #notifPopup .popup-notif-item.unread').forEach(item => {
+                const id = item.getAttribute('data-id');
+                item.classList.remove('unread');
+                saveReadStatus(id);
+            });
+            applyReadStatus();
+        }
+
+        // Mark notifications as read on click
+        document.querySelectorAll('.notification-item, .popup-notif-item').forEach(item => {
+            item.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                this.classList.remove('unread');
+                saveReadStatus(id);
+                applyReadStatus();
+            });
+        });
+
+        // Initialize
+        applyReadStatus();
+
         function togglePopup(id, event) {
             event.stopPropagation();
             const panel = document.getElementById(id);
             const overlay = document.getElementById('popupOverlay');
             const isActive = panel.classList.contains('active');
-
-            // Close all first
             closeAllPopups();
-
             if (!isActive) {
                 panel.classList.add('active');
                 overlay.classList.add('active');
@@ -416,15 +454,8 @@
             document.getElementById('popupOverlay').classList.remove('active');
         }
 
-        // Mark notifications as read on click
-        document.querySelectorAll('.notification-item, .popup-notif-item').forEach(item => {
-            item.addEventListener('click', function () {
-                this.classList.remove('unread');
-                const unreadCount = document.querySelectorAll('.popup-notif-item.unread, .notification-item.unread').length;
-                const badge = document.getElementById('notifBadge');
-                if (badge) badge.style.display = unreadCount === 0 ? 'none' : '';
-            });
-        });
+        // Close on click outside
+        document.addEventListener('click', closeAllPopups);
     </script>
 </body>
 
