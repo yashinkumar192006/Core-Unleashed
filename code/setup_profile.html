@@ -136,12 +136,27 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Get role from URL query string
-            const urlParams = new URLSearchParams(window.location.search);
-            const role = urlParams.get('role') || 'recruiter'; // default to recruiter if none provided
+    <script type="module">
+        import { auth, db } from './firebase_setup.js';
+        import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
+        import { doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
 
+        let currentUser = null;
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+            } else {
+                // If they circumvent setup without an account, kick them to sign in
+                window.location.href = 'signin.html';
+            }
+        });
+
+        // Get role from URL query string
+        const urlParams = new URLSearchParams(window.location.search);
+        const role = urlParams.get('role') || 'recruiter'; // default to recruiter if none provided
+
+        document.addEventListener('DOMContentLoaded', () => {
             // Show appropriate form
             const activeForm = document.getElementById(`${role}-setup`);
             if (activeForm) {
@@ -171,17 +186,55 @@
                     <li>Track live attendance</li>
                 `;
             }
+        });
 
-            // Handle submission redirection
-            document.getElementById('profile-setup-form').addEventListener('submit', function (e) {
-                e.preventDefault();
+        // Handle submission integration into Firestore
+        document.getElementById('profile-setup-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            if (!currentUser) {
+                alert("You aren't authenticated. Please return to the sign in page.");
+                return;
+            }
+
+            const submitBtn = this.querySelector('.btn-submit');
+            submitBtn.textContent = 'Saving Profile...';
+            submitBtn.disabled = true;
+
+            try {
+                let profileData = {};
+
+                if (role === 'recruiter') {
+                    profileData = {
+                        companyWebsite: document.getElementById('company-site').value,
+                        industry: document.getElementById('industry').value,
+                        designation: document.getElementById('designation').value,
+                        companySize: document.getElementById('company-size').value,
+                        profileSetupComplete: true
+                    };
+                } else if (role === 'admin') {
+                    profileData = {
+                        adminTitle: document.getElementById('admin-title').value,
+                        officeLocation: document.getElementById('office').value,
+                        contactPhone: document.getElementById('contact-number').value,
+                        profileSetupComplete: true
+                    };
+                }
+
+                await setDoc(doc(db, 'users', currentUser.uid), profileData, { merge: true });
 
                 if (role === 'recruiter') {
                     window.location.href = 'recruiter_dashboard.html';
                 } else if (role === 'admin') {
                     window.location.href = 'admin_dashboard.html';
                 }
-            });
+
+            } catch (error) {
+                console.error("Profile Setup Error:", error);
+                alert("There was an issue saving your profile. Please try again.");
+                submitBtn.textContent = 'Finish Setup & Go to Dashboard';
+                submitBtn.disabled = false;
+            }
         });
     </script>
 </body>
