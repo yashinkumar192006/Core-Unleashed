@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Complete your Recruiter profile on the Campus Placement Management System">
+    <title>Recruiter Profile Setup | Campus Placement Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="login.css">
+    <style>
+        .setup-header {
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .setup-header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .setup-header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-wrapper">
+        <!-- Left Branding side -->
+        <div class="login-info-section">
+            <div class="brand-logo">
+                <img src="logo.png" alt="Placement Logo" style="width: 40px; height: 40px; border-radius: 4px;">
+            </div>
+            <h2>Almost there!</h2>
+            <p>Tell us about your company and hiring goals to get started.</p>
+
+            <ul class="features-list">
+                <li>Post job openings fast</li>
+                <li>Filter top candidates</li>
+                <li>Schedule interviews easily</li>
+            </ul>
+        </div>
+
+        <!-- Right Form side -->
+        <div class="login-form-section" style="overflow-y: auto;">
+            <div class="setup-header">
+                <h1>Complete Your Profile</h1>
+                <p>Tell us about your company and hiring goals.</p>
+            </div>
+
+            <form action="#" method="POST" id="profile-setup-form">
+                <div class="form-group">
+                    <label for="company-site">Company Website</label>
+                    <input type="url" id="company-site" class="form-control" placeholder="https://company.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="industry">Industry</label>
+                    <select id="industry" class="form-control" required>
+                        <option value="">Select Industry...</option>
+                        <option value="it">Information Technology / Software</option>
+                        <option value="finance">Finance / FinTech</option>
+                        <option value="healthcare">Healthcare / HealthTech</option>
+                        <option value="manufacturing">Manufacturing / Core</option>
+                        <option value="ecommerce">E-Commerce / Retail</option>
+                        <option value="education">Education / EdTech</option>
+                        <option value="consulting">Consulting / Management</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="designation">Your Designation</label>
+                    <input type="text" id="designation" class="form-control" placeholder="e.g. HR Manager, Tech Lead"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="company-size">Company Size</label>
+                    <select id="company-size" class="form-control" required>
+                        <option value="">Select Size...</option>
+                        <option value="startup">1 - 50 Employees (Startup)</option>
+                        <option value="mid">51 - 500 Employees (Mid-size)</option>
+                        <option value="enterprise">500+ Employees (Enterprise)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="linkedin">LinkedIn Profile (Optional)</label>
+                    <input type="url" id="linkedin" class="form-control"
+                        placeholder="https://linkedin.com/in/your-profile">
+                </div>
+
+                <button type="submit" class="btn-submit" style="margin-top: 10px;">Finish Setup & Go to
+                    Dashboard</button>
+            </form>
+
+            <div class="sign-up-link" style="margin-top: 16px;">
+                <a href="login.html">← Back to Sign In</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { auth, db } from './firebase_setup.js';
+        import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
+        import { doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
+
+        let currentUser = null;
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+            } else {
+                // Not logged in — redirect to sign in
+                window.location.href = 'login.html';
+            }
+        });
+
+        document.getElementById('profile-setup-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            if (!currentUser) {
+                alert("You aren't authenticated. Please return to the sign in page.");
+                return;
+            }
+
+            const submitBtn = this.querySelector('.btn-submit');
+            submitBtn.textContent = 'Saving Profile...';
+            submitBtn.disabled = true;
+
+            try {
+                const profileData = {
+                    companyWebsite: document.getElementById('company-site').value,
+                    industry: document.getElementById('industry').value,
+                    designation: document.getElementById('designation').value,
+                    companySize: document.getElementById('company-size').value,
+                    linkedin: document.getElementById('linkedin').value,
+                    profileSetupComplete: true
+                };
+
+                await setDoc(doc(db, 'users', currentUser.uid), profileData, { merge: true });
+
+                window.location.href = 'recruiter_dashboard.html';
+
+            } catch (error) {
+                console.error("Profile Setup Error:", error);
+                alert("There was an issue saving your profile. Please try again.");
+                submitBtn.textContent = 'Finish Setup & Go to Dashboard';
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+
+</html>

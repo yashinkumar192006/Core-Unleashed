@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Complete your Admin profile on the Campus Placement Management System">
+    <title>Admin Profile Setup | Campus Placement Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="login.css">
+    <style>
+        .login-info-section {
+            background: linear-gradient(135deg, #1f2937, #111827);
+        }
+
+        .setup-header {
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .setup-header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .setup-header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-wrapper">
+        <!-- Left Branding side -->
+        <div class="login-info-section">
+            <div class="brand-logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7" />
+                    <rect x="14" y="3" width="7" height="7" />
+                    <rect x="14" y="14" width="7" height="7" />
+                    <rect x="3" y="14" width="7" height="7" />
+                </svg>
+                <span class="brand-name">Core Unleashed Admin</span>
+            </div>
+            <h2>Admin Setup</h2>
+            <p>Configure your administrative profile and capabilities to manage the placement system.</p>
+
+            <ul class="features-list">
+                <li>Manage student data</li>
+                <li>Organize placement drives</li>
+                <li>Track live attendance</li>
+            </ul>
+        </div>
+
+        <!-- Right Form side -->
+        <div class="login-form-section" style="overflow-y: auto;">
+            <div class="setup-header">
+                <h1>Admin Profile Setup</h1>
+                <p>Configure your administrative capabilities.</p>
+            </div>
+
+            <form action="#" method="POST" id="profile-setup-form">
+                <div class="form-group">
+                    <label for="full-name">Full Name</label>
+                    <input type="text" id="full-name" class="form-control" placeholder="e.g. Dr. Ramesh Kumar" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="admin-title">Admin Role</label>
+                    <select id="admin-title" class="form-control" required>
+                        <option value="">Select Role...</option>
+                        <option value="placement-officer">Chief Placement Officer</option>
+                        <option value="coordinator">Faculty Coordinator</option>
+                        <option value="system-admin">System Administrator</option>
+                        <option value="dept-head">Department Head</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="department">Department</label>
+                    <input type="text" id="department" class="form-control"
+                        placeholder="e.g. Computer Science, Training & Placement" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="office">Office Location / Cabin No.</label>
+                    <input type="text" id="office" class="form-control" placeholder="e.g. Placement Cell, Block A">
+                </div>
+
+                <div class="form-group">
+                    <label for="contact-number">Contact Phone (Internal)</label>
+                    <input type="tel" id="contact-number" class="form-control" placeholder="e.g. Ext 402">
+                </div>
+
+                <div class="form-group">
+                    <label for="college-name">College / Institution Name</label>
+                    <input type="text" id="college-name" class="form-control"
+                        placeholder="e.g. RV College of Engineering" required>
+                </div>
+
+                <button type="submit" class="btn-submit" style="margin-top: 10px;">Finish Setup & Go to
+                    Dashboard</button>
+            </form>
+
+            <div class="sign-up-link" style="margin-top: 16px;">
+                <a href="login.html">← Back to Sign In</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { auth, db } from './firebase_setup.js';
+        import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
+        import { doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
+
+        let currentUser = null;
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+            } else {
+                // Not logged in — redirect to sign in
+                window.location.href = 'login.html';
+            }
+        });
+
+        document.getElementById('profile-setup-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            if (!currentUser) {
+                alert("You aren't authenticated. Please return to the sign in page.");
+                return;
+            }
+
+            const submitBtn = this.querySelector('.btn-submit');
+            submitBtn.textContent = 'Saving Profile...';
+            submitBtn.disabled = true;
+
+            try {
+                const profileData = {
+                    fullName: document.getElementById('full-name').value,
+                    adminTitle: document.getElementById('admin-title').value,
+                    department: document.getElementById('department').value,
+                    officeLocation: document.getElementById('office').value,
+                    contactPhone: document.getElementById('contact-number').value,
+                    collegeName: document.getElementById('college-name').value,
+                    profileSetupComplete: true
+                };
+
+                await setDoc(doc(db, 'users', currentUser.uid), profileData, { merge: true });
+
+                window.location.href = 'admin_dashboard.html';
+
+            } catch (error) {
+                console.error("Profile Setup Error:", error);
+                alert("There was an issue saving your profile. Please try again.");
+                submitBtn.textContent = 'Finish Setup & Go to Dashboard';
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+
+</html>

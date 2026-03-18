@@ -4,22 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Login to the Campus Placement Management System">
-    <title>Login | Campus Placement Portal</title>
+    <title>Sign In | Core Unleashed</title>
+    <!-- Google Fonts to match Login Page -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="login.css">
 </head>
 
 <body>
     <div class="login-wrapper">
-        <!-- Left Branding side -->
+        <!-- Left Branding side (Same as Login Theme) -->
         <div class="login-info-section">
             <div class="brand-logo">
-                <img src="logo.png" alt="Placement Logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
+                <span class="brand-name">Core Unleashed</span>
             </div>
-            <h2>Unlock Your Career Potential Today.</h2>
-            <p>Experience a seamless placement journey with intelligent tools designed to connect top talent with
-                industry-leading recruiters directly.</p>
+            <h2>Start your career journey with us.</h2>
+            <p>Welcome to the unified Campus Placement Management System where students, recruiters, and placement
+                officers connect seamlessly.</p>
 
             <ul class="features-list">
                 <li>
@@ -49,6 +53,9 @@
                     </span>
                     Direct Access to Exclusive Placements
                 </li>
+                <li>Discover Top Opportunities</li>
+                <li>Track Applications in Real-Time</li>
+                <li>Connect with Verified Recruiters</li>
             </ul>
         </div>
 
@@ -59,31 +66,44 @@
                 <p>Please enter your details to sign in</p>
             </div>
 
-            <form id="login-form" action="#" method="POST">
+            <form class="signin-form" action="#" method="POST">
                 <div class="role-selector">
                     <label class="role-option">
-                        <input type="radio" name="role" value="student" checked onchange="updateLoginFields('student')">
+                        <input type="radio" name="role" value="student" checked>
                         <span class="role-btn">Student</span>
                     </label>
                     <label class="role-option">
-                        <input type="radio" name="role" value="recruiter" onchange="updateLoginFields('recruiter')">
+                        <input type="radio" name="role" value="recruiter">
                         <span class="role-btn">Recruiter</span>
                     </label>
                     <label class="role-option">
-                        <input type="radio" name="role" value="admin" onchange="updateLoginFields('admin')">
+                        <input type="radio" name="role" value="admin">
                         <span class="role-btn">Admin</span>
                     </label>
                 </div>
 
                 <div class="form-group">
-                    <label for="email" id="email-label">University ID / Email</label>
-                    <input type="text" id="email" name="email" class="form-control" placeholder="Enter your ID or email"
-                        required>
+                    <label for="usn">USN</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="usn" name="usn" class="form-control" placeholder="Enter your USN"
+                            required>
+                    </div>
                 </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <div class="input-wrapper">
+                        <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email"
+                            required>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" class="form-control"
-                        placeholder="Enter your password" required>
+                    <div class="input-wrapper">
+                        <input type="password" id="password" name="password" class="form-control"
+                            placeholder="Enter your password" required>
+                    </div>
                 </div>
 
                 <div class="form-options">
@@ -94,7 +114,13 @@
                     <a href="forgot_password.html" class="forgot-password">Forgot Password?</a>
                 </div>
 
-                <button type="submit" class="btn-submit">Sign In</button>
+                <button type="submit" class="btn-submit" id="signin-btn">
+                    <span>Sign In</span>
+                    <!-- Loading spinner SVG hidden by default -->
+                    <svg class="spinner hidden" viewBox="0 0 50 50">
+                        <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                    </svg>
+                </button>
             </form>
 
             <div class="sign-up-link">
@@ -103,76 +129,79 @@
         </div>
     </div>
 
-    <script>
-        function updateLoginFields(role) {
-            const emailLabel = document.getElementById('email-label');
-            const emailInput = document.getElementById('email');
+    <!-- Script to maintain the loading animation inside the new theme -->
+    <script type="module">
+        import { auth, db } from './firebase_setup.js';
+        import { signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
+        import { doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
 
-            if (role === 'student') {
-                emailLabel.textContent = 'University ID / Email';
-                emailInput.placeholder = 'Enter your ID or email';
-            } else if (role === 'recruiter') {
-                emailLabel.textContent = 'Work Email';
-                emailInput.placeholder = 'name@company.com';
-            } else if (role === 'admin') {
-                emailLabel.textContent = 'Staff Email';
-                emailInput.placeholder = 'staff@university.edu';
-            }
-        }
+        const form = document.querySelector('.signin-form');
+        const submitBtn = document.getElementById('signin-btn');
+        const btnText = submitBtn.querySelector('span');
+        const spinner = submitBtn.querySelector('.spinner');
 
-        document.getElementById('login-form').addEventListener('submit', async function (e) {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
+            // Loading state
+            btnText.style.display = 'none';
+            spinner.classList.remove('hidden');
+            submitBtn.classList.add('loading');
+
             const role = document.querySelector('input[name="role"]:checked').value;
-            const email = document.getElementById('email').value;
+            const usnInput = document.getElementById('usn');
+            const emailInput = document.getElementById('email');
             const password = document.getElementById('password').value;
 
-            // Check localStorage for simulated student accounts created by admin
-            if (role === 'student') {
-                const addedStudents = JSON.parse(localStorage.getItem('addedStudents') || '[]');
-                const foundStudent = addedStudents.find(s => (s.usn === email || s.email === email) && s.password === password);
-                if (foundStudent) {
-                    // Successful simulated login
-                    window.location.href = 'student_profile.html';
-                    return;
-                }
-            }
-
-            // The password field exists, and email acts as both email/USN based on the backend logic
-            // The role is also passed to the backend. The backend expects 'usn' or 'email'. 
-            // In login.html, the input is 'email', but it can be a USN or Email. 
-            // We can send the same value for both or rely on the backend checking both.
+            // Resolve which identifier is used for login. In Firebase, Auth requires email.
+            // If the user attempts Student login with USN, they must actually type the email created by the Admin.
+            // For now, we will rely on the email field.
+            const email = emailInput ? emailInput.value : usnInput.value;
 
             try {
-                const response = await fetch('/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        role: role,
-                        email: email,
-                        usn: email, // Backend checks WHERE email = ? AND university_id = ? (actually, in server.js it expects both to match. Let's fix server.js later if needed, but we'll send it)
-                        password: password
-                    })
-                });
+                // 1. Authenticate with Firebase
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
 
-                if (response.ok) {
-                    // Assuming successful login
-                    if (role === 'student') {
-                        window.location.href = 'student_profile.html';
-                    } else if (role === 'recruiter') {
-                        window.location.href = 'recruiter_dashboard.html';
-                    } else if (role === 'admin') {
-                        window.location.href = 'admin_dashboard.html';
+                // 2. Lookup user in Firestore to verify role
+                const userDoc = await getDoc(doc(db, 'users', user.uid));
+
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+
+                    if (userData.role !== role) {
+                        // Role mismatch
+                        await auth.signOut();
+                        throw new Error(`Account registered as ${userData.role}, not ${role}.`);
                     }
+
+                    // Success UI
+                    spinner.classList.add('hidden');
+                    btnText.style.display = 'inline';
+                    btnText.textContent = "Sign In Successful";
+                    submitBtn.classList.remove('loading');
+                    submitBtn.classList.add('success');
+
+                    // 3. Routing
+                    setTimeout(() => {
+                        if (role === 'student') window.location.href = 'student_profile.html';
+                        else if (role === 'recruiter') window.location.href = 'recruiter_dashboard.html';
+                        else if (role === 'admin') window.location.href = 'admin_dashboard.html';
+                    }, 500);
+
                 } else {
-                    const errorText = await response.text();
-                    alert("Login failed: " + errorText);
+                    // This edge case means user exists in Auth but missing Firestore doc (incomplete creation)
+                    await auth.signOut();
+                    throw new Error("User record missing in database. Please contact support.");
                 }
+
             } catch (err) {
                 console.error("Login error:", err);
-                alert("An error occurred during login. Please try again.");
+                spinner.classList.add('hidden');
+                btnText.style.display = 'inline';
+                btnText.textContent = "Sign In";
+                submitBtn.classList.remove('loading');
+                alert("Login failed: " + err.message);
             }
         });
     </script>
