@@ -7,6 +7,172 @@
     <title>Live Attendance Dashboard | Campus Placement Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="qr_attendance_dashboard.css">
+    <style>
+        /* Theme overrides to match Royal Blue / Light Blue palette */
+        :root {
+            --primary: #2563eb;
+            --primary-light: #60a5fa;
+            --primary-dark: #1e40af;
+            --bg-main: #f0f9ff;
+            --white: #ffffff;
+            --hero-gradient: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        }
+
+        body {
+            background-color: var(--bg-main);
+            background-image: radial-gradient(at 0% 0%, #eff6ff 0%, transparent 50%),
+                radial-gradient(at 100% 0%, #e0f2fe 100% 0%, transparent 50%),
+                radial-gradient(at 100% 100%, #f0f9ff 0%, transparent 50%),
+                radial-gradient(at 0% 100%, #eff6ff 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        .navbar {
+            background: var(--hero-gradient) !important;
+            border-bottom: none !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-item {
+            color: rgba(255, 255, 255, 0.8) !important;
+        }
+
+        .nav-item.active,
+        .nav-item:hover {
+            color: white !important;
+            opacity: 1 !important;
+        }
+
+        .avatar {
+            background: var(--white) !important;
+            color: var(--primary) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .page-header h1 {
+            color: var(--primary-dark) !important;
+            font-weight: 800;
+        }
+
+        .session-sidebar {
+            background: rgba(255, 255, 255, 0.6) !important;
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(37, 99, 235, 0.1) !important;
+        }
+
+        .session-card {
+            border: 1px solid rgba(37, 99, 235, 0.05) !important;
+            transition: all 0.3s ease !important;
+            background: white !important;
+        }
+
+        .session-card.active {
+            background: white !important;
+            border-color: var(--primary) !important;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.08) !important;
+        }
+
+        .session-card.active h3 {
+            color: var(--primary) !important;
+        }
+
+        .progress-fill {
+            background: var(--hero-gradient) !important;
+        }
+
+        .completed-fill {
+            background: #94a3b8 !important;
+        }
+
+        .btn-primary {
+            background: var(--hero-gradient) !important;
+            border: none !important;
+            color: white !important;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2) !important;
+            font-weight: 600 !important;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            color: var(--primary) !important;
+            border: 1px solid var(--primary) !important;
+            background: white !important;
+            font-weight: 600 !important;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-card {
+            background: white !important;
+            border: 1px solid rgba(37, 99, 235, 0.1) !important;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.05) !important;
+            border-radius: 12px;
+        }
+
+        .stat-icon.bg-blue-100 {
+            background: #eff6ff !important;
+            color: var(--primary) !important;
+        }
+
+        .attendance-table-card {
+            background: white !important;
+            border: 1px solid rgba(37, 99, 235, 0.1) !important;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.05) !important;
+            border-radius: 12px;
+        }
+
+        .branch-tag {
+            background: #eff6ff !important;
+            color: var(--primary) !important;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .pulse-dot {
+            background: var(--primary) !important;
+        }
+
+        .live-indicator {
+            background: #eff6ff !important;
+            color: var(--primary) !important;
+            border: 1px solid var(--primary-light) !important;
+            padding: 6px 12px !important;
+            border-radius: 20px !important;
+            font-weight: 600 !important;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .attendance-table thead tr {
+            background: #f8fafc !important;
+        }
+
+        .attendance-table th {
+            color: var(--primary-dark) !important;
+            padding: 16px !important;
+        }
+    </style>
 </head>
 
 <body>
