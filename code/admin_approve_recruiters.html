@@ -8,17 +8,69 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="recruiter_dashboard.css">
     <style>
-        /* Admin specific color adjustments */
+        /* Admin specific theme overrides - Only modifying Colors */
         :root {
             --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --secondary: #f1f5f9;
-            --secondary-hover: #e2e8f0;
-            --bg-main: #f8fafc;
+            --primary-light: #60a5fa;
+            --primary-dark: #1e40af;
+            --bg-main: #f0f9ff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --white: #ffffff;
+            --hero-gradient: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            --card-shadow: 0 10px 25px rgba(37, 99, 235, 0.1);
+            --border-color: rgba(37, 99, 235, 0.1);
+        }
+
+        body {
+            background: #f0f9ff;
+            background-image: radial-gradient(at 0% 0%, #eff6ff 0%, transparent 50%),
+                radial-gradient(at 100% 0%, #e0f2fe 100% 0%, transparent 50%),
+                radial-gradient(at 100% 100%, #f0f9ff 0%, transparent 50%),
+                radial-gradient(at 0% 100%, #eff6ff 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        .navbar {
+            background: var(--hero-gradient) !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-item, .nav-item.active {
+            color: white !important;
         }
 
         .avatar {
-            background: #8b5cf6;
+            background: var(--white) !important;
+            color: var(--primary) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-header h1 {
+            color: var(--primary-dark) !important;
+            font-weight: 800;
+        }
+
+        .section-card {
+            background: white !important;
+            border: 1px solid var(--border-color) !important;
+            box-shadow: var(--card-shadow) !important;
+        }
+
+        .btn-secondary {
+            background: var(--white) !important;
+            color: var(--primary) !important;
+            border: 1px solid var(--primary) !important;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-main) !important;
         }
 
         .btn-success {
