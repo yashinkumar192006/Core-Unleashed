@@ -12,20 +12,19 @@
 
 <body>
     <div class="login-wrapper">
-        <!-- Left Branding side (Same as Login Theme) -->
+        <!-- Left Branding side -->
         <div class="login-info-section">
-            <div class="brand-logo">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            <div class="brand-logo-container">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5"
                     stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
                 </svg>
-                <span class="brand-name">Core Unleashed</span>
             </div>
-            <h2>Start your career journey with us.</h2>
-            <p>Welcome to the unified Campus Placement Management System where students, recruiters, and placement
-                officers connect seamlessly.</p>
+            <h2>Unlock Your Career Potential Today.</h2>
+            <p>Experience a seamless placement journey with intelligent tools designed to connect top talent with
+                industry-leading recruiters directly.</p>
 
-            <ul class="features-list">
+            <ul class="features-list" id="signin-features">
                 <li>
                     <span class="check-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
@@ -53,9 +52,6 @@
                     </span>
                     Direct Access to Exclusive Placements
                 </li>
-                <li>Discover Top Opportunities</li>
-                <li>Track Applications in Real-Time</li>
-                <li>Connect with Verified Recruiters</li>
             </ul>
         </div>
 
@@ -69,32 +65,24 @@
             <form class="signin-form" action="#" method="POST">
                 <div class="role-selector">
                     <label class="role-option">
-                        <input type="radio" name="role" value="student" checked>
+                        <input type="radio" name="role" value="student" checked onchange="updateLoginFields('student')">
                         <span class="role-btn">Student</span>
                     </label>
                     <label class="role-option">
-                        <input type="radio" name="role" value="recruiter">
+                        <input type="radio" name="role" value="recruiter" onchange="updateLoginFields('recruiter')">
                         <span class="role-btn">Recruiter</span>
                     </label>
                     <label class="role-option">
-                        <input type="radio" name="role" value="admin">
+                        <input type="radio" name="role" value="admin" onchange="updateLoginFields('admin')">
                         <span class="role-btn">Admin</span>
                     </label>
                 </div>
 
                 <div class="form-group">
-                    <label for="usn">USN</label>
+                    <label for="unified-input" id="email-label">University ID / Email</label>
                     <div class="input-wrapper">
-                        <input type="text" id="usn" name="usn" class="form-control" placeholder="Enter your USN"
-                            required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <div class="input-wrapper">
-                        <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email"
-                            required>
+                        <input type="text" id="unified-input" name="unified-input" class="form-control"
+                            placeholder="Enter your ID or email" required>
                     </div>
                 </div>
 
@@ -123,17 +111,101 @@
                 </button>
             </form>
 
-            <div class="sign-up-link">
-                Don't have an account? <a href="signup.html">Create Account</a>
+            <div class="sign-up-link" style="margin-top: 15px;">
+                Don't have an account? <br>
+                <div style="margin-top: 8px;">
+                    <a href="recruiter_signup.html">Recruiter Sign Up</a> &nbsp;|&nbsp;
+                    <a href="admin_signup.html">Admin Sign Up</a>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Script to maintain the loading animation inside the new theme -->
+    <!-- Role field toggling (must be a regular script, not module, so inline onchange works) -->
+    <script>
+        function updateLoginFields(role) {
+            const emailLabel = document.getElementById('email-label');
+            const unifiedInput = document.getElementById('unified-input');
+            const features = document.getElementById('signin-features');
+
+            if (role === 'student') {
+                emailLabel.textContent = 'University ID / Email';
+                unifiedInput.placeholder = 'Enter your ID or email';
+                features.innerHTML = `
+                <li>
+                    <span class="check-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </span>
+                    AI-Powered Resume Optimization
+                </li>
+                <li>
+                    <span class="check-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </span>
+                    Streamlined Interview Scheduling
+                </li>
+                <li>
+                    <span class="check-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </span>
+                    Direct Access to Exclusive Placements
+                </li>
+                `;
+            } else if (role === 'recruiter') {
+                emailLabel.textContent = 'Work Email';
+                unifiedInput.placeholder = 'name@company.com';
+                features.innerHTML = `
+                <li>
+                    <span class="check-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </span>
+                    Post Job Openings
+                </li>
+                <li>
+                    <span class="check-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </span>
+                    Filter Top Candidates
+                </li>
+                <li>
+                    <span class="check-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </span>
+                    Schedule Interviews Easily
+                </li>
+                `;
+            } else if (role === 'admin') {
+                emailLabel.textContent = 'Staff Email';
+                unifiedInput.placeholder = 'staff@university.edu';
+                features.innerHTML = `
+                <li>
+                    <span class="check-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </span>
+                    Manage Student Data
+                </li>
+                <li>
+                    <span class="check-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </span>
+                    Organize Placement Drives
+                </li>
+                <li>
+                    <span class="check-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </span>
+                    Track Live Attendance
+                </li>
+                `;
+            }
+        }
+    </script>
+
+    <!-- Firebase Auth module script -->
     <script type="module">
         import { auth, db } from './firebase_setup.js';
         import { signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
-        import { doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
+        import { doc, getDoc, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
 
         const form = document.querySelector('.signin-form');
         const submitBtn = document.getElementById('signin-btn');
@@ -149,16 +221,23 @@
             submitBtn.classList.add('loading');
 
             const role = document.querySelector('input[name="role"]:checked').value;
-            const usnInput = document.getElementById('usn');
-            const emailInput = document.getElementById('email');
+            const unifiedInput = document.getElementById('unified-input');
             const password = document.getElementById('password').value;
 
             // Resolve which identifier is used for login. In Firebase, Auth requires email.
-            // If the user attempts Student login with USN, they must actually type the email created by the Admin.
-            // For now, we will rely on the email field.
-            const email = emailInput ? emailInput.value : usnInput.value;
+            let email = unifiedInput.value.trim();
 
             try {
+                if (role === 'student' && !email.includes('@')) {
+                    // It's a USN, looking up the associated email
+                    const q = query(collection(db, 'users'), where('usn', '==', email.toLowerCase()), where('role', '==', 'student'));
+                    const querySnapshot = await getDocs(q);
+                    if (querySnapshot.empty) {
+                        throw new Error("No student account found with that USN.");
+                    }
+                    email = querySnapshot.docs[0].data().email;
+                }
+
                 // 1. Authenticate with Firebase
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
@@ -184,7 +263,7 @@
 
                     // 3. Routing
                     setTimeout(() => {
-                        if (role === 'student') window.location.href = 'student_profile.html';
+                        if (role === 'student') window.location.href = 'home.html';
                         else if (role === 'recruiter') window.location.href = 'recruiter_dashboard.html';
                         else if (role === 'admin') window.location.href = 'admin_dashboard.html';
                     }, 500);

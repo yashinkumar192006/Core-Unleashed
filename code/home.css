@@ -4,16 +4,21 @@
    vibrant royal blue primary
    ======================================== */
 :root {
-    --bg-color: #dbeafe;         /* Sky blue background from image */
+    --bg-color: #dbeafe;
+    /* Sky blue background from image */
     --card-bg: #ffffff;
-    --sidebar-bg: #eff8ff;        /* Light blue tint — not pure white */
-    --topbar-bg: #eff8ff;         /* Same as sidebar */
+    --sidebar-bg: #eff8ff;
+    /* Light blue tint — not pure white */
+    --topbar-bg: #eff8ff;
+    /* Same as sidebar */
     --text-main: #1e3a5f;
     --text-muted: #64748b;
-    --primary: #1a73e8;           /* Royal blue from image */
+    --primary: #1a73e8;
+    /* Royal blue from image */
     --primary-hover: #1558c0;
     --primary-light: #e0ecfd;
-    --border-color: #bfdbfe;      /* Blue-tinted visible border */
+    --border-color: #bfdbfe;
+    /* Blue-tinted visible border */
     --input-bg: #f0f9ff;
     --shadow-sm: 0 1px 3px 0 rgba(26, 115, 232, 0.08);
     --shadow: 0 4px 20px rgba(26, 115, 232, 0.08);
@@ -29,7 +34,8 @@
     --purple: #8b5cf6;
     --purple-light: #f5f3ff;
     --sidebar-width: 72px;
-    --topbar-height: 72px;       /* Same as sidebar width */
+    --topbar-height: 72px;
+    /* Same as sidebar width */
 }
 
 * {
@@ -86,7 +92,8 @@ body {
     border-radius: 10px;
     transition: transform 0.2s;
     object-fit: cover;
-    border: 2px solid #93c5fd;    /* Slight blue-dark border for logo */
+    border: 2px solid #93c5fd;
+    /* Slight blue-dark border for logo */
     box-shadow: 0 2px 8px rgba(26, 115, 232, 0.2);
 }
 
@@ -129,7 +136,8 @@ body {
 .nav-item.active {
     background-color: var(--primary-light);
     color: var(--primary);
-    box-shadow: inset 3px 0 0 var(--primary); /* left blue bar indicator */
+    box-shadow: inset 3px 0 0 var(--primary);
+    /* left blue bar indicator */
 }
 
 .nav-item.active svg,
@@ -212,6 +220,7 @@ body {
         opacity: 0;
         transform: translateX(-10px) scale(0.96);
     }
+
     to {
         opacity: 1;
         transform: translateX(0) scale(1);
@@ -424,7 +433,9 @@ body {
 }
 
 @media (max-width: 900px) {
-    .overview-grid { grid-template-columns: repeat(2, 1fr); }
+    .overview-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 .stat-card {
@@ -442,7 +453,7 @@ body {
 
 .stat-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
 }
 
 /* ── Card 1: Dark Navy ── */
@@ -722,7 +733,9 @@ body {
 .popup-notif-item.unread::before {
     content: '';
     position: absolute;
-    left: 0; top: 0; bottom: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
     width: 3px;
     background: var(--primary);
     border-radius: 0 3px 3px 0;
@@ -851,14 +864,45 @@ body {
 /* ========================================
    Background Color Utility Classes
    ======================================== */
-.bg-blue-light { background-color: #dbeafe; color: var(--primary); }
-.bg-purple-light { background-color: var(--purple-light); color: var(--purple); }
-.bg-orange-light { background-color: var(--warning-light); color: var(--warning); }
-.bg-green-light { background-color: var(--success-light); color: var(--success); }
-.bg-blue { background-color: #dbeafe; color: var(--primary); }
-.bg-purple { background-color: var(--purple-light); color: var(--purple); }
-.bg-orange { background-color: var(--warning-light); color: var(--warning); }
-.bg-green { background-color: var(--success-light); color: var(--success); }
+.bg-blue-light {
+    background-color: #dbeafe;
+    color: var(--primary);
+}
+
+.bg-purple-light {
+    background-color: var(--purple-light);
+    color: var(--purple);
+}
+
+.bg-orange-light {
+    background-color: var(--warning-light);
+    color: var(--warning);
+}
+
+.bg-green-light {
+    background-color: var(--success-light);
+    color: var(--success);
+}
+
+.bg-blue {
+    background-color: #dbeafe;
+    color: var(--primary);
+}
+
+.bg-purple {
+    background-color: var(--purple-light);
+    color: var(--purple);
+}
+
+.bg-orange {
+    background-color: var(--warning-light);
+    color: var(--warning);
+}
+
+.bg-green {
+    background-color: var(--success-light);
+    color: var(--success);
+}
 
 /* ========================================
    Create Popup — Card Items

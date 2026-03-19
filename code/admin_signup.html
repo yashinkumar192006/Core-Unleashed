@@ -4,83 +4,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Create an account on the Campus Placement Management System">
-    <title>Sign Up | Campus Placement Portal</title>
+    <meta name="description" content="Create an Admin account on the Campus Placement Management System">
+    <title>Admin Sign Up | Campus Placement Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="login.css">
     <style>
         .login-wrapper {
-            min-height: 650px;
+            min-height: 550px;
         }
 
         .form-group {
-            margin-bottom: 16px;
-            /* slightly smaller padding to fit more fields */
+            margin-bottom: 20px;
         }
     </style>
 </head>
 
 <body>
-
     <div class="login-wrapper">
-        <!-- Left Branding side -->
         <div class="login-info-section">
-            <div class="brand-logo">
+            <div class="brand-logo-container">
                 <img src="logo.png" alt="Placement Logo" style="width: 40px; height: 40px; border-radius: 4px;">
             </div>
-            <h2>Launch Your Career</h2>
-            <p>Your journey to the perfect job starts here. Build your profile and connect with top employers.</p>
-
+            <h2>Admin Portal Access</h2>
+            <p>Manage placement drives, student profiles, and coordinate with top recruiters seamlessly.</p>
             <ul class="features-list">
-                <li>Explore Placement Drives</li>
-                <li>Build Your Professional Profile</li>
-                <li>Connect with Top Employers</li>
+                <li>
+                    <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg></span>
+                    Manage User Roles
+                </li>
+                <li>
+                    <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg></span>
+                    Coordinate Placement Drives
+                </li>
+                <li>
+                    <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg></span>
+                    Access Global Analytics
+                </li>
             </ul>
         </div>
 
-        <!-- Right Form side -->
         <div class="login-form-section">
             <div class="login-header">
-                <h1>Create Account</h1>
-                <p>Please enter your details to sign up</p>
+                <h1>Admin Sign Up</h1>
+                <p>Please enter your details to create an admin account</p>
             </div>
 
             <form id="signup-form">
                 <div class="role-selector">
                     <label class="role-option">
-                        <input type="radio" name="role" value="recruiter" checked
-                            onchange="updateSignupFields('recruiter')">
+                        <input type="radio" name="role" value="recruiter"
+                            onchange="window.location.href='recruiter_signup.html'">
                         <span class="role-btn">Recruiter</span>
                     </label>
                     <label class="role-option">
-                        <input type="radio" name="role" value="admin" onchange="updateSignupFields('admin')">
+                        <input type="radio" name="role" value="admin" checked>
                         <span class="role-btn">Admin</span>
                     </label>
                 </div>
-
                 <div class="form-group">
-                    <label for="identifier" id="identifier-label">Company Name</label>
-                    <input type="text" id="identifier" name="identifier" class="form-control"
-                        placeholder="Enter your company name" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="email" id="email-label">Work Email</label>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="name@company.com"
+                    <label for="email" id="email-label">Admin Email</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="admin@college.edu"
                         required>
                 </div>
-
                 <div class="form-group">
                     <label for="password" id="password-label">Password</label>
                     <input type="password" id="password" name="password" class="form-control"
                         placeholder="Create a new password" required>
                 </div>
-
                 <button type="submit" class="btn-submit">Sign Up</button>
             </form>
-
             <div class="sign-up-link">
-                Already have an account? <a href="login.html">Sign In</a>
+                Already have an account? <a href="login.html">Login In</a>
             </div>
         </div>
     </div>
@@ -90,38 +93,20 @@
         import { createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
         import { doc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
 
-        // Keep the toggling behavior globally accessible
-        window.updateSignupFields = function (role) {
-            const identifierLabel = document.getElementById('identifier-label');
-            const identifierInput = document.getElementById('identifier');
-
-            if (role === 'admin') {
-                identifierLabel.textContent = 'Staff ID';
-                identifierInput.placeholder = 'e.g., STF1234';
-            } else if (role === 'recruiter') {
-                identifierLabel.textContent = 'Company Name';
-                identifierInput.placeholder = 'e.g., Google';
-            }
-        };
-
         document.getElementById('signup-form').addEventListener('submit', async function (e) {
             e.preventDefault();
-
             const submitBtn = document.querySelector('.btn-submit');
             submitBtn.textContent = 'Creating Account...';
             submitBtn.disabled = true;
 
-            const role = document.querySelector('input[name="role"]:checked').value;
-            const identifier = document.getElementById('identifier').value;
+            const role = 'admin';
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
             try {
-                // 1. Create the user in Firebase Auth
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
 
-                // 2. Save role and profile details to Firestore `users` collection
                 const userData = {
                     uid: user.uid,
                     role: role,
@@ -129,21 +114,10 @@
                     createdAt: serverTimestamp()
                 };
 
-                if (role === 'admin') {
-                    userData.staff_id = identifier;
-                } else if (role === 'recruiter') {
-                    userData.company_name = identifier;
-                }
-
                 await setDoc(doc(db, 'users', user.uid), userData);
 
-                alert('Account successfully created! Please complete your profile.');
-                if (role === 'recruiter') {
-                    window.location.href = 'recruiter_setup_profile.html';
-                } else if (role === 'admin') {
-                    window.location.href = 'admin_setup_profile.html';
-                }
-
+                alert('Admin account successfully created! Please complete your profile.');
+                window.location.href = 'admin_setup_profile.html';
             } catch (error) {
                 console.error("Firebase Sign Up Error:", error);
                 alert("Error creating account: " + error.message);

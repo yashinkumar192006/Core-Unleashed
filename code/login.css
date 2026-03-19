@@ -58,14 +58,14 @@ body::after {
 }
 
 body::before {
-    background: #3b82f6;
+    background: var(--primary);
     top: -200px;
     left: -200px;
     animation: moveBlob1 20s infinite alternate;
 }
 
 body::after {
-    background: #60a5fa;
+    background: var(--primary-light);
     bottom: -200px;
     right: -200px;
     animation: moveBlob2 25s infinite alternate-reverse;
@@ -150,14 +150,8 @@ body::after {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 4px;
-    margin-bottom: 12px;
-}
-
-.brand-logo img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+    margin-bottom: 32px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .login-info-section h2 {
@@ -166,40 +160,42 @@ body::after {
     font-weight: 800;
     line-height: 1.1;
     margin-bottom: 24px;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.02em;
 }
 
 .login-info-section p {
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     line-height: 1.6;
     opacity: 0.9;
-    margin-bottom: 40px;
+    margin-bottom: 48px;
+    max-width: 90%;
 }
 
 .features-list {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 16px;
 }
 
 .features-list li {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 0.8rem;
+    gap: 12px;
+    font-size: 1rem;
     font-weight: 500;
+    color: rgba(255, 255, 255, 0.95);
 }
 
 .check-icon {
-    width: 16px;
-    height: 16px;
+    width: 24px;
+    height: 24px;
     background: rgba(255, 255, 255, 0.2);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 3px;
+    padding: 4px;
     flex-shrink: 0;
 }
 
@@ -225,10 +221,11 @@ body::after {
 
 .login-header h1 {
     font-size: 2.25rem;
-    font-weight: 800;
+    font-weight: 700;
     color: var(--text-main);
-    margin-bottom: 12px;
-    letter-spacing: -1px;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+    text-align: center;
 }
 
 .login-header p {
@@ -240,7 +237,7 @@ body::after {
 .role-selector {
     display: flex;
     gap: 8px;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 }
 
 .role-option {
@@ -260,7 +257,7 @@ body::after {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     color: var(--text-muted);
-    border-radius: 14px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 0.95rem;
     font-weight: 700;
@@ -287,9 +284,9 @@ body::after {
 
 .form-group label {
     display: block;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: 600;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     color: var(--text-main);
 }
 
@@ -319,14 +316,14 @@ body::after {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-    font-size: 0.8rem;
+    margin-bottom: 24px;
+    font-size: 0.9rem;
 }
 
 .remember-me {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     cursor: pointer;
     color: var(--text-muted);
 }
@@ -386,8 +383,8 @@ body::after {
 
 .sign-up-link {
     text-align: center;
-    margin-top: 16px;
-    font-size: 0.8rem;
+    margin-top: 24px;
+    font-size: 0.9rem;
     color: var(--text-muted);
 }
 

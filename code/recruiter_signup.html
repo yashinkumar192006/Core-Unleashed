@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create a Recruiter account on the Campus Placement Management System">
+    <title>Recruiter Sign Up | Campus Placement Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="login.css">
+    <style>
+        .login-wrapper {
+            min-height: 550px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-wrapper">
+        <div class="login-info-section">
+            <div class="brand-logo-container">
+                <img src="logo.png" alt="Placement Logo" style="width: 40px; height: 40px; border-radius: 4px;">
+            </div>
+            <h2>Hire Top Talent</h2>
+            <p>Your journey to finding the perfect candidates starts here. Build your company profile and connect with
+                top students.</p>
+            <ul class="features-list">
+                <li>
+                    <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg></span>
+                    Host Placement Drives
+                </li>
+                <li>
+                    <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg></span>
+                    Review Student Profiles
+                </li>
+                <li>
+                    <span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg></span>
+                    Interview & Shortlist Talent
+                </li>
+            </ul>
+        </div>
+
+        <div class="login-form-section">
+            <div class="login-header">
+                <h1>Recruiter Sign Up</h1>
+                <p>Please enter your details to create a recruiter account</p>
+            </div>
+
+            <form id="signup-form">
+                <div class="role-selector">
+                    <label class="role-option">
+                        <input type="radio" name="role" value="recruiter" checked>
+                        <span class="role-btn">Recruiter</span>
+                    </label>
+                    <label class="role-option">
+                        <input type="radio" name="role" value="admin"
+                            onchange="window.location.href='admin_signup.html'">
+                        <span class="role-btn">Admin</span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="identifier" id="identifier-label">Company Name</label>
+                    <input type="text" id="identifier" name="identifier" class="form-control"
+                        placeholder="Enter your company name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email" id="email-label">Work Email</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="name@company.com"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label for="password" id="password-label">Password</label>
+                    <input type="password" id="password" name="password" class="form-control"
+                        placeholder="Create a new password" required>
+                </div>
+                <button type="submit" class="btn-submit">Sign Up</button>
+            </form>
+            <div class="sign-up-link">
+                Already have an account? <a href="login.html">Login In</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { auth, db } from './firebase_setup.js';
+        import { createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
+        import { doc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
+
+        document.getElementById('signup-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const submitBtn = document.querySelector('.btn-submit');
+            submitBtn.textContent = 'Creating Account...';
+            submitBtn.disabled = true;
+
+            const role = 'recruiter';
+            const identifier = document.getElementById('identifier').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                const userData = {
+                    uid: user.uid,
+                    role: role,
+                    email: email,
+                    company_name: identifier,
+                    createdAt: serverTimestamp()
+                };
+
+                await setDoc(doc(db, 'users', user.uid), userData);
+
+                alert('Recruiter account successfully created! Please complete your profile.');
+                window.location.href = 'recruiter_setup_profile.html';
+            } catch (error) {
+                console.error("Firebase Sign Up Error:", error);
+                alert("Error creating account: " + error.message);
+                submitBtn.textContent = 'Sign Up';
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+
+</html>
