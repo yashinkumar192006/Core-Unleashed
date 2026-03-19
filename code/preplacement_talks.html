@@ -7,6 +7,134 @@
     <title>Manage Pre-Placement Talks | Campus Placement Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="preplacement_talks.css">
+    <style>
+        /* Theme overrides to match Royal Blue / Light Blue palette */
+        :root {
+            --primary: #2563eb;
+            --primary-light: #60a5fa;
+            --primary-dark: #1e40af;
+            --bg-main: #f0f9ff;
+            --white: #ffffff;
+            --hero-gradient: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        }
+
+        body {
+            background-color: var(--bg-main);
+            background-image: radial-gradient(at 0% 0%, #eff6ff 0%, transparent 50%),
+                radial-gradient(at 100% 0%, #e0f2fe 100% 0%, transparent 50%),
+                radial-gradient(at 100% 100%, #f0f9ff 0%, transparent 50%),
+                radial-gradient(at 0% 100%, #eff6ff 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        .navbar {
+            background: var(--hero-gradient) !important;
+            border-bottom: none !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-item {
+            color: rgba(255, 255, 255, 0.8) !important;
+        }
+
+        .nav-item.active,
+        .nav-item:hover {
+            color: white !important;
+            opacity: 1 !important;
+        }
+
+        .avatar {
+            background: var(--white) !important;
+            color: var(--primary) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .page-header h1 {
+            color: var(--primary-dark) !important;
+            font-weight: 800;
+        }
+
+        .form-section,
+        .info-section>div {
+            border: 1px solid rgba(37, 99, 235, 0.1) !important;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.05) !important;
+            background: white !important;
+            border-radius: 16px !important;
+        }
+
+        .section-title h2 {
+            color: var(--primary-dark) !important;
+        }
+
+        .btn-primary {
+            background: var(--hero-gradient) !important;
+            border: none !important;
+            color: white !important;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2) !important;
+            font-weight: 600 !important;
+            transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(37, 99, 235, 0.3) !important;
+        }
+
+        .qr-card {
+            border: 2px solid var(--primary-light) !important;
+            background: white !important;
+        }
+
+        .qr-header {
+            background: var(--bg-main) !important;
+            color: var(--primary-dark) !important;
+        }
+
+        .pulse-indicator {
+            background: var(--primary) !important;
+            box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4);
+        }
+
+        .company-badge {
+            background: var(--bg-main) !important;
+            color: var(--primary) !important;
+            border: 1px solid var(--primary-light) !important;
+        }
+
+        .talk-item {
+            border-left: 4px solid var(--primary) !important;
+            background: #f8fafc !important;
+        }
+
+        .talk-item h3 {
+            color: var(--primary-dark) !important;
+        }
+
+        .btn-icon {
+            color: var(--primary) !important;
+            background: var(--bg-main) !important;
+            border-radius: 8px !important;
+        }
+
+        .btn-icon:hover {
+            background: var(--primary) !important;
+            color: white !important;
+        }
+        
+        .form-group label {
+            color: var(--primary-dark) !important;
+            font-weight: 600 !important;
+        }
+        
+        input:focus, textarea:focus {
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1) !important;
+        }
+    </style>
     <!-- QRCode.js for generating QR codes -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
