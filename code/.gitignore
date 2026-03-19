@@ -1,2 +1,7 @@
 .env
 node_modules
+firebase_setup.js
+.gitignore
+firebase.json
+firebase.indexes.json
+firebase.rules
