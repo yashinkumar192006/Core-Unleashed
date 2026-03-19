@@ -8,21 +8,160 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="student_profile.css">
     <style>
-        .verified-badge {
+        /* Theme overrides to match Royal Blue / Light Blue palette */
+        :root {
+            --primary: #2563eb;
+            --primary-light: #60a5fa;
+            --primary-dark: #000000;
+            --bg-main: #f0f9ff;
+            --white: #ffffff;
+            --hero-gradient: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            --shadow: 0 15px 35px rgba(37, 99, 235, 0.12), 0 5px 15px rgba(0, 0, 0, 0.05);
+            --border-color: rgba(37, 99, 235, 0.1);
+        }
+
+        body {
+            background-color: var(--bg-main);
+            background-image: radial-gradient(at 0% 0%, #eff6ff 0%, transparent 50%),
+                radial-gradient(at 100% 0%, #e0f2fe 100% 0%, transparent 50%),
+                radial-gradient(at 100% 100%, #f0f9ff 0%, transparent 50%),
+                radial-gradient(at 0% 100%, #eff6ff 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        .navbar {
+            background: var(--hero-gradient) !important;
+            border-bottom: none !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.8) !important;
+        }
+
+        .nav-links a:hover {
+            color: white !important;
+            opacity: 1 !important;
+        }
+
+        .avatar {
+            background: var(--white) !important;
+            color: var(--primary) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 5px;
-            background: #ecfdf5;
-            color: #10b981;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            border: 1px solid #bbf7d0;
+            justify-content: center;
         }
+
+        .sidebar-profile {
+            background: white !important;
+            border: 1px solid var(--border-color) !important;
+            box-shadow: var(--shadow) !important;
+            border-radius: 24px !important;
+            padding: 2rem !important;
+        }
+
+        .sidebar-name {
+            color: var(--primary-dark) !important;
+            font-weight: 800 !important;
+            font-size: 1.5rem !important;
+            margin: 15px 0 5px !important;
+        }
+
+        .completion-fill {
+            background: var(--hero-gradient) !important;
+        }
+
+        .section-card {
+            background: white !important;
+            border: 1px solid var(--border-color) !important;
+            box-shadow: var(--shadow) !important;
+            border-radius: 24px !important;
+            padding: 2rem !important;
+            margin-bottom: 2rem !important;
+        }
+
+        .section-header h2 {
+            color: var(--primary-dark) !important;
+            font-weight: 800 !important;
+            font-size: 1.4rem !important;
+        }
+
+        .btn-primary {
+            background: var(--hero-gradient) !important;
+            border: none !important;
+            color: white !important;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2) !important;
+            font-weight: 700 !important;
+            padding: 12px 28px !important;
+            border-radius: 12px !important;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3) !important;
+        }
+
+        .btn-secondary {
+            color: var(--primary) !important;
+            border: 1.5px solid var(--primary) !important;
+            background: white !important;
+            font-weight: 700 !important;
+            padding: 10px 20px !important;
+            border-radius: 10px !important;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-main) !important;
+        }
+
+        .skill-tag {
+            background: #eff6ff !important;
+            color: var(--primary) !important;
+            border: 1px solid var(--primary-light) !important;
+            font-weight: 600 !important;
+            padding: 6px 14px !important;
+            border-radius: 10px !important;
+        }
+
+        .verified-badge {
+            background: #eff6ff !important;
+            color: var(--primary) !important;
+            border: 1px solid var(--primary-light) !important;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px !important;
+            border-radius: 30px !important;
+            font-size: 0.8rem !important;
+        }
+
         .verified-icon {
-            width: 14px;
-            height: 14px;
+            width: 16px;
+            height: 16px;
+        }
+
+        .form-group label {
+            color: var(--primary-dark) !important;
+            font-weight: 700 !important;
+            margin-bottom: 8px !important;
+            display: block;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1) !important;
+        }
+
+        .sidebar-id {
+            color: var(--primary) !important;
+            font-weight: 600 !important;
         }
     </style>
 </head>
