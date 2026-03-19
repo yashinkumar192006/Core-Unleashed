@@ -8,46 +8,116 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="recruiter_dashboard.css">
     <style>
-        /* Admin specific color adjustments just in case */
+        /* Admin specific theme overrides - Only modifying Colors */
         :root {
             --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --secondary: #f1f5f9;
-            --secondary-hover: #e2e8f0;
-            --bg-main: #f8fafc;
+            --primary-light: #60a5fa;
+            --primary-dark: #1e40af;
+            --bg-main: #f0f9ff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --white: #ffffff;
+            --hero-gradient: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            --card-shadow: 0 10px 25px rgba(37, 99, 235, 0.1);
+            --border-color: rgba(37, 99, 235, 0.1);
+        }
+
+        body {
+            background: #f0f9ff;
+            background-image: radial-gradient(at 0% 0%, #eff6ff 0%, transparent 50%),
+                radial-gradient(at 100% 0%, #e0f2fe 100% 0%, transparent 50%),
+                radial-gradient(at 100% 100%, #f0f9ff 0%, transparent 50%),
+                radial-gradient(at 0% 100%, #eff6ff 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        .navbar {
+            background: var(--hero-gradient) !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-item, .nav-item.active {
+            color: white !important;
         }
 
         .avatar {
-            background: #8b5cf6;
+            background: var(--white) !important;
+            color: var(--primary) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-header h1 {
+            color: var(--primary-dark) !important;
+            font-weight: 800;
+        }
+
+        .stat-card {
+            background: white !important;
+            border: 1px solid var(--border-color) !important;
+            box-shadow: var(--card-shadow) !important;
+        }
+
+        .stat-value {
+            color: var(--primary) !important;
+        }
+
+        .section-card {
+            background: white !important;
+            border: 1px solid var(--border-color) !important;
+            box-shadow: var(--card-shadow) !important;
+        }
+
+        .btn-primary {
+            background: var(--hero-gradient) !important;
+            border: none !important;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2) !important;
+        }
+
+        .btn-secondary {
+            background: var(--white) !important;
+            color: var(--primary) !important;
+            border: 1px solid var(--primary) !important;
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-main) !important;
         }
 
         /* Modal Styles */
         .modal-overlay {
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 1000;
         }
-        .modal-overlay.active { display: flex; animation: fadeIn 0.2s; }
-        .modal-box {
-            background: white;
-            padding: 32px;
-            border-radius: 12px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeIn 0.2s;
         }
-        .modal-header { margin-bottom: 20px; }
-        .modal-header h2 { font-size: 1.25rem; color: var(--text-main); margin-bottom: 8px; }
-        .modal-header p { font-size: 0.9rem; color: var(--text-muted); }
-        .form-group-modal { margin-bottom: 16px; }
-        .form-group-modal label { display: block; margin-bottom: 6px; font-size: 0.85rem; font-weight: 500; color: var(--text-main); }
-        .form-group-modal input, .form-group-modal select { width: 100%; padding: 10px 14px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.95rem; }
-        .modal-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .modal-box {
+            background: white !important;
+            padding: 32px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .modal-header h2 {
+            color: var(--primary-dark);
+            font-weight: 700;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
     </style>
 </head>
 
@@ -203,7 +273,9 @@
                                     </div>
                                 </td>
                                 <td>CSE, IT</td>
-                                <td><span class="status-badge" style="background:var(--success-bg); color:var(--success-text);">Ongoing</span></td>
+                                <td><span class="status-badge"
+                                        style="background:var(--success-bg); color:var(--success-text);">Ongoing</span>
+                                </td>
                                 <td>Today</td>
                                 <td>
                                     <button class="action-btn" title="View Drive">
@@ -283,14 +355,16 @@
                             </div>
                         </div>
                         <div class="job-stats">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted)">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                style="color:var(--text-muted)">
                                 <polyline points="9 18 15 12 9 6"></polyline>
                             </svg>
                         </div>
                     </div>
 
-                    <div class="job-item" style="cursor:pointer;" onclick="location.href='qr_attendance_dashboard.html'">
+                    <div class="job-item" style="cursor:pointer;"
+                        onclick="location.href='qr_attendance_dashboard.html'">
                         <div class="job-details">
                             <h3>QR Attendance Dashboard</h3>
                             <div class="job-meta">
@@ -298,14 +372,16 @@
                             </div>
                         </div>
                         <div class="job-stats">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted)">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                style="color:var(--text-muted)">
                                 <polyline points="9 18 15 12 9 6"></polyline>
                             </svg>
                         </div>
                     </div>
 
-                    <div class="job-item" style="cursor:pointer;" onclick="location.href='admin_approve_recruiters.html'">
+                    <div class="job-item" style="cursor:pointer;"
+                        onclick="location.href='admin_approve_recruiters.html'">
                         <div class="job-details">
                             <h3>Approve Employer Requests</h3>
                             <div class="job-meta">
@@ -313,8 +389,9 @@
                             </div>
                         </div>
                         <div class="job-stats">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted)">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                style="color:var(--text-muted)">
                                 <polyline points="9 18 15 12 9 6"></polyline>
                             </svg>
                         </div>
@@ -331,7 +408,7 @@
                 <h2>Create New Event</h2>
                 <p>Schedule a new placement drive, pre-placement talk, or training session.</p>
             </div>
-            
+
             <div class="form-group-modal">
                 <label for="event-title">Event Title</label>
                 <input type="text" id="event-title" placeholder="e.g. Google Campus Drive" required>
@@ -393,7 +470,7 @@
         function submitEvent() {
             const title = document.getElementById('event-title').value;
             const date = document.getElementById('event-date').value;
-            
+
             if (!title || !date) {
                 alert("Please fill in the event title and date.");
                 return;
