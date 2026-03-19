@@ -5,15 +5,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Drives Calendar | Campus Placement Portal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="home.css">
     <style>
+        /* Theme overrides to match Royal Blue / Light Blue palette */
+        :root {
+            --primary: #2563eb;
+            --primary-light: #60a5fa;
+            --primary-dark: #1e40af;
+            --bg-main: #f0f9ff;
+            --white: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --hero-gradient: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            --border-color: rgba(37, 99, 235, 0.1);
+            --shadow: 0 10px 25px rgba(37, 99, 235, 0.05);
+        }
+
+        body {
+            background-color: var(--bg-main);
+            background-image: radial-gradient(at 0% 0%, #eff6ff 0%, transparent 50%),
+                radial-gradient(at 100% 0%, #e0f2fe 100% 0%, transparent 50%),
+                radial-gradient(at 100% 100%, #f0f9ff 0%, transparent 50%),
+                radial-gradient(at 0% 100%, #eff6ff 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        .sidebar {
+            background: var(--hero-gradient) !important;
+            border-right: none !important;
+        }
+
+        .nav-item {
+            color: rgba(255, 255, 255, 0.7) !important;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            color: white !important;
+            background: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .top-bar {
+            background: rgba(255, 255, 255, 0.8) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color) !important;
+        }
+
+        .top-bar h2 {
+            color: var(--primary-dark) !important;
+            font-weight: 800;
+        }
+
         .calendar-container {
-            background: white;
+            background: white !important;
+            border: 1px solid var(--border-color) !important;
+            box-shadow: var(--shadow) !important;
             border-radius: 20px;
             padding: 2rem;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border-color);
         }
 
         .calendar-header {
@@ -26,7 +76,7 @@
         .month-year {
             font-size: 1.5rem;
             font-weight: 800;
-            color: var(--text-main);
+            color: var(--primary-dark) !important;
         }
 
         .calendar-grid {
@@ -72,13 +122,13 @@
         }
 
         .day-cell.today {
-            background: #eff6ff;
-            border-color: var(--primary);
+            background: #eff6ff !important;
+            border-color: var(--primary) !important;
         }
 
         .day-cell.today .day-number {
-            background: var(--primary);
-            color: white;
+            background: var(--primary) !important;
+            color: white !important;
             border-radius: 6px;
         }
 
@@ -94,9 +144,23 @@
             cursor: pointer;
         }
 
-        .event-talk { background: #ecfdf5; color: #059669; border: 1px solid #bbf7d0; }
-        .event-test { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
-        .event-deadline { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+        .event-talk {
+            background: #ecfdf5;
+            color: #059669;
+            border: 1px solid #bbf7d0;
+        }
+
+        .event-test {
+            background: #eff6ff;
+            color: #2563eb;
+            border: 1px solid #bfdbfe;
+        }
+
+        .event-deadline {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
 
         .calendar-legend {
             display: flex;
@@ -119,6 +183,36 @@
             height: 12px;
             border-radius: 3px;
         }
+
+        .btn-primary {
+            background: var(--hero-gradient) !important;
+            border: none !important;
+            color: white !important;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2) !important;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        .btn-outline {
+            color: var(--primary) !important;
+            border: 1px solid var(--primary) !important;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        .avatar-small {
+            background: var(--hero-gradient) !important;
+            color: white !important;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
     </style>
 </head>
 
@@ -135,28 +229,54 @@
                 </a>
                 <nav class="nav-menu">
                     <a href="home.html" class="nav-item" title="Home">
-                        <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                        <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
                     </a>
                     <a href="job_explorer.html" class="nav-item" title="Explore / Jobs">
-                        <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+                        <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+                        </svg>
                     </a>
                     <button class="nav-item" title="Create" onclick="togglePopup('quickPopup', event)">
-                        <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                        <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="12" y1="8" x2="12" y2="16"></line>
+                            <line x1="8" y1="12" x2="16" y2="12"></line>
+                        </svg>
                     </button>
                     <button class="nav-item" title="Notifications" onclick="togglePopup('notifPopup', event)">
                         <div class="nav-icon-wrapper">
-                            <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                            <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                            </svg>
                             <span class="badge" id="notifBadge" style="display: none;"></span>
                         </div>
                     </button>
                     <a href="alumni_chat.html" class="nav-item" title="Alumni Chat">
-                        <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                        <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
                     </a>
                 </nav>
             </div>
             <div class="sidebar-bottom">
                 <a href="settings.html" class="nav-item" title="Settings">
-                    <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path
+                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z">
+                        </path>
+                    </svg>
                 </a>
             </div>
         </aside>
@@ -237,9 +357,15 @@
                     </div>
 
                     <div class="calendar-legend">
-                        <div class="legend-item"><div class="legend-color event-talk"></div> Pre-Placement Talks</div>
-                        <div class="legend-item"><div class="legend-color event-test"></div> Technical Tests</div>
-                        <div class="legend-item"><div class="legend-color event-deadline"></div> App. Deadlines</div>
+                        <div class="legend-item">
+                            <div class="legend-color event-talk"></div> Pre-Placement Talks
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color event-test"></div> Technical Tests
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color event-deadline"></div> App. Deadlines
+                        </div>
                     </div>
                 </div>
             </div>
@@ -262,7 +388,7 @@
             const totalNotifs = 2; // Assuming 2 unread by default as in other pages
             const readCount = readNotifs.filter(id => id.startsWith('pop-notif-')).length;
             const unreadCount = Math.max(0, totalNotifs - readCount);
-            
+
             if (badge) {
                 badge.style.display = unreadCount === 0 ? 'none' : 'block';
                 badge.textContent = unreadCount > 0 ? unreadCount : '';
@@ -286,4 +412,5 @@
         }
     </script>
 </body>
+
 </html>
