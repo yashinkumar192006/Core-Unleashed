@@ -8,50 +8,123 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="recruiter_dashboard.css">
     <style>
-        /* Admin specific color adjustments */
+        /* Theme overrides to match Royal Blue / Light Blue palette */
         :root {
             --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --secondary: #f1f5f9;
-            --secondary-hover: #e2e8f0;
-            --bg-main: #f8fafc;
+            --primary-light: #60a5fa;
+            --primary-dark: #1e40af;
+            --bg-main: #f0f9ff;
+            --white: #ffffff;
+            --hero-gradient: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        }
+
+        body {
+            background-color: var(--bg-main);
+            background-image: radial-gradient(at 0% 0%, #eff6ff 0%, transparent 50%),
+                radial-gradient(at 100% 0%, #e0f2fe 100% 0%, transparent 50%),
+                radial-gradient(at 100% 100%, #f0f9ff 0%, transparent 50%),
+                radial-gradient(at 0% 100%, #eff6ff 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        .navbar {
+            background: var(--hero-gradient) !important;
+            border-bottom: none !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-item {
+            color: rgba(255, 255, 255, 0.8) !important;
+        }
+
+        .nav-item.active,
+        .nav-item:hover {
+            color: white !important;
+            opacity: 1;
         }
 
         .avatar {
-            background: #8b5cf6;
+            background: var(--white) !important;
+            color: var(--primary) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .dashboard-header h1 {
+            color: var(--primary-dark) !important;
+            font-weight: 800;
+        }
+
+        .section-card {
+            border: 1px solid rgba(37, 99, 235, 0.1) !important;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.05) !important;
+            background: white !important;
+        }
+
+        .section-header h2 {
+            color: var(--primary-dark) !important;
         }
 
         .btn-success {
-            background: #10b981;
-            color: #fff;
-            border: none;
+            background: var(--hero-gradient) !important;
+            border: none !important;
+            color: white !important;
             padding: 8px 16px;
             border-radius: 6px;
             cursor: pointer;
             font-size: 0.9rem;
-            font-weight: 500;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2) !important;
             transition: all 0.2s ease;
         }
 
         .btn-success:hover {
-            background: #059669;
+            transform: translateY(-1px);
+            filter: brightness(1.1);
         }
 
         .btn-danger {
-            background: #ef4444;
-            color: #fff;
-            border: none;
+            background: white !important;
+            color: #ef4444 !important;
+            border: 1px solid #fecaca !important;
             padding: 8px 16px;
             border-radius: 6px;
             cursor: pointer;
             font-size: 0.9rem;
             font-weight: 500;
-            transition: all 0.2s ease;
             margin-left: 8px;
+            transition: all 0.2s ease;
         }
 
         .btn-danger:hover {
-            background: #dc2626;
+            background: #fef2f2 !important;
+            border-color: #ef4444 !important;
+        }
+
+        .btn-secondary {
+            color: var(--primary) !important;
+            border: 1px solid var(--primary) !important;
+            background: white !important;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .student-avatar {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        table thead tr {
+            background: #f8fafc !important;
+        }
+
+        table th {
+            color: var(--primary-dark) !important;
+            font-weight: 700 !important;
         }
 
         .action-cell {

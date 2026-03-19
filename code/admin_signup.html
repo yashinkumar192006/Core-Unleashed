@@ -9,12 +9,158 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="login.css">
     <style>
+        /* Theme overrides for a symmetrical 50/50 Elite Layout */
+        :root {
+            --primary: #3b82f6;
+            --primary-light: #93c5fd;
+            --primary-dark: #1e40af;
+            --bg-main: #f0f9ff;
+            --hero-gradient: linear-gradient(135deg, #2563eb 0%, #3b82f6 50%, #60a5fa 100%);
+        }
+
+        body {
+            background-color: var(--bg-main);
+            background-image: radial-gradient(at 0% 0%, #eff6ff 0%, transparent 50%),
+                radial-gradient(at 100% 0%, #e0f2fe 100% 0%, transparent 50%),
+                radial-gradient(at 100% 100%, #f0f9ff 0%, transparent 50%),
+                radial-gradient(at 0% 100%, #eff6ff 0%, transparent 50%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            margin: 0;
+        }
+
         .login-wrapper {
-            min-height: 550px;
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important; /* Forces 50/50 Split */
+            width: 100%;
+            max-width: 1150px !important;
+            min-height: 680px !important;
+            background: white;
+            border-radius: 40px !important;
+            box-shadow: 0 40px 100px -20px rgba(37, 99, 235, 0.15) !important;
+            overflow: hidden;
+            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .login-info-section {
+            background: var(--hero-gradient) !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: center !important;
+            padding: 60px !important;
+            color: white !important;
+            text-align: left !important;
+            position: relative;
+            z-index: 1;
+            margin: 0 !important;
+            -webkit-mask-image: none !important;
+            mask-image: none !important;
+        }
+
+        .login-info-section h2 {
+            font-size: 2.75rem !important;
+            font-weight: 800 !important;
+            line-height: 1.15 !important;
+            margin-bottom: 24px !important;
+        }
+
+        .login-info-section p {
+            font-size: 1.15rem !important;
+            margin-bottom: 40px !important;
+            opacity: 0.9 !important;
+        }
+
+        .login-form-section {
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: center !important;
+            align-items: center !important; /* Centers content horizontally */
+            padding: 60px !important;
+            margin: 0 !important;
+            background: white !important;
+            position: relative;
+        }
+
+        #signup-form {
+            width: 100% !important;
+            max-width: 420px !important;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .login-header h1 {
+            font-size: 2.25rem !important;
+            font-weight: 800 !important;
+            color: var(--primary-dark);
+            margin-bottom: 12px;
         }
 
         .form-group {
+            width: 100% !important;
             margin-bottom: 20px;
+        }
+
+        .form-control {
+            width: 100% !important;
+            padding: 16px 20px !important;
+            border-radius: 14px !important;
+            border: 1px solid #e2e8f0 !important;
+            background: #f8fafc !important;
+            font-size: 1rem !important;
+        }
+
+        .btn-submit {
+            width: 100% !important;
+            padding: 18px !important;
+            border-radius: 14px !important;
+            background: var(--hero-gradient) !important;
+            color: white !important;
+            font-weight: 700 !important;
+            font-size: 1.1rem !important;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.25) !important;
+            border: none !important;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+        }
+
+        .role-selector {
+            width: 100% !important;
+            margin-bottom: 32px;
+            gap: 12px !important;
+        }
+
+        .check-icon {
+            background: rgba(255, 255, 255, 0.2) !important;
+        }
+
+        .sign-up-link {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .sign-up-link a {
+            color: var(--primary-dark) !important;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
